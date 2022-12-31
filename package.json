@@ -1,0 +1,21 @@
+{
+  "name": "ez-pr-bot",
+  "version": "1.0.0",
+  "description": "A Slack bot that accelerates your team's PR review process",
+  "main": "src/app.ts",
+  "repository": "git@github.com:jcserv/ez-pr-bot.git",
+  "author": "Jarrod Servilla",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "start": "node ./bin/app.js",
+    "dev": "ts-node ./src/app.ts"
+  },
+  "dependencies": {
+    "@types/node": "^18.11.18",
+    "typescript": "^4.9.4"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.1"
+  }
+}
