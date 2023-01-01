@@ -1,0 +1,30 @@
+display_information:
+  name: EZ PR Bot
+  description: A Slack bot that accelerates your team's PR review process
+  background_color: "#586da6"
+features:
+  bot_user:
+    display_name: EZ PR Bot
+    always_online: true
+  slash_commands:
+    - command: /admins
+      description: Mentions all admins in your workspace
+      should_escape: false
+oauth_config:
+  scopes:
+    bot:
+      - app_mentions:read
+      - channels:join
+      - chat:write
+      - commands
+      - emoji:read
+      - im:write
+      - reactions:read
+      - reactions:write
+      - workflow.steps:execute
+settings:
+  interactivity:
+    is_enabled: true
+  org_deploy_enabled: false
+  socket_mode_enabled: true
+  token_rotation_enabled: false

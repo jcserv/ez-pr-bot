@@ -1,6 +1,6 @@
 {
   "name": "ez-pr-bot",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "A Slack bot that accelerates your team's PR review process",
   "main": "src/app.ts",
   "repository": "git@github.com:jcserv/ez-pr-bot.git",
@@ -12,7 +12,9 @@
     "dev": "ts-node ./src/app.ts"
   },
   "dependencies": {
+    "@slack/bolt": "^3.12.2",
     "@types/node": "^18.11.18",
+    "dotenv": "^16.0.3",
     "typescript": "^4.9.4"
   },
   "devDependencies": {
