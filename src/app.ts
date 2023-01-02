@@ -1,5 +1,6 @@
-import { App } from "@slack/bolt";
-import { HelpCommand } from "./cmd";
+import { App, AckFn, RespondArguments } from "@slack/bolt";
+import { EZPRCommand, HelpCommand } from "./cmd";
+import { isHTTPError } from "./errors";
 
 require("dotenv").config();
 
@@ -12,10 +13,49 @@ const app = new App({
   socketMode: true,
 });
 
-app.command("/help", async ({ ack, payload }) => {
-  const command = new HelpCommand(ack, payload);
-  command.handle();
+app.command("/ezpr", async ({ ack, client, say, payload }) => {
+  try {
+    const command = new EZPRCommand(ack, client, say, payload);
+    await command.handle();
+  } catch (error) {
+    errorOccurred(ack, error);
+    console.error(error);
+  }
 });
+
+app.command("/help", async ({ ack, payload }) => {
+  try {
+    const command = new HelpCommand(ack, payload);
+    await command.handle();
+  } catch (error) {
+    errorOccurred(ack, error);
+    console.error(error);
+  }
+});
+
+async function errorOccurred(
+  ack: AckFn<string | RespondArguments>,
+  error: any
+) {
+  var output = "An unexpected error occurred.";
+
+  if (isHTTPError(error)) {
+    output = error.toString();
+  }
+
+  await ack({
+    blocks: [
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: output,
+        },
+      },
+    ],
+    response_type: "ephemeral",
+  });
+}
 
 app.start().catch((error) => {
   console.error(error);

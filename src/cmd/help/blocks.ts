@@ -1,14 +1,16 @@
-export const error = (text:string) => {
-  return [{
-    type: "section",
-    text: {
-      type: "mrkdwn",
-      text: `\`/help ${text}\`: unknown help topic. Run \`/help\` or \`/help usage\``,
+export const error = (text: string) => {
+  return [
+    {
+      type: "section",
+      text: {
+        type: "mrkdwn",
+        text: `\`/help ${text}\`: unknown help topic. Run \`/help\` or \`/help usage\``,
+      },
     },
-  }]
-}
+  ];
+};
 
-export const overview = [
+export const helpOverview = [
   {
     type: "section",
     text: {
@@ -73,7 +75,7 @@ export const overview = [
   },
 ];
 
-const usageMarkdown = `
+const helpUsageMarkdown = `
 > /help usage
 
 EZ PR Bot :robot_face: is a tool for managing pull request reviews for software development teams.
@@ -88,14 +90,14 @@ The commands are:
   config  get and set (team/individual) options
 
 Use \`/help <command>\` for more information about a command.
-`
+`;
 
-export const usage = [
+export const helpUsage = [
   {
     type: "section",
     text: {
       type: "mrkdwn",
-      text: usageMarkdown,
+      text: helpUsageMarkdown,
     },
   },
   {
@@ -103,7 +105,7 @@ export const usage = [
   },
 ];
 
-const ezprMarkdown = `
+const ezprHelpMarkdown = `
 > /help ezpr
 
 *usage*: 
@@ -135,14 +137,14 @@ const ezprMarkdown = `
 	*input:* \`/ezpr #team-ez-pr-bot @ez-pr-devs http://github.com/jcserv/ez-pr-bot/pulls/1 15m "Adds the help command allowing users to learn how to use the bot"\`
 	
 	*effect:* Sends a formatted Slack message to #team-ez-pr-bot that pings the @ez-pr-devs role, containing the pull request link, the estimated review time, and the description provided by the user.
-`
+`;
 
-export const ezpr = [
+export const ezprHelp = [
   {
     type: "section",
     text: {
       type: "mrkdwn",
-      text: ezprMarkdown  
+      text: ezprHelpMarkdown,
     },
   },
   {
@@ -150,7 +152,7 @@ export const ezpr = [
   },
 ];
 
-const configMarkdown = `
+const configHelpMarkdown = `
 > /help config
 
 *usage*: 
@@ -199,14 +201,14 @@ Set up your team's EZ PR Bot configuration, which makes future PR review submiss
 	\`/config --team ez-pr-devs\`
 	\`/config --team ez-pr-devs #team-ez-pr-bot @ez-pr-devs\`
 	\`/ezpr http://github.com/jcserv/ez-pr-bot/pulls/3 15m "Bug fix for /help command"\`
-`
+`;
 
-export const config = [
+export const configHelp = [
   {
     type: "section",
     text: {
       type: "mrkdwn",
-      text: configMarkdown  
+      text: configHelpMarkdown,
     },
   },
   {
