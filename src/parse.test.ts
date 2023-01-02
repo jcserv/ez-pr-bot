@@ -1,4 +1,4 @@
-import { parseCommandArgs } from "../parse";
+import { parseCommandArgs } from "./parse";
 
 describe("parseCommandArgs", () => {
   test("empty string should result in zero results", () => {

@@ -16,7 +16,7 @@ export declare type EstimatedReviewTime = string;
 
 const ertRegex = new RegExp("^d{1,2}(h)?(hours|minutes|min|hrs|m|h)$");
 
-export const EstimatedReviewTimeSchema = z.string().regex(ertRegex);
+export const EstimatedReviewTimeSchema = z.string().regex(ertRegex, { message: "Invalid input: must start with 2 digits and end with a support time unit"});
 
 export declare type PRDescription = string;
 
