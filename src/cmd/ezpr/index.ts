@@ -7,44 +7,18 @@ import {
   SayFn,
   SlashCommand,
 } from "@slack/bolt";
-import { ICommand } from "../interface";
+import { z } from "zod";
 import { HTTPError } from "../../errors";
+import { ICommand } from "../interface";
 import { ezpr } from "./blocks";
-
-export class EZPRArguments {
-  submitter: string;
-  link: string;
-  // should start with \d\d
-  // end with "m", "min", "minutes" or "h", "hrs", "hours"
-  ert: string;
-
-  // should be <200 characters
-  description: string;
-
-  // should start with #
-  // ez pr bot needs to be in the channel
-  channel?: string;
-
-  // should start with @
-  // should be a valid role
-  role?: string;
-
-  constructor(
-    submitter: string,
-    link: string,
-    ert: string,
-    description: string,
-    channel?: string,
-    role?: string
-  ) {
-    this.submitter = submitter;
-    this.link = link;
-    this.ert = ert;
-    this.description = description;
-    this.channel = channel;
-    this.role = role;
-  }
-}
+import { parseCommandArgs } from "../../parse";
+import {
+  ChannelSchema,
+  MentionSchema,
+  PRLinkSchema,
+  EstimatedReviewTimeSchema,
+  PRDescriptionSchema,
+} from "../../types";
 
 export class EZPRCommand implements ICommand {
   ack: AckFn<string | RespondArguments>;
@@ -64,7 +38,7 @@ export class EZPRCommand implements ICommand {
     this.client = client;
     this.say = say;
 
-    const args = payload.text.split(" ");
+    const args = parseCommandArgs(payload.text);
     if (args.length != 5) {
       throw new HTTPError(
         400,
@@ -73,11 +47,24 @@ export class EZPRCommand implements ICommand {
       );
     }
 
+    this.message = ezpr(
+      new EZPRArguments(
+        payload.user_name,
+        args[2],
+        args[3],
+        args[4],
+        args[0],
+        args[1]
+      )
+    );
+
     this.channel = args[0];
-    this.message = ezpr(new EZPRArguments(payload.user_name, args[2], args[3], args[4], args[0], args[1]));
   }
 
   async handle() {
+    // ez pr bot needs to be in the channel
+    // should be a valid role
+
     await this.say({
       blocks: this.message,
       channel: this.channel,
@@ -88,5 +75,55 @@ export class EZPRCommand implements ICommand {
       });
 
     this.ack();
+  }
+}
+
+const EZPRArgumentsSchema = z
+  .object({
+    submitter: MentionSchema,
+    link: PRLinkSchema,
+    ert: EstimatedReviewTimeSchema,
+    description: PRDescriptionSchema,
+    channel: ChannelSchema,
+    role: MentionSchema,
+  })
+  .partial({
+    channel: true,
+    role: true,
+  });
+
+export class EZPRArguments {
+  submitter: string;
+  link: string;
+  ert: string;
+  description: string;
+  channel?: string;
+  role?: string;
+
+  constructor(
+    submitter: string,
+    link: string,
+    ert: string,
+    description: string,
+    channel?: string,
+    role?: string
+  ) {
+    const args = {
+      submitter: submitter,
+      link: link,
+      ert: ert,
+      description: description,
+      channel: channel,
+      role: role,
+    };
+
+    EZPRArgumentsSchema.parse(args);
+
+    this.submitter = submitter;
+    this.link = link;
+    this.ert = ert;
+    this.description = description;
+    this.channel = channel;
+    this.role = role;
   }
 }
