@@ -1,6 +1,7 @@
 import { App } from "@slack/bolt";
-require('dotenv').config()
+import { HelpCommand } from "./cmd";
 
+require("dotenv").config();
 
 const SLACK_APP_TOKEN = process.env.SLACK_APP_TOKEN;
 const SLACK_BOT_TOKEN = process.env.SLACK_BOT_TOKEN;
@@ -11,22 +12,9 @@ const app = new App({
   socketMode: true,
 });
 
-app.command("/admins", async ({ ack, client }) => {
-  const { members } = await client.users.list();
-  const admins = members!.filter((member) => member.is_admin);
-
-  await ack({
-    blocks: [
-      {
-        "type": "section",
-        "text": {
-          "type": "mrkdwn",
-          "text": `${admins.map((admin) => `@${admin.name}`).join(", ")}`
-        }
-      },
-    ],
-    response_type: "ephemeral", // change to "in_channel" to make it visible to others
-  });
+app.command("/help", async ({ ack, payload }) => {
+  const command = new HelpCommand(ack, payload);
+  command.handle();
 });
 
 app.start().catch((error) => {

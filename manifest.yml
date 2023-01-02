@@ -7,8 +7,8 @@ features:
     display_name: EZ PR Bot
     always_online: true
   slash_commands:
-    - command: /admins
-      description: Mentions all admins in your workspace
+    - command: /help
+      description: Provides information about EZ PR Bot, the commands available, and their usage.
       should_escape: false
 oauth_config:
   scopes:
