@@ -1,4 +1,4 @@
-import { parseCommandArgs } from "../src/parse";
+import { parseCommandArgs } from "../parse";
 
 describe("parseCommandArgs", () => {
   test("empty string should result in zero results", () => {
@@ -10,18 +10,24 @@ describe("parseCommandArgs", () => {
   });
 
   test("singular arg wrapped in single quotes should be treated as one argument", () => {
-    expect(parseCommandArgs("\'Hello there!\'")).toStrictEqual(["Hello there!"]);
+    expect(parseCommandArgs("'Hello there!'")).toStrictEqual(["Hello there!"]);
   });
 
   test("singular arg wrapped in double quotes should be treated as one argument", () => {
-    expect(parseCommandArgs("\"Hello there!\"")).toStrictEqual(["Hello there!"]);
+    expect(parseCommandArgs('"Hello there!"')).toStrictEqual(["Hello there!"]);
   });
 
   test("multiple args should result in array containing those args", () => {
-    expect(parseCommandArgs("arg1 arg2 arg3")).toStrictEqual(["arg1", "arg2", "arg3"]);
+    expect(parseCommandArgs("arg1 arg2 arg3")).toStrictEqual([
+      "arg1",
+      "arg2",
+      "arg3",
+    ]);
   });
 
   test("mixed types of multiple args should result in array containing those args", () => {
-    expect(parseCommandArgs("arg1 \"Hello there\" arg3 'Howdy!'")).toStrictEqual(["arg1", "Hello there", "arg3", "Howdy!"]);
+    expect(
+      parseCommandArgs("arg1 \"Hello there\" arg3 'Howdy!'")
+    ).toStrictEqual(["arg1", "Hello there", "arg3", "Howdy!"]);
   });
 });

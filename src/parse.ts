@@ -18,27 +18,27 @@ export function parseCommandArgs(text: string): string[] {
 
   for (const ch of str) {
     if (startParsing) {
-        if (ch == SINGLE_QUOTES) {
-          terminateOnChar = SINGLE_QUOTES;
-        } else if (ch == DOUBLE_QUOTES) {
-          terminateOnChar = DOUBLE_QUOTES;
-        } else {
-          terminateOnChar = SPACE;
-          if (ch != terminateOnChar) {
-            currArg += ch
+      if (ch == SINGLE_QUOTES) {
+        terminateOnChar = SINGLE_QUOTES;
+      } else if (ch == DOUBLE_QUOTES) {
+        terminateOnChar = DOUBLE_QUOTES;
+      } else {
+        terminateOnChar = SPACE;
+        if (ch != terminateOnChar) {
+          currArg += ch;
         }
-        }
-        startParsing = false
-        continue
-      } else if (ch === terminateOnChar) {
-        ret.push(currArg);
-        currArg = EMPTY_STRING;
-        startParsing = true
-        continue
       }
-      currArg += ch;
+      startParsing = false;
+      continue;
+    } else if (ch === terminateOnChar) {
+      ret.push(currArg);
+      currArg = EMPTY_STRING;
+      startParsing = true;
+      continue;
+    }
+    currArg += ch;
   }
-  
+
   if (currArg !== EMPTY_STRING) {
     ret.push(currArg);
   }
