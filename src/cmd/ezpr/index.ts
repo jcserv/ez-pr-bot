@@ -61,7 +61,8 @@ export class EZPRCommand implements ICommand {
       );
     }
 
-    const channel = args.length == 5 ? args[ArgIndices.CHANNEL] : payload.channel_name
+    const channel =
+      args.length == 5 ? args[ArgIndices.CHANNEL] : payload.channel_name;
 
     const ezPRArgs = new EZPRArguments(
       payload.user_name,
@@ -70,14 +71,12 @@ export class EZPRCommand implements ICommand {
       args[ArgIndices.DESC],
       channel,
       args.length == 5 ? args[ArgIndices.ROLE] : ""
-    )
-
-    this.message = ezpr(
-      ezPRArgs
     );
 
-    this.channel = channel
-    this.text = `${ezPRArgs.submitter} submitted a PR Review Request to ${channel}\n${ezPRArgs.description}`
+    this.message = ezpr(ezPRArgs);
+
+    this.channel = channel;
+    this.text = `${ezPRArgs.submitter} submitted a PR Review Request with an estimated review time of ${ezPRArgs.ert} to ${channel}\n${ezPRArgs.description}`;
   }
 
   async handle() {

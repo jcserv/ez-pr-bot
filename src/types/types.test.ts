@@ -13,7 +13,8 @@ describe("ChannelSchema Validate", () => {
       validation: {
         startsWith: "#",
       },
-      message: 'Invalid input: must start with "#"',
+      message:
+        "Invalid input: must start with # or be a channel EZ PR Bot is in",
       path: [],
     },
   ]);
