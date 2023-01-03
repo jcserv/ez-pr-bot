@@ -28,11 +28,14 @@ enum ArgIndices {
   ROLE = 4,
 }
 
+const ACCEPTED_NUM_ARGS = [3, 5];
+
 export class EZPRCommand implements ICommand {
   ack: AckFn<string | RespondArguments>;
   client: WebClient;
   say: SayFn;
 
+  input: string;
   channel: string;
   message: (KnownBlock | Block)[];
 
@@ -46,8 +49,10 @@ export class EZPRCommand implements ICommand {
     this.client = client;
     this.say = say;
 
+    this.input = `${payload.command} ${payload.text}`;
     const args = parseCommandArgs(payload.text);
-    if (args.length != 5) {
+
+    if (!ACCEPTED_NUM_ARGS.includes(args.length)) {
       throw new HTTPError(
         400,
         "invalid number of arguments provided",
@@ -62,11 +67,12 @@ export class EZPRCommand implements ICommand {
         args[ArgIndices.ERT],
         args[ArgIndices.DESC],
         args[ArgIndices.CHANNEL],
-        args[ArgIndices.ROLE]
+        args.length == 5 ? args[ArgIndices.ROLE] : ""
       )
     );
 
-    this.channel = args[ArgIndices.CHANNEL];
+    this.channel =
+      args.length == 5 ? args[ArgIndices.CHANNEL] : payload.channel_name;
   }
 
   async handle() {

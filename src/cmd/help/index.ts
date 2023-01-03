@@ -10,11 +10,12 @@ import { error, ezprHelp, helpOverview, helpUsage } from "./blocks";
 
 export class HelpCommand implements ICommand {
   ack: AckFn<string | RespondArguments>;
+  input: string;
   message: (KnownBlock | Block)[];
 
   constructor(ack: AckFn<string | RespondArguments>, payload: SlashCommand) {
     this.ack = ack;
-
+    this.input = `${payload.command} ${payload.text}`;
     switch (payload.text) {
       case "":
         this.message = helpOverview;

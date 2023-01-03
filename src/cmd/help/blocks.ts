@@ -111,9 +111,10 @@ const ezprHelpMarkdown = `
 *usage*: 
 
 	\`/ezpr [pr link] [estimated review time] [description] [#team-channel] [@role] \`
-	\`/ezpr [pr link] [estimated review time] [description]\` (*requires team setup via /config*)
+	\`/ezpr [pr link] [estimated review time] [description]\`
 
 *description*: You can submit a pull request for review to the specified channel, which will ping the provided mention.
+If [#team-channel] and [@role] are not provided, it defaults to the posted channel.
 
 *arguments*:
 
