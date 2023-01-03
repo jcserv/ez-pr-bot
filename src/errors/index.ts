@@ -1,5 +1,8 @@
 import { ZodError, ZodIssue } from "zod";
-import { unableToParseCommand, unableToParseCommandWithInput } from "./markdown";
+import {
+  unableToParseCommand,
+  unableToParseCommandWithInput,
+} from "./markdown";
 
 export interface IError {
   message: string;
@@ -80,7 +83,7 @@ export class ValidationError extends Error {
       ? unableToParseCommandWithInput(this.input)
       : unableToParseCommand;
 
-    this.issues.forEach(issue => {
+    this.issues.forEach((issue) => {
       output += toString(issue);
     });
 
@@ -95,11 +98,14 @@ export function isValidationError(obj: any): obj is ValidationError {
   return false;
 }
 
-export function toValidationError(obj: any, input?: string): ValidationError | null {
+export function toValidationError(
+  obj: any,
+  input?: string
+): ValidationError | null {
   if (isZodError(obj)) {
-    return new ValidationError(unableToParseCommand, obj.issues, input)
+    return new ValidationError(unableToParseCommand, obj.issues, input);
   }
-  return obj
+  return obj;
 }
 
 export function isZodError(obj: any): obj is ZodError {

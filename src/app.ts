@@ -1,6 +1,11 @@
 import { App, AckFn, RespondArguments } from "@slack/bolt";
 import { EZPRCommand, HelpCommand } from "./cmd";
-import { isHTTPError, isValidationError, isZodError, toValidationError } from "./errors";
+import {
+  isHTTPError,
+  isValidationError,
+  isZodError,
+  toValidationError,
+} from "./errors";
 
 require("dotenv").config();
 
@@ -38,7 +43,7 @@ async function errorOccurred(
   error: any
 ) {
   var output = "An unexpected error occurred.";
-  error = toValidationError(error)
+  error = toValidationError(error);
 
   if (isHTTPError(error) || isValidationError(error)) {
     output = error.toString();
