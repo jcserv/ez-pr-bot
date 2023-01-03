@@ -38,6 +38,7 @@ export class EZPRCommand implements ICommand {
   input: string;
   channel: string;
   message: (KnownBlock | Block)[];
+  text: string;
 
   constructor(
     ack: AckFn<string | RespondArguments>,
@@ -60,19 +61,23 @@ export class EZPRCommand implements ICommand {
       );
     }
 
+    const channel = args.length == 5 ? args[ArgIndices.CHANNEL] : payload.channel_name
+
+    const ezPRArgs = new EZPRArguments(
+      payload.user_name,
+      args[ArgIndices.PR_LINK],
+      args[ArgIndices.ERT],
+      args[ArgIndices.DESC],
+      channel,
+      args.length == 5 ? args[ArgIndices.ROLE] : ""
+    )
+
     this.message = ezpr(
-      new EZPRArguments(
-        payload.user_name,
-        args[ArgIndices.PR_LINK],
-        args[ArgIndices.ERT],
-        args[ArgIndices.DESC],
-        args[ArgIndices.CHANNEL],
-        args.length == 5 ? args[ArgIndices.ROLE] : ""
-      )
+      ezPRArgs
     );
 
-    this.channel =
-      args.length == 5 ? args[ArgIndices.CHANNEL] : payload.channel_name;
+    this.channel = channel
+    this.text = `${ezPRArgs.submitter} submitted a PR Review Request to ${channel}\n${ezPRArgs.description}`
   }
 
   async handle() {
@@ -82,6 +87,7 @@ export class EZPRCommand implements ICommand {
     await this.say({
       blocks: this.message,
       channel: this.channel,
+      text: this.text,
     })
       .then(() => console.log("PR Review Request submitted!"))
       .catch((error) => {
