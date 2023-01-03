@@ -7,6 +7,9 @@ features:
     display_name: EZ PR Bot
     always_online: true
   slash_commands:
+    - command: /ezpr
+      description: Submit a pull request for review to the specified channel, which will ping the provided mention.
+      should_escape: false
     - command: /help
       description: Provides information about EZ PR Bot, the commands available, and their usage.
       should_escape: false

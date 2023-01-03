@@ -1,0 +1,25 @@
+name: test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  yarn-test:
+    name: yarn-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Node 14.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+
+      - uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Run tests
+        run: yarn run test
