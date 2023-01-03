@@ -110,31 +110,36 @@ const ezprHelpMarkdown = `
 
 *usage*: 
 
-	\`/ezpr [#team-channel] [@role] [pr link] [estimated review time] [description]\`
+	\`/ezpr [pr link] [estimated review time] [description] [#team-channel] [@role] \`
 	\`/ezpr [pr link] [estimated review time] [description]\` (*requires team setup via /config*)
 
 *description*: You can submit a pull request for review to the specified channel, which will ping the provided mention.
 
 *arguments*:
 
-	[#team-channel] - A Slack channel that EZ PR Bot has joined
-		ex. #team-ez-pr-bot
-
-	[@role] - The role to mention, whom should review the PR.
-		ex. @ez-pr-devs
-
-	[pr link] - A URL link to the pull request
+	[pr link] url string <span style="color:red">required</span>
+    A URL link to the pull request
 		ex. http://github.com/jcserv/ez-pr-bot/pulls/1
 
-	[estimated review time] - How long it should take to review this PR. Should end with minutes ("m", "min", "minutes") or hours ("h", "hrs", "hours")
+	[estimated review time] string <span style="color:red">required</span>
+    How long it should take to review this PR. Should end with minutes ("m", "min", "minutes") or hours ("h", "hrs", "hours")
 		ex. 15m, 2hrs, "75 minutes"
 
-	[description] - A summary of the changes. Should be wrapped with quotes (")
+	[description] string <span style="color:red">required</span>
+    A summary of the changes. Should be wrapped with quotes (")
 		ex. "Adds the help command allowing users to learn how to use the bot"	
+
+  [#team-channel] #string 
+    A Slack channel that EZ PR Bot has joined
+		ex. #team-ez-pr-bot
+
+	[@role] @string 
+    The role to mention, whom should review the PR.
+		ex. @ez-pr-devs
 
 *example usage*:
 
-	*input:* \`/ezpr #team-ez-pr-bot @ez-pr-devs http://github.com/jcserv/ez-pr-bot/pulls/1 15m "Adds the help command allowing users to learn how to use the bot"\`
+	*input:* \`/ezpr http://github.com/jcserv/ez-pr-bot/pulls/1 15m "Adds the help command allowing users to learn how to use the bot" #team-ez-pr-bot @ez-pr-devs \`
 	
 	*effect:* Sends a formatted Slack message to #team-ez-pr-bot that pings the @ez-pr-devs role, containing the pull request link, the estimated review time, and the description provided by the user.
 `;
@@ -185,13 +190,16 @@ const configHelpMarkdown = `
 
   teams - Returns a list of all registered teams.
 
-	[team-key] - A unique String identifier for your team
+	[team-key] string
+    A unique String identifier for your team
 		ex. "team-ez-pr-bot"
 
-  [#team-channel] - A Slack channel that EZ PR Bot has joined
+  [#team-channel] #string
+    A Slack channel that EZ PR Bot has joined
 		ex. #team-ez-pr-bot
 
-	[@role] - The role to mention, whom should review the PR.
+	[@role] @string
+    The role to mention, whom should review the PR.
 		ex. @ez-pr-devs
 
 *example usage*:

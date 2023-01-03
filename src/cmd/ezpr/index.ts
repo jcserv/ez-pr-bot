@@ -20,6 +20,14 @@ import {
   PRDescriptionSchema,
 } from "../../types";
 
+enum ArgIndices {
+  PR_LINK = 0,
+  ERT = 1,
+  DESC = 2,
+  CHANNEL = 3,
+  ROLE = 4,
+}
+
 export class EZPRCommand implements ICommand {
   ack: AckFn<string | RespondArguments>;
   client: WebClient;
@@ -50,15 +58,15 @@ export class EZPRCommand implements ICommand {
     this.message = ezpr(
       new EZPRArguments(
         payload.user_name,
-        args[2],
-        args[3],
-        args[4],
-        args[0],
-        args[1]
+        args[ArgIndices.PR_LINK],
+        args[ArgIndices.ERT],
+        args[ArgIndices.DESC],
+        args[ArgIndices.CHANNEL],
+        args[ArgIndices.ROLE]
       )
     );
 
-    this.channel = args[0];
+    this.channel = args[ArgIndices.CHANNEL];
   }
 
   async handle() {
@@ -116,7 +124,6 @@ export class EZPRArguments {
       channel: channel,
       role: role,
     };
-
     EZPRArgumentsSchema.parse(args);
 
     this.submitter = submitter;
