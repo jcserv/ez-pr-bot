@@ -1,5 +1,6 @@
 ---
 name: Bug Report
+title: "bug:"
 about: Help us diagnose and fix bugs in EZ PR Bot
 labels: bug
 ---
@@ -12,27 +13,13 @@ for bug reports and feature requests. Please ask any general questions in the
 Discord server! :)
 -->
 
-### What happened?
-
-<!--
-Please let us know what behaviour you expected and how EZ PR Bot diverged from
-that behaviour.
--->
-
-### What problem are you facing?
+### What problem are you facing? What is the expected behaviour?
 
 <!--
 Please tell us a little about your use case - it's okay if it's hypothetical!
 Leading with this context helps frame the feature request so we can ensure we
 implement it sensibly.
 --->
-
-### What is the expected behaviour?
-
-<!--
-Please let us know what behaviour you expected and how EZ PR Bot diverged from
-that behaviour.
--->
 
 ### How can we reproduce it?
 

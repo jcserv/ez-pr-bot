@@ -1,5 +1,6 @@
 ---
 name: Feature Request
+title: "feature enhancement:"
 about: Help us make EZ PR Bot more useful
 labels: enhancement
 ---
