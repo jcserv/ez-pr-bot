@@ -10,6 +10,9 @@ export const error = (text: string) => {
   ];
 };
 
+const ezprBaseExampleUsage = "`/ezpr [pr link] [estimated review time] [description]`"
+const ezprAllArgsExampleUsage = "`/ezpr [pr link] [estimated review time] [description] [#channel] [@role]`"
+
 export const helpOverview = [
   {
     type: "section",
@@ -25,7 +28,7 @@ export const helpOverview = [
     type: "section",
     text: {
       type: "mrkdwn",
-      text: "*Getting Started*\n Click one of the below shortcuts, or use the basic command \n`/ezpr [#channel] [@role] [pr link] [estimated review time] [description]`\nto submit your PR for review! :rocket:",
+      text: `*Getting Started*\n Click one of the below shortcuts, or use the basic command \n${ezprAllArgsExampleUsage}\nto submit your PR for review! :rocket:`,
     },
   },
   {
@@ -88,6 +91,7 @@ The commands are:
 
   ezpr    submit a pull request for review
   config  get and set (team/individual) options
+  help    receive information about how to use EZ PR Bot and other commands
 
 Use \`/help <command>\` for more information about a command.
 `;
@@ -104,29 +108,28 @@ export const helpUsage = [
     type: "divider",
   },
 ];
-
 const ezprHelpMarkdown = `
 > /help ezpr
 
 *usage*: 
 
-	\`/ezpr [pr link] [estimated review time] [description] [#team-channel] [@role] \`
-	\`/ezpr [pr link] [estimated review time] [description]\`
+	${ezprAllArgsExampleUsage}
+	${ezprBaseExampleUsage}
 
 *description*: You can submit a pull request for review to the specified channel, which will ping the provided mention.
 If [#team-channel] and [@role] are not provided, it defaults to the posted channel.
 
 *arguments*:
 
-	[pr link] url string <span style="color:red">required</span>
+	[pr link] url string *required*
     A URL link to the pull request
 		ex. http://github.com/jcserv/ez-pr-bot/pulls/1
 
-	[estimated review time] string <span style="color:red">required</span>
+	[estimated review time] string *required*
     How long it should take to review this PR. Should end with minutes ("m", "min", "minutes") or hours ("h", "hrs", "hours")
 		ex. 15m, 2hrs, "75 minutes"
 
-	[description] string <span style="color:red">required</span>
+	[description] string *required*
     A summary of the changes. Should be wrapped with quotes (")
 		ex. "Adds the help command allowing users to learn how to use the bot"	
 
@@ -144,6 +147,12 @@ If [#team-channel] and [@role] are not provided, it defaults to the posted chann
 	
 	*effect:* Sends a formatted Slack message to #team-ez-pr-bot that pings the @ez-pr-devs role, containing the pull request link, the estimated review time, and the description provided by the user.
 `;
+
+const configTeamsUsage = "`/config teams\`"
+const configCreateTeamUsage = "`/config --team [team-key]`"
+const configSetTeamUsage = "`/config --team [team-key] [#team-channel] [@role]`"
+const configSetTeamChannelUsage = "`/config --team [team-key] --channel [#team-channel]`"
+const configSetTeamRoleUsage = "`/config --team [team-key] --role [@role]`"
 
 export const ezprHelp = [
   {
@@ -165,19 +174,19 @@ const configHelpMarkdown = `
 
   > teams
 
-	\`/config teams\`
+	${configTeamsUsage}
     Returns a list of teams registered with EZ PR Bot.
 
-	\`/config --team [team-key]\`
+	${configCreateTeamUsage}
     Create a new team. If it exists, returns the settings for that team.
 
-  \`/config --team [team-key] [#team-channel] [@role]\`
+  ${configSetTeamUsage}
     Specify the #channel and @role for pull request reviews for the team.
 
-  \`/config --team [team-key] --channel [#team-channel]\`
+  ${configSetTeamChannelUsage}
     Sets the #channel for the team to the provided value. Must be a Slack channel.
 
-  \`/config --team [team-key] --role [@role]\`
+  ${configSetTeamRoleUsage}
     Sets the @role for the team to the provided value. Must be a Slack role.
 
 *description*: You can get/set configuration options for your team, including where pull request reviews from team members belonging to the provided role are sent.
