@@ -10,8 +10,12 @@ export const error = (text: string) => {
   ];
 };
 
-const ezprBaseExampleUsage = "`/ezpr [pr link] [estimated review time] [description]`"
-const ezprAllArgsExampleUsage = "`/ezpr [pr link] [estimated review time] [description] [#channel] [@role]`"
+const ezprBaseExampleUsage =
+  "`/ezpr [pr link] [estimated review time] [description]`";
+const ezprDefaultChannelExampleUsage =
+  "`/ezpr [pr link] [estimated review time] [description] [@role]`";
+const ezprAllArgsExampleUsage =
+  "`/ezpr [pr link] [estimated review time] [description] [@role] [#channel]`";
 
 export const helpOverview = [
   {
@@ -114,10 +118,12 @@ const ezprHelpMarkdown = `
 *usage*: 
 
 	${ezprAllArgsExampleUsage}
+     ${ezprDefaultChannelExampleUsage}
 	${ezprBaseExampleUsage}
 
 *description*: You can submit a pull request for review to the specified channel, which will ping the provided mention.
-If [#team-channel] and [@role] are not provided, it defaults to the posted channel.
+If [@role] is not provided, the message does not ping.
+If [#team-channel] is not provided, it defaults to the posted channel.
 
 *arguments*:
 
@@ -133,26 +139,28 @@ If [#team-channel] and [@role] are not provided, it defaults to the posted chann
     A summary of the changes. Should be wrapped with quotes (")
 		ex. "Adds the help command allowing users to learn how to use the bot"	
 
-  [#team-channel] #string 
-    A Slack channel that EZ PR Bot has joined
-		ex. #team-ez-pr-bot
-
 	[@role] @string 
     The role to mention, whom should review the PR.
 		ex. @ez-pr-devs
 
+  [#team-channel] #string 
+    A Slack channel that EZ PR Bot has joined
+		ex. #team-ez-pr-bot  
+
 *example usage*:
 
-	*input:* \`/ezpr http://github.com/jcserv/ez-pr-bot/pulls/1 15m "Adds the help command allowing users to learn how to use the bot" #team-ez-pr-bot @ez-pr-devs \`
+	*input:* \`/ezpr http://github.com/jcserv/ez-pr-bot/pulls/1 15m "Adds the help command allowing users to learn how to use the bot" @ez-pr-devs #team-ez-pr-bot\`
 	
 	*effect:* Sends a formatted Slack message to #team-ez-pr-bot that pings the @ez-pr-devs role, containing the pull request link, the estimated review time, and the description provided by the user.
 `;
 
-const configTeamsUsage = "`/config teams\`"
-const configCreateTeamUsage = "`/config --team [team-key]`"
-const configSetTeamUsage = "`/config --team [team-key] [#team-channel] [@role]`"
-const configSetTeamChannelUsage = "`/config --team [team-key] --channel [#team-channel]`"
-const configSetTeamRoleUsage = "`/config --team [team-key] --role [@role]`"
+const configTeamsUsage = "`/config teams`";
+const configCreateTeamUsage = "`/config --team [team-key]`";
+const configSetTeamUsage =
+  "`/config --team [team-key] [#team-channel] [@role]`";
+const configSetTeamChannelUsage =
+  "`/config --team [team-key] --channel [#team-channel]`";
+const configSetTeamRoleUsage = "`/config --team [team-key] --role [@role]`";
 
 export const ezprHelp = [
   {
