@@ -1,6 +1,6 @@
 import { parseCommandArgs } from "./parse";
 
-describe("parseCommandArgs", () => {
+describe("parseCommandArgs1", () => {
   test("empty string should result in zero results", () => {
     expect(parseCommandArgs("")).toStrictEqual([]);
   });
@@ -29,5 +29,12 @@ describe("parseCommandArgs", () => {
     expect(
       parseCommandArgs("arg1 \"Hello there\" arg3 'Howdy!'")
     ).toStrictEqual(["arg1", "Hello there", "arg3", "Howdy!"]);
+  });
+
+  test("EZPR-006", () => {
+    // issue: terminateOnChar gets set to space
+    expect(
+      parseCommandArgs("\"15 minutes\" \"Adds help command\"")
+    ).toStrictEqual(["15 minutes", "Adds help command"]);
   });
 });
