@@ -30,4 +30,10 @@ describe("parseCommandArgs", () => {
       parseCommandArgs("arg1 \"Hello there\" arg3 'Howdy!'")
     ).toStrictEqual(["arg1", "Hello there", "arg3", "Howdy!"]);
   });
+
+  test("two side-by-side quote-wrapped args, should result in array with two args", () => {
+    expect(
+      parseCommandArgs("\"15 minutes\" \"Adds help command\"")
+    ).toStrictEqual(["15 minutes", "Adds help command"]);
+  });
 });
