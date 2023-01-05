@@ -14,7 +14,7 @@ EZ PR Bot solves this by encapsulating the entire code PR review workflow into a
 .
 ├── src
 │   ├── cmd                         # Implementation of slash commands is done using the Command pattern [4]
-│   │    ├── <cmd> 
+│   │    ├── <cmd>
 │   │    │   ├── blocks.ts          # Markdown/block definitions that the command renders in Slack
 │   │    │   └── index.ts           # Implementation of commands. Should contain a Command class with a constructor & handler
 │   │    ├── index.ts               # Exports the <cmd> subpackages for simplication of import stmts
@@ -38,14 +38,16 @@ EZ PR Bot follows trunk-based development.
         └───────────── feat/[feat-name] ────                          # Dev branches
 ```
 
-Dev branches should be appended with an indicator to describe the type of work being done, 
+Dev branches should be appended with an indicator to describe the type of work being done,
 including but not limited to: feat, fix, refactor, tweak, docs, chore
 
 For internal team:
+
 1. Clone the repo
 2. See featurework
 
 For open source contributors:
+
 1. Fork the repo
 2. `git remote add upstream https://github.com/jcserv/ez-pr-bot/`
 3. `git fetch upstream`
@@ -63,16 +65,18 @@ For open source contributors:
 
 ## 💼 Local Development
 
-### Running Locally 
+### Running Locally
 
 Create a .env file in the root directory:
+
 ```
 SLACK_APP_TOKEN=[YOUR APP TOKEN HERE]
 SLACK_BOT_TOKEN=[YOUR BOT TOKEN HERE]
 ```
 
 Locally running:
-1. `yarn`               
+
+1. `yarn`
 2. `yarn dev`
 
 ## Future Extensions
@@ -82,10 +86,10 @@ See our Github projects for an updated look at our planned/upcoming work, but he
 ```text
 .
 ├── V0.5.0 - CLI
-│   ├── /help     
+│   ├── /help
 │   ├── /ezpr
 │   ├── delete pr review request
-│   └── /statistics: view stats for your PRs/your team's PRs e.g. time-to-merge, time-to-approve, actual-review-time                      
+│   └── /statistics: view stats for your PRs/your team's PRs e.g. time-to-merge, time-to-approve, actual-review-time
 ├── V1.0.0 - Interactivity via UI
 |   ├── Forms/modals for easier use of /help, /ezpr, etc.
 |   ├── Shortcuts compatibility
@@ -103,6 +107,7 @@ Some other ideas still under evaluation:
 - Github integration: inform that PR needs re-review after changes are pushed
 
 ## ✍️ Contributors <a name = "authors"></a>
+
 - [@jcserv](https://jarrodservilla.com)
 
 ## 📚 References

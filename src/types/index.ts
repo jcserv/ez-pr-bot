@@ -8,9 +8,8 @@ export const MentionSchema = z.string();
 
 export declare type Channel = string;
 
-export const ChannelSchema = z.string().trim().startsWith("#", {
-  message: "Invalid input: must start with # or be a channel EZ PR Bot is in",
-});
+// payload.channel_name provides the channel name without the # at front, so we don't validate #'s
+export const ChannelSchema = z.string().trim();
 
 export declare type PRLink = string;
 

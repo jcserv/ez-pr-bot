@@ -30,7 +30,7 @@ export function parseCommandArgs(text: string): string[] {
       ret.push(currArg);
       currArg = EMPTY_STRING;
     } else if (terminateOnChar !== EMPTY_STRING) {
-      currArg += " " + item
+      currArg += " " + item;
     } else {
       ret.push(item);
     }

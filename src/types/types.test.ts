@@ -7,17 +7,10 @@ import {
 } from "./index";
 
 describe("ChannelSchema Validate", () => {
-  const expectedInvalidStartsWithErr = new ZodError([
-    {
-      code: "invalid_string",
-      validation: {
-        startsWith: "#",
-      },
-      message:
-        "Invalid input: must start with # or be a channel EZ PR Bot is in",
-      path: [],
-    },
-  ]);
+  test("channel, should be valid", () => {
+    const input = "channel";
+    expect(ChannelSchema.parse(input)).toStrictEqual(input);
+  });
 
   test("#channel, should be valid", () => {
     const input = "#channel";
@@ -26,22 +19,6 @@ describe("ChannelSchema Validate", () => {
 
   test("#channel with spaces at front/back, should be valid", () => {
     expect(ChannelSchema.parse("  #channel  ")).toStrictEqual("#channel");
-  });
-
-  test("extra chars at start, should be invalid", () => {
-    try {
-      ChannelSchema.parse("a#channel");
-    } catch (error) {
-      expect(error).toStrictEqual(expectedInvalidStartsWithErr);
-    }
-  });
-
-  test("input does not start with #, should be invalid", () => {
-    try {
-      ChannelSchema.parse("channel");
-    } catch (error) {
-      expect(error).toStrictEqual(expectedInvalidStartsWithErr);
-    }
   });
 });
 
