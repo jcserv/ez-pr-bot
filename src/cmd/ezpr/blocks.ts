@@ -12,8 +12,8 @@ Please review: ${args.description}
 PR Link: ${args.link}
 `;
 
-export const ezpr = (args: EZPRArguments) => {
-  return [
+export const ezprMessage = (args: EZPRArguments) => (
+  [
     {
       type: "section",
       text: {
@@ -21,5 +21,5 @@ export const ezpr = (args: EZPRArguments) => {
         text: ezprMarkdown(args),
       },
     },
-  ];
-};
+  ]
+)

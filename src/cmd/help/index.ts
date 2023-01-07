@@ -6,9 +6,10 @@ import {
   RespondArguments,
   SlashCommand,
 } from "@slack/bolt";
+import { WebClient } from "@slack/web-api";
 import { ICommand } from "../interface";
 import { error, ezprHelp, helpUsage } from "./blocks";
-import helpOverview from "./home.json";
+import helpOverview from "./helpOverview.json";
 
 export class HelpCommand implements ICommand {
   ack: AckFn<string | RespondArguments>;
@@ -39,4 +40,11 @@ export class HelpCommand implements ICommand {
       response_type: "ephemeral",
     });
   }
+}
+
+export function PublishHomeOverview(client: WebClient) {
+  const USER_ID = process.env.USER_ID as string;
+  client.views
+    .publish({ user_id: USER_ID, view: helpOverview as HomeView })
+    .catch((error) => console.error(error));
 }

@@ -1,4 +1,4 @@
 export interface ICommand {
-  input: string;
-  handle(): void;
+  input?: string;
+  handle(): any;
 }

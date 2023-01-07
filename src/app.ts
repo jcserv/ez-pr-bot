@@ -1,7 +1,13 @@
-import { App, AckFn, RespondArguments, HomeView } from "@slack/bolt";
-import { EZPRCommand, HelpCommand } from "./cmd";
+import { App, BlockAction, HomeView } from "@slack/bolt";
+import { WebClient } from "@slack/web-api";
+import {
+  EZPRCommand,
+  HelpCommand,
+  OpenEZPRModal,
+  PublishHomeOverview,
+} from "./cmd";
 import { isHTTPError, isValidationError, toValidationError } from "./errors";
-import homeView from "./cmd/help/home.json";
+import { EZPR, SLASH_EZPR, SLASH_HELP } from "./constants";
 
 require("dotenv").config();
 
@@ -15,28 +21,54 @@ const app = new App({
   socketMode: true,
 });
 
-app.command("/ezpr", async ({ ack, client, say, payload }) => {
+app.action({ action_id: EZPR }, async ({ ack, body, client }) => {
+  await ack();
+  const blockAction = body as BlockAction;
   try {
-    const command = new EZPRCommand(ack, client, say, payload);
-    await command.handle();
+    const result = OpenEZPRModal(client, blockAction.trigger_id);
+    // parse result
+    // need to decouple parsing from command
+    // create command
+    // const command = new EZPRCommand(ack, client, say, payload);
+    // await command.handle();
+    console.log(result);
   } catch (error) {
-    errorOccurred(ack, error);
+    const { user, channel } = blockAction;
+    if (user !== undefined && channel !== undefined) {
+      errorOccurred(client, user.id, channel.id, error);
+    }
     console.error(error);
   }
 });
 
-app.command("/help", async ({ ack, payload }) => {
+app.command(SLASH_EZPR, async ({ ack, client, say, payload }) => {
+  try {
+    const command = new EZPRCommand(say, payload);
+    await command.handle();
+  } catch (error) {
+    const { user_id, channel_id } = payload;
+    errorOccurred(client, user_id, channel_id, error);
+    console.error(error);
+  } finally {
+    ack();
+  }
+});
+
+app.command(SLASH_HELP, async ({ ack, client, payload }) => {
   try {
     const command = new HelpCommand(ack, payload);
     await command.handle();
   } catch (error) {
-    errorOccurred(ack, error);
+    const { user_id, channel_id } = payload;
+    errorOccurred(client, user_id, channel_id, error);
     console.error(error);
   }
 });
 
 async function errorOccurred(
-  ack: AckFn<string | RespondArguments>,
+  client: WebClient,
+  user: string,
+  channel: string,
   error: any
 ) {
   var output = "An unexpected error occurred.";
@@ -46,30 +78,26 @@ async function errorOccurred(
     output = error.toString();
   }
 
-  await ack({
-    blocks: [
-      {
-        type: "section",
-        text: {
-          type: "mrkdwn",
-          text: output,
-        },
-      },
-    ],
-    response_type: "ephemeral",
+  try {
+    await client.chat.postEphemeral({
+      token: SLACK_BOT_TOKEN,
+      channel: channel,
+      text: output,
+      user: user,
+    });
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+app
+  .start()
+  .then(() => {
+    if (USER_ID !== undefined) {
+      PublishHomeOverview(app.client);
+    }
+  })
+  .catch((error) => {
+    console.error(error);
+    process.exit(1);
   });
-}
-
-app.start().catch((error) => {
-  console.error(error);
-  process.exit(1);
-});
-
-// Startup function to publish the home view
-function start() {
-  app.client.views
-    .publish({ user_id: USER_ID as string, view: homeView as HomeView })
-    .catch((error) => console.error(error));
-}
-
-start();

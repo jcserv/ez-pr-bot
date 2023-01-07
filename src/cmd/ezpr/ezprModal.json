@@ -1,0 +1,90 @@
+{
+  "type": "modal",
+  "callback_id": "view_1",
+  "title": {
+    "type": "plain_text",
+    "text": "PR Review Request"
+  },
+  "blocks": [
+    {
+      "type": "input",
+      "element": {
+        "type": "plain_text_input",
+        "action_id": "plain_text_input-action"
+      },
+      "label": {
+        "type": "plain_text",
+        "text": "PR Link",
+        "emoji": true
+      }
+    },
+    {
+      "type": "input",
+      "element": {
+        "type": "static_select",
+        "placeholder": {
+          "type": "plain_text",
+          "text": "Select an item",
+          "emoji": true
+        },
+        "options": [
+          {
+            "text": {
+              "type": "plain_text",
+              "text": "5 minutes",
+              "emoji": true
+            },
+            "value": "5 minutes"
+          },
+          {
+            "text": {
+              "type": "plain_text",
+              "text": "15 minutes",
+              "emoji": true
+            },
+            "value": "15 minutes"
+          },
+          {
+            "text": {
+              "type": "plain_text",
+              "text": "30 minutes",
+              "emoji": true
+            },
+            "value": "30 minutes"
+          },
+          {
+            "text": {
+              "type": "plain_text",
+              "text": "1 hour",
+              "emoji": true
+            },
+            "value": "1 hour"
+          }
+        ],
+        "action_id": "static_select-action"
+      },
+      "label": {
+        "type": "plain_text",
+        "text": "Estimated Time to Review",
+        "emoji": true
+      }
+    },
+    {
+      "type": "input",
+      "element": {
+        "type": "plain_text_input",
+        "multiline": true,
+        "action_id": "plain_text_input-action"
+      },
+      "label": {
+        "type": "plain_text",
+        "text": "Please provide a summary of changes, and any other relevant information",
+        "emoji": true
+      }
+    }
+  ],
+  "submit": {
+    "type": "plain_text",
+    "text": "Submit"
+  }
+}

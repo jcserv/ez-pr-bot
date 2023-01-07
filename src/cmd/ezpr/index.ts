@@ -1,4 +1,4 @@
-import { WebClient } from "@slack/web-api";
+import { View, WebClient } from "@slack/web-api";
 import {
   AckFn,
   Block,
@@ -9,9 +9,9 @@ import {
 } from "@slack/bolt";
 import { z } from "zod";
 import { HTTPError } from "../../errors";
-import { ICommand } from "../interface";
-import { ezpr } from "./blocks";
 import { parseCommandArgs } from "../../parse";
+import { ICommand } from "../interface";
+import { OpenModalCommand } from "../modal";
 import {
   ChannelSchema,
   MentionSchema,
@@ -19,6 +19,8 @@ import {
   EstimatedReviewTimeSchema,
   PRDescriptionSchema,
 } from "../../types";
+import { ezprMessage } from "./blocks";
+import ezprModal from "./ezprModal.json";
 
 enum ArgIndices {
   PR_LINK = 0,
@@ -29,8 +31,6 @@ enum ArgIndices {
 }
 
 export class EZPRCommand implements ICommand {
-  ack: AckFn<string | RespondArguments>;
-  client: WebClient;
   say: SayFn;
 
   input: string;
@@ -38,14 +38,7 @@ export class EZPRCommand implements ICommand {
   message: (KnownBlock | Block)[];
   text: string;
 
-  constructor(
-    ack: AckFn<string | RespondArguments>,
-    client: WebClient,
-    say: SayFn,
-    payload: SlashCommand
-  ) {
-    this.ack = ack;
-    this.client = client;
+  constructor(say: SayFn, payload: SlashCommand) {
     this.say = say;
 
     this.input = `${payload.command} ${payload.text}`;
@@ -71,8 +64,7 @@ export class EZPRCommand implements ICommand {
       channel
     );
 
-    this.message = ezpr(ezPRArgs);
-
+    this.message = ezprMessage(ezPRArgs);
     this.channel = channel;
     this.text = `${ezPRArgs.submitter} submitted a PR Review Request with an estimated review time of ${ezPRArgs.ert} to ${channel}\n${ezPRArgs.description}`;
   }
@@ -80,7 +72,6 @@ export class EZPRCommand implements ICommand {
   async handle() {
     // ez pr bot needs to be in the channel
     // should be a valid role
-
     await this.say({
       blocks: this.message,
       channel: this.channel,
@@ -90,8 +81,6 @@ export class EZPRCommand implements ICommand {
       .catch((error) => {
         throw error;
       });
-
-    this.ack();
   }
 }
 
@@ -142,4 +131,10 @@ export class EZPRArguments {
     this.channel = channel;
     this.role = role;
   }
+}
+
+// OpenEZPRModal is a utility wrapper function that opens the modal version of /ezpr
+export function OpenEZPRModal(client: WebClient, trigger_id: string) {
+  const command = new OpenModalCommand(client, trigger_id, ezprModal as View);
+  return command.handle();
 }
