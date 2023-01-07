@@ -1,6 +1,13 @@
 import { App, BlockAction } from "@slack/bolt";
 import { WebClient } from "@slack/web-api";
 import {
+  ACK,
+  OPEN_EZPR_MODAL,
+  OPEN_HELP_USAGE_MODAL,
+  SLASH_EZPR,
+  SLASH_HELP,
+} from "./constants";
+import {
   EZPRCommand,
   HelpCommand,
   OpenEZPRModal,
@@ -8,12 +15,6 @@ import {
   PublishHomeOverview,
 } from "./cmd";
 import { isHTTPError, isValidationError, toValidationError } from "./errors";
-import {
-  OPEN_EZPR_MODAL,
-  OPEN_HELP_USAGE_MODAL,
-  SLASH_EZPR,
-  SLASH_HELP,
-} from "./constants";
 import { ParseSlashEZPRCommand } from "./parse";
 
 require("dotenv").config();
@@ -26,6 +27,10 @@ const app = new App({
   appToken: SLACK_APP_TOKEN,
   token: SLACK_BOT_TOKEN,
   socketMode: true,
+});
+
+app.action({ action_id: ACK }, async ({ ack }) => {
+  await ack();
 });
 
 app.action({ action_id: OPEN_EZPR_MODAL }, async ({ ack, body, client }) => {

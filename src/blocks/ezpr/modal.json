@@ -100,7 +100,7 @@
           "filter": {
             "include": ["public"]
           },
-          "action_id": "actionId-0"
+          "action_id": "ack"
         }
       ]
     },
@@ -113,7 +113,7 @@
           "text": "Select users",
           "emoji": true
         },
-        "action_id": "multi_users_select-action"
+        "action_id": "ack"
       },
       "label": {
         "type": "plain_text",
