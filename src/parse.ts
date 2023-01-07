@@ -1,5 +1,4 @@
 const EMPTY_STRING = "";
-const SPACE = " ";
 const SINGLE_QUOTES = "'";
 const DOUBLE_QUOTES = '"';
 

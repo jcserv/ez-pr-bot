@@ -1,5 +1,5 @@
-export const error = (text: string) => {
-  return [
+export const error = (text: string) => (
+  [
     {
       type: "section",
       text: {
@@ -7,8 +7,8 @@ export const error = (text: string) => {
         text: `\`/help ${text}\`: unknown help topic. Run \`/help\` or \`/help usage\``,
       },
     },
-  ];
-};
+  ]
+);
 
 const ezprBaseExampleUsage =
   "`/ezpr [pr link] [estimated review time] [description]`";
@@ -47,6 +47,7 @@ export const helpUsage = [
     type: "divider",
   },
 ];
+
 const ezprHelpMarkdown = `
 > /help ezpr
 
