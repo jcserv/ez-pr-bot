@@ -1,4 +1,4 @@
-import { App, BlockAction, HomeView } from "@slack/bolt";
+import { App, BlockAction } from "@slack/bolt";
 import { WebClient } from "@slack/web-api";
 import {
   EZPRCommand,
@@ -7,8 +7,13 @@ import {
   PublishHomeOverview,
 } from "./cmd";
 import { isHTTPError, isValidationError, toValidationError } from "./errors";
-import { EZPR, SLASH_EZPR, SLASH_HELP } from "./constants";
-import { ParseSlashCommand } from "./parse/ezpr/slash_command";
+import {
+  OPEN_EZPR_MODAL,
+  OPEN_HELP_USAGE_MODAL,
+  SLASH_EZPR,
+  SLASH_HELP,
+} from "./constants";
+import { ParseSlashEZPRCommand } from "./parse/ezpr/slash_command";
 
 require("dotenv").config();
 
@@ -22,7 +27,7 @@ const app = new App({
   socketMode: true,
 });
 
-app.action({ action_id: EZPR }, async ({ ack, body, client }) => {
+app.action({ action_id: OPEN_EZPR_MODAL }, async ({ ack, body, client }) => {
   await ack();
   const blockAction = body as BlockAction;
   try {
@@ -38,7 +43,7 @@ app.action({ action_id: EZPR }, async ({ ack, body, client }) => {
 
 app.command(SLASH_EZPR, async ({ ack, client, say, payload }) => {
   try {
-    const args = ParseSlashCommand(payload);
+    const args = ParseSlashEZPRCommand(payload);
     const command = new EZPRCommand(say, args);
     await command.handle();
   } catch (error) {
@@ -49,6 +54,23 @@ app.command(SLASH_EZPR, async ({ ack, client, say, payload }) => {
     ack();
   }
 });
+
+app.action(
+  { action_id: OPEN_HELP_USAGE_MODAL },
+  async ({ ack, body, client }) => {
+    await ack();
+    const blockAction = body as BlockAction;
+    try {
+      OpenEZPRModal(client, blockAction.trigger_id);
+    } catch (error) {
+      const { user, channel } = blockAction;
+      if (user !== undefined && channel !== undefined) {
+        errorOccurred(client, user.id, channel.id, error);
+      }
+      console.error(error);
+    }
+  }
+);
 
 app.command(SLASH_HELP, async ({ ack, client, payload }) => {
   try {

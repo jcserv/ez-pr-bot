@@ -74,7 +74,7 @@
           },
           "style": "primary",
           "value": "ezpr",
-          "action_id": "ezpr"
+          "action_id": "open_ezpr_modal"
         },
         {
           "type": "button",
@@ -84,7 +84,7 @@
             "emoji": true
           },
           "value": "usage",
-          "action_id": "help"
+          "action_id": "open_help_usage_modal"
         }
       ]
     }

@@ -8,8 +8,8 @@ import {
 } from "@slack/bolt";
 import { WebClient } from "@slack/web-api";
 import { ICommand } from "../interface";
-import { error, ezprHelp, helpUsage } from "./blocks";
-import helpOverview from "./helpOverview.json";
+import { error, ezprHelp, helpUsage } from "../../blocks/help";
+import helpOverview from "../../blocks/help/overview.json";
 
 export class HelpCommand implements ICommand {
   ack: AckFn<string | RespondArguments>;
@@ -41,6 +41,12 @@ export class HelpCommand implements ICommand {
     });
   }
 }
+
+// // OpenHelpUsageModal is a utility wrapper function that opens the modal version of /help usage
+// export function OpenHelpUsageModal(client: WebClient, trigger_id: string) {
+//   const command = new OpenModalCommand(client, trigger_id, ezprModal as View);
+//   return command.handle();
+// }
 
 export function PublishHomeOverview(client: WebClient) {
   const USER_ID = process.env.USER_ID as string;
