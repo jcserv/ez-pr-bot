@@ -1,17 +1,6 @@
 import { View, WebClient } from "@slack/web-api";
-import {
-  AckFn,
-  Block,
-  KnownBlock,
-  RespondArguments,
-  SayFn,
-  SlashCommand,
-} from "@slack/bolt";
+import { Block, KnownBlock, SayFn } from "@slack/bolt";
 import { z } from "zod";
-import { HTTPError } from "../../errors";
-import { parseCommandArgs } from "../../parse";
-import { ICommand } from "../interface";
-import { OpenModalCommand } from "../modal";
 import {
   ChannelSchema,
   MentionSchema,
@@ -19,15 +8,63 @@ import {
   EstimatedReviewTimeSchema,
   PRDescriptionSchema,
 } from "../../types";
+import { ICommand } from "../interface";
+import { OpenModalCommand } from "../modal";
 import { ezprMessage } from "./blocks";
 import ezprModal from "./ezprModal.json";
 
-enum ArgIndices {
-  PR_LINK = 0,
-  ERT = 1,
-  DESC = 2,
-  ROLE = 3,
-  CHANNEL = 4,
+const EZPRArgumentsSchema = z
+  .object({
+    submitter: MentionSchema,
+    link: PRLinkSchema,
+    ert: EstimatedReviewTimeSchema,
+    description: PRDescriptionSchema,
+    channel: ChannelSchema,
+    role: MentionSchema,
+  })
+  .partial({
+    channel: true,
+    role: true,
+    input: true,
+  });
+
+export class EZPRArguments {
+  submitter: string;
+  link: string;
+  ert: string;
+  description: string;
+  channel?: string;
+  role?: string;
+  input?: string;
+
+  constructor(
+    submitter: string,
+    link: string,
+    ert: string,
+    description: string,
+    role?: string,
+    channel?: string,
+    input?: string
+  ) {
+    const args = {
+      submitter: submitter,
+      link: link,
+      ert: ert,
+      description: description,
+      channel: channel,
+      role: role,
+      input: input,
+    };
+    EZPRArgumentsSchema.parse(args);
+
+    this.submitter = submitter;
+    this.link = link;
+    this.ert = ert;
+    this.description = description;
+    this.channel = channel;
+    this.role = role;
+    this.input = input;
+  }
 }
 
 export class EZPRCommand implements ICommand {
@@ -38,35 +75,12 @@ export class EZPRCommand implements ICommand {
   message: (KnownBlock | Block)[];
   text: string;
 
-  constructor(say: SayFn, payload: SlashCommand) {
+  constructor(say: SayFn, args: EZPRArguments) {
     this.say = say;
-
-    this.input = `${payload.command} ${payload.text}`;
-    const args = parseCommandArgs(payload.text);
-
-    if (args.length < 3 || args.length > 5) {
-      throw new HTTPError(
-        400,
-        "invalid number of arguments provided",
-        `${payload.command} ${payload.text}`
-      );
-    }
-
-    const channel =
-      args.length == 5 ? args[ArgIndices.CHANNEL] : payload.channel_name;
-
-    const ezPRArgs = new EZPRArguments(
-      payload.user_name,
-      args[ArgIndices.PR_LINK],
-      args[ArgIndices.ERT],
-      args[ArgIndices.DESC],
-      args.length > 3 ? args[ArgIndices.ROLE] : "",
-      channel
-    );
-
-    this.message = ezprMessage(ezPRArgs);
-    this.channel = channel;
-    this.text = `${ezPRArgs.submitter} submitted a PR Review Request with an estimated review time of ${ezPRArgs.ert} to ${channel}\n${ezPRArgs.description}`;
+    this.input = args.input || "";
+    this.message = ezprMessage(args);
+    this.channel = args.channel || "";
+    this.text = `${args.submitter} submitted a PR Review Request with an estimated review time of ${args.ert} to ${args.channel}\n${args.description}`;
   }
 
   async handle() {
@@ -81,55 +95,6 @@ export class EZPRCommand implements ICommand {
       .catch((error) => {
         throw error;
       });
-  }
-}
-
-const EZPRArgumentsSchema = z
-  .object({
-    submitter: MentionSchema,
-    link: PRLinkSchema,
-    ert: EstimatedReviewTimeSchema,
-    description: PRDescriptionSchema,
-    channel: ChannelSchema,
-    role: MentionSchema,
-  })
-  .partial({
-    channel: true,
-    role: true,
-  });
-
-export class EZPRArguments {
-  submitter: string;
-  link: string;
-  ert: string;
-  description: string;
-  channel?: string;
-  role?: string;
-
-  constructor(
-    submitter: string,
-    link: string,
-    ert: string,
-    description: string,
-    role?: string,
-    channel?: string
-  ) {
-    const args = {
-      submitter: submitter,
-      link: link,
-      ert: ert,
-      description: description,
-      channel: channel,
-      role: role,
-    };
-    EZPRArgumentsSchema.parse(args);
-
-    this.submitter = submitter;
-    this.link = link;
-    this.ert = ert;
-    this.description = description;
-    this.channel = channel;
-    this.role = role;
   }
 }
 

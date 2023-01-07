@@ -8,6 +8,7 @@ import {
 } from "./cmd";
 import { isHTTPError, isValidationError, toValidationError } from "./errors";
 import { EZPR, SLASH_EZPR, SLASH_HELP } from "./constants";
+import { ParseSlashCommand } from "./parse/ezpr/slash_command";
 
 require("dotenv").config();
 
@@ -25,13 +26,7 @@ app.action({ action_id: EZPR }, async ({ ack, body, client }) => {
   await ack();
   const blockAction = body as BlockAction;
   try {
-    const result = OpenEZPRModal(client, blockAction.trigger_id);
-    // parse result
-    // need to decouple parsing from command
-    // create command
-    // const command = new EZPRCommand(ack, client, say, payload);
-    // await command.handle();
-    console.log(result);
+    OpenEZPRModal(client, blockAction.trigger_id);
   } catch (error) {
     const { user, channel } = blockAction;
     if (user !== undefined && channel !== undefined) {
@@ -43,7 +38,8 @@ app.action({ action_id: EZPR }, async ({ ack, body, client }) => {
 
 app.command(SLASH_EZPR, async ({ ack, client, say, payload }) => {
   try {
-    const command = new EZPRCommand(say, payload);
+    const args = ParseSlashCommand(payload);
+    const command = new EZPRCommand(say, args);
     await command.handle();
   } catch (error) {
     const { user_id, channel_id } = payload;

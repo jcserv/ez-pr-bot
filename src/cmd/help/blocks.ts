@@ -1,14 +1,12 @@
-export const error = (text: string) => (
-  [
-    {
-      type: "section",
-      text: {
-        type: "mrkdwn",
-        text: `\`/help ${text}\`: unknown help topic. Run \`/help\` or \`/help usage\``,
-      },
+export const error = (text: string) => [
+  {
+    type: "section",
+    text: {
+      type: "mrkdwn",
+      text: `\`/help ${text}\`: unknown help topic. Run \`/help\` or \`/help usage\``,
     },
-  ]
-);
+  },
+];
 
 const ezprBaseExampleUsage =
   "`/ezpr [pr link] [estimated review time] [description]`";

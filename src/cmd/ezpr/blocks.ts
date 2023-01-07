@@ -12,14 +12,12 @@ Please review: ${args.description}
 PR Link: ${args.link}
 `;
 
-export const ezprMessage = (args: EZPRArguments) => (
-  [
-    {
-      type: "section",
-      text: {
-        type: "mrkdwn",
-        text: ezprMarkdown(args),
-      },
+export const ezprMessage = (args: EZPRArguments) => [
+  {
+    type: "section",
+    text: {
+      type: "mrkdwn",
+      text: ezprMarkdown(args),
     },
-  ]
-)
+  },
+];

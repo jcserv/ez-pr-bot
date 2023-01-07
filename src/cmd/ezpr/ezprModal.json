@@ -9,8 +9,8 @@
     {
       "type": "input",
       "element": {
-        "type": "plain_text_input",
-        "action_id": "plain_text_input-action"
+        "type": "url_text_input",
+        "action_id": "url_text_input-action"
       },
       "label": {
         "type": "plain_text",
@@ -60,8 +60,7 @@
             },
             "value": "1 hour"
           }
-        ],
-        "action_id": "static_select-action"
+        ]
       },
       "label": {
         "type": "plain_text",
@@ -73,12 +72,52 @@
       "type": "input",
       "element": {
         "type": "plain_text_input",
-        "multiline": true,
-        "action_id": "plain_text_input-action"
+        "multiline": true
       },
       "label": {
         "type": "plain_text",
         "text": "Please provide a summary of changes, and any other relevant information",
+        "emoji": true
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*Channel*"
+      }
+    },
+    {
+      "type": "actions",
+      "elements": [
+        {
+          "type": "conversations_select",
+          "placeholder": {
+            "type": "plain_text",
+            "text": "Select public channel",
+            "emoji": true
+          },
+          "filter": {
+            "include": ["public"]
+          },
+          "action_id": "actionId-0"
+        }
+      ]
+    },
+    {
+      "type": "input",
+      "element": {
+        "type": "multi_users_select",
+        "placeholder": {
+          "type": "plain_text",
+          "text": "Select users",
+          "emoji": true
+        },
+        "action_id": "multi_users_select-action"
+      },
+      "label": {
+        "type": "plain_text",
+        "text": "Reviewer(s)",
         "emoji": true
       }
     }
