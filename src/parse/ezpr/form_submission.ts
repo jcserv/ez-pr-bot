@@ -1,11 +1,29 @@
-import { ViewOutput } from "@slack/bolt";
+import { SlackViewAction, ViewOutput } from "@slack/bolt";
 import { FormValues, getInputValue } from "..";
+import {
+  SELECTED_CONVERSATION,
+  SELECTED_OPTION,
+  SELECTED_USERS,
+} from "../../constants";
 import { EZPRArguments } from "../../types";
 
-export function ParseEZPRFormSubmission(payload: ViewOutput): EZPRArguments {
-  const values = payload["state"]["values"];
-  const { url, ert, desc, channel } = getInput(values);
-  return new EZPRArguments("", url, ert, desc, "", channel);
+const STATE = "state";
+const VALUES = "values";
+
+const PR_LINK = "pr_link";
+const ERT = "estimated_review_time";
+const DESCRIPTION = "description";
+const CHANNEL = "channel";
+const REVIEWERS = "reviewers";
+
+export function ParseEZPRFormSubmission(
+  body: SlackViewAction,
+  payload: ViewOutput
+): EZPRArguments {
+  const values = payload[STATE][VALUES];
+  const { user } = body;
+  const { url, ert, desc, channel, reviewers } = getInput(values);
+  return new EZPRArguments(user.id, url, ert, desc, reviewers, channel);
 }
 
 class EZPRFormInput {
@@ -31,10 +49,10 @@ class EZPRFormInput {
 }
 
 function getInput(values: FormValues) {
-  const url = getInputValue(values, "pr_link");
-  const ert = getInputValue(values, "estimated_review_time", "selected_option");
-  const desc = getInputValue(values, "description");
-  const channel = getInputValue(values, "channel", "selected_conversation");
-  const reviewers = getInputValue(values, "channel", "selected_users");
+  const url = getInputValue(values, PR_LINK);
+  const ert = getInputValue(values, ERT, SELECTED_OPTION);
+  const desc = getInputValue(values, DESCRIPTION);
+  const channel = getInputValue(values, CHANNEL, SELECTED_CONVERSATION);
+  const reviewers = getInputValue(values, REVIEWERS, SELECTED_USERS);
   return new EZPRFormInput(url, ert, desc, channel, reviewers);
 }

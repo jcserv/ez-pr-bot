@@ -10,7 +10,7 @@ enum ArgIndices {
   PR_LINK = 0,
   ERT = 1,
   DESC = 2,
-  ROLE = 3,
+  REVIEWER = 3,
   CHANNEL = 4,
 }
 
@@ -30,12 +30,15 @@ export function ParseEZPRSlashCommand(payload: SlashCommand): EZPRArguments {
       ? args[ArgIndices.CHANNEL]
       : payload.channel_name;
 
+  const reviewer =
+    args.length > MIN_SLASH_EZPR_ARGS ? [args[ArgIndices.REVIEWER]] : [];
+
   return new EZPRArguments(
     payload.user_name,
     args[ArgIndices.PR_LINK],
     args[ArgIndices.ERT],
     args[ArgIndices.DESC],
-    args.length > MIN_SLASH_EZPR_ARGS ? args[ArgIndices.ROLE] : "",
+    reviewer,
     channel
   );
 }

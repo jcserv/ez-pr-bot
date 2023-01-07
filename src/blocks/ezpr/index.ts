@@ -1,7 +1,7 @@
 import { EZPRArguments } from "../../types";
 
 const ezprMarkdown = (args: EZPRArguments) => `
-${args.role} :wave:
+${args.reviewers?.join(" ")} :wave:
 
 *From:* ${args.submitter}
 

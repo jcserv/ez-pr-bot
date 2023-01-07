@@ -2,6 +2,7 @@ import { z } from "zod";
 import {
   ChannelSchema,
   MentionSchema,
+  MentionsSchema,
   PRLinkSchema,
   EstimatedReviewTimeSchema,
   PRDescriptionSchema,
@@ -14,7 +15,7 @@ const EZPRArgumentsSchema = z
     ert: EstimatedReviewTimeSchema,
     description: PRDescriptionSchema,
     channel: ChannelSchema,
-    role: MentionSchema,
+    role: MentionsSchema,
   })
   .partial({
     channel: true,
@@ -28,7 +29,7 @@ export class EZPRArguments {
   ert: string;
   description: string;
   channel?: string;
-  role?: string;
+  reviewers?: string[];
   input?: string;
 
   constructor(
@@ -36,7 +37,7 @@ export class EZPRArguments {
     link: string,
     ert: string,
     description: string,
-    role?: string,
+    reviewers: string[],
     channel?: string,
     input?: string
   ) {
@@ -46,7 +47,7 @@ export class EZPRArguments {
       ert: ert,
       description: description,
       channel: channel,
-      role: role,
+      reviewers: reviewers,
       input: input,
     };
     EZPRArgumentsSchema.parse(args);
@@ -56,7 +57,7 @@ export class EZPRArguments {
     this.ert = ert;
     this.description = description;
     this.channel = channel;
-    this.role = role;
+    this.reviewers = reviewers;
     this.input = input;
   }
 }

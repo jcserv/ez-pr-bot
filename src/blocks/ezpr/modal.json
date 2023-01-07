@@ -112,7 +112,7 @@
     },
     {
       "type": "input",
-      "block_id": "reviewer",
+      "block_id": "reviewers",
       "element": {
         "type": "multi_users_select",
         "placeholder": {

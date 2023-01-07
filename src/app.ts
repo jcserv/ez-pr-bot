@@ -49,16 +49,16 @@ app.action({ action_id: OPEN_EZPR_MODAL }, async ({ ack, body, client }) => {
   }
 });
 
-app.view(EZPR_MODAL_SUBMISSION, async ({ ack, client, payload }) => {
+app.view(EZPR_MODAL_SUBMISSION, async ({ ack, body, client, payload }) => {
   try {
-    const args = ParseEZPRFormSubmission(payload);
+    const args = ParseEZPRFormSubmission(body, payload);
     const command = new EZPRCommand(client, args);
     await command.handle();
   } catch (error) {
-    // const { user, channel } = body as SlackViewAction;
-    //   if (user !== undefined && channel !== undefined) {
-    //     errorOccurred(client, user.id, channel.id, error);
-    //   }
+    const { user } = body as SlackViewAction;
+    if (user !== undefined) {
+      errorOccurred(client, user.id, "", error);
+    }
     console.error(error);
   } finally {
     ack();

@@ -6,6 +6,8 @@ export declare type Mention = string;
 
 export const MentionSchema = z.string();
 
+export const MentionsSchema = z.array(MentionSchema);
+
 export declare type Channel = string;
 
 // payload.channel_name provides the channel name without the # at front, so we don't validate #'s
