@@ -5,10 +5,12 @@ import {
   KnownBlock,
   RespondArguments,
   SlashCommand,
+  View,
 } from "@slack/bolt";
 import { WebClient } from "@slack/web-api";
-import { ICommand } from "../interface";
 import { error, ezprHelp, helpUsage } from "../../blocks/help";
+import { ICommand } from "../interface";
+import { OpenModalCommand } from "../modal";
 import helpOverview from "../../blocks/help/overview.json";
 
 export class HelpCommand implements ICommand {
@@ -42,11 +44,21 @@ export class HelpCommand implements ICommand {
   }
 }
 
-// // OpenHelpUsageModal is a utility wrapper function that opens the modal version of /help usage
-// export function OpenHelpUsageModal(client: WebClient, trigger_id: string) {
-//   const command = new OpenModalCommand(client, trigger_id, ezprModal as View);
-//   return command.handle();
-// }
+// OpenHelpUsageModal is a utility wrapper function that opens the modal version of /help usage
+export function OpenHelpUsageModal(client: WebClient, trigger_id: string) {
+  const modal = {
+    type: "modal",
+    callback_id: "view_2",
+    title: {
+      type: "plain_text",
+      text: "Help Usage",
+    },
+    blocks: helpUsage,
+  };
+
+  const command = new OpenModalCommand(client, trigger_id, modal as View);
+  return command.handle();
+}
 
 export function PublishHomeOverview(client: WebClient) {
   const USER_ID = process.env.USER_ID as string;

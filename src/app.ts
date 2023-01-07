@@ -4,6 +4,7 @@ import {
   EZPRCommand,
   HelpCommand,
   OpenEZPRModal,
+  OpenHelpUsageModal,
   PublishHomeOverview,
 } from "./cmd";
 import { isHTTPError, isValidationError, toValidationError } from "./errors";
@@ -61,7 +62,7 @@ app.action(
     await ack();
     const blockAction = body as BlockAction;
     try {
-      OpenEZPRModal(client, blockAction.trigger_id);
+      OpenHelpUsageModal(client, blockAction.trigger_id);
     } catch (error) {
       const { user, channel } = blockAction;
       if (user !== undefined && channel !== undefined) {
