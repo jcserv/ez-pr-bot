@@ -1,3 +1,6 @@
+export * from "./ezpr";
+export * from "./help";
+
 const EMPTY_STRING = "";
 const SINGLE_QUOTES = "'";
 const DOUBLE_QUOTES = '"';

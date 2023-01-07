@@ -1,5 +1,5 @@
 import { SlashCommand } from "@slack/bolt";
-import { EZPRArguments } from "../../types/ezpr";
+import { EZPRArguments } from "../../types";
 import { parseCommandArgs } from "..";
 import { HTTPError } from "../../errors";
 

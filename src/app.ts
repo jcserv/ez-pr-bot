@@ -14,7 +14,7 @@ import {
   SLASH_EZPR,
   SLASH_HELP,
 } from "./constants";
-import { ParseSlashEZPRCommand } from "./parse/ezpr/slash_command";
+import { ParseSlashEZPRCommand } from "./parse";
 
 require("dotenv").config();
 

@@ -8,7 +8,7 @@ import {
   View,
 } from "@slack/bolt";
 import { WebClient } from "@slack/web-api";
-import { error, ezprHelp, helpUsage } from "../../blocks/help";
+import { error, ezprHelp, helpUsage } from "../../blocks";
 import { ICommand } from "../interface";
 import { OpenModalCommand } from "../modal";
 import helpOverview from "../../blocks/help/overview.json";

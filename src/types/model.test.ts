@@ -4,7 +4,7 @@ import {
   EstimatedReviewTimeSchema,
   PRDescriptionSchema,
   PRLinkSchema,
-} from "./index";
+} from ".";
 
 describe("ChannelSchema Validate", () => {
   test("channel, should be valid", () => {

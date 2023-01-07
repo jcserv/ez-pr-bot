@@ -1,6 +1,6 @@
 import { Block, KnownBlock } from "@slack/bolt";
 import { z } from "zod";
-import { error, ezprHelp, helpUsage } from "../blocks/help";
+import { error, ezprHelp, helpUsage } from "../blocks";
 import helpOverview from "../blocks/help/overview.json";
 
 export const SupportedTopicsSchema = z.enum(["", "usage", "ezpr"]);

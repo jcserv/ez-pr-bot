@@ -1,4 +1,4 @@
-import { EZPRArguments } from "../../types/ezpr";
+import { EZPRArguments } from "../../types";
 
 const ezprMarkdown = (args: EZPRArguments) => `
 ${args.role} :wave:

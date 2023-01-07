@@ -2,9 +2,9 @@ import { View, WebClient } from "@slack/web-api";
 import { Block, KnownBlock, SayFn } from "@slack/bolt";
 import { ICommand } from "../interface";
 import { OpenModalCommand } from "../modal";
-import { ezprMessage } from "../../blocks/ezpr/blocks";
+import { ezprMessage } from "../../blocks";
 import ezprModal from "../../blocks/ezpr/modal.json";
-import { EZPRArguments } from "../../types/ezpr";
+import { EZPRArguments } from "../../types";
 
 export class EZPRCommand implements ICommand {
   say: SayFn;
