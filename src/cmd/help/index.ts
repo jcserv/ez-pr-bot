@@ -1,12 +1,14 @@
 import {
   AckFn,
   Block,
+  HomeView,
   KnownBlock,
   RespondArguments,
   SlashCommand,
 } from "@slack/bolt";
 import { ICommand } from "../interface";
-import { error, ezprHelp, helpOverview, helpUsage } from "./blocks";
+import { error, ezprHelp, helpUsage } from "./blocks";
+import helpOverview from "./home.json";
 
 export class HelpCommand implements ICommand {
   ack: AckFn<string | RespondArguments>;
@@ -18,7 +20,7 @@ export class HelpCommand implements ICommand {
     this.input = `${payload.command} ${payload.text}`;
     switch (payload.text) {
       case "":
-        this.message = helpOverview;
+        this.message = helpOverview.blocks;
         break;
       case "usage":
         this.message = helpUsage;

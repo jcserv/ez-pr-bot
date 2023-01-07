@@ -19,6 +19,7 @@ oauth_config:
       - app_mentions:read
       - channels:join
       - chat:write
+      - chat:write.public
       - commands
       - emoji:read
       - im:write

@@ -1,16 +1,13 @@
-import { App, AckFn, RespondArguments } from "@slack/bolt";
+import { App, AckFn, RespondArguments, HomeView } from "@slack/bolt";
 import { EZPRCommand, HelpCommand } from "./cmd";
-import {
-  isHTTPError,
-  isValidationError,
-  isZodError,
-  toValidationError,
-} from "./errors";
+import { isHTTPError, isValidationError, toValidationError } from "./errors";
+import homeView from "./cmd/help/home.json";
 
 require("dotenv").config();
 
 const SLACK_APP_TOKEN = process.env.SLACK_APP_TOKEN;
 const SLACK_BOT_TOKEN = process.env.SLACK_BOT_TOKEN;
+const USER_ID = process.env.USER_ID;
 
 const app = new App({
   appToken: SLACK_APP_TOKEN,
@@ -67,3 +64,12 @@ app.start().catch((error) => {
   console.error(error);
   process.exit(1);
 });
+
+// Startup function to publish the home view
+function start() {
+  app.client.views
+    .publish({ user_id: USER_ID as string, view: homeView as HomeView })
+    .catch((error) => console.error(error));
+}
+
+start();
