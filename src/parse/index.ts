@@ -1,3 +1,10 @@
+import { ViewStateValue } from "@slack/bolt";
+import {
+  SELECTED_CONVERSATION,
+  SELECTED_OPTION,
+  SELECTED_USERS,
+} from "../constants";
+
 export * from "./ezpr";
 export * from "./help";
 
@@ -43,4 +50,48 @@ export function parseCommandArgs(text: string): string[] {
   }
 
   return ret;
+}
+
+const VALUE = "value";
+
+export interface FormValues {
+  [blockId: string]: {
+    [actionId: string]: ViewStateValue;
+  };
+}
+
+export function getInputValue(
+  values: FormValues,
+  block_id: string,
+  value = VALUE,
+  action_id = "input"
+): any {
+  const viewStateValue = values?.[block_id]?.[action_id];
+  switch (value) {
+    case VALUE:
+      return getValue(viewStateValue);
+    case SELECTED_CONVERSATION:
+      return getSelectedConversation(viewStateValue);
+    case SELECTED_OPTION:
+      return getSelectedOption(viewStateValue);
+    case SELECTED_USERS:
+      return getSelectedUsers(viewStateValue);
+  }
+  return null;
+}
+
+function getValue(viewStateValue: ViewStateValue): string {
+  return viewStateValue.value || "";
+}
+
+function getSelectedOption(viewStateValue: ViewStateValue): string {
+  return viewStateValue.selected_option?.value || "";
+}
+
+function getSelectedConversation(viewStateValue: ViewStateValue): string {
+  return viewStateValue.selected_conversation || "";
+}
+
+function getSelectedUsers(viewStateValue: ViewStateValue): string[] {
+  return viewStateValue.selected_users || [];
 }

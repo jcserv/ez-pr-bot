@@ -1,6 +1,6 @@
 {
   "type": "modal",
-  "callback_id": "view_1",
+  "callback_id": "ezpr_modal_submission",
   "title": {
     "type": "plain_text",
     "text": "PR Review Request"
@@ -8,9 +8,10 @@
   "blocks": [
     {
       "type": "input",
+      "block_id": "pr_link",
       "element": {
         "type": "url_text_input",
-        "action_id": "url_text_input-action"
+        "action_id": "input"
       },
       "label": {
         "type": "plain_text",
@@ -20,8 +21,10 @@
     },
     {
       "type": "input",
+      "block_id": "estimated_review_time",
       "element": {
         "type": "static_select",
+        "action_id": "input",
         "placeholder": {
           "type": "plain_text",
           "text": "Select an item",
@@ -70,8 +73,10 @@
     },
     {
       "type": "input",
+      "block_id": "description",
       "element": {
         "type": "plain_text_input",
+        "action_id": "input",
         "multiline": true
       },
       "label": {
@@ -89,6 +94,7 @@
     },
     {
       "type": "actions",
+      "block_id": "channel",
       "elements": [
         {
           "type": "conversations_select",
@@ -100,12 +106,13 @@
           "filter": {
             "include": ["public"]
           },
-          "action_id": "ack"
+          "action_id": "input"
         }
       ]
     },
     {
       "type": "input",
+      "block_id": "reviewer",
       "element": {
         "type": "multi_users_select",
         "placeholder": {
@@ -113,7 +120,7 @@
           "text": "Select users",
           "emoji": true
         },
-        "action_id": "ack"
+        "action_id": "input"
       },
       "label": {
         "type": "plain_text",

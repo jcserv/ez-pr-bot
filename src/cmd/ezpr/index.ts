@@ -1,5 +1,5 @@
-import { View, WebClient } from "@slack/web-api";
 import { Block, KnownBlock, SayFn } from "@slack/bolt";
+import { View, WebClient } from "@slack/web-api";
 import { ezprMessage } from "../../blocks";
 import { EZPRArguments } from "../../types";
 import { ICommand } from "../interface";
@@ -7,15 +7,15 @@ import { OpenModalCommand } from "../modal";
 import ezprModal from "../../blocks/ezpr/modal.json";
 
 export class EZPRCommand implements ICommand {
-  say: SayFn;
+  client: WebClient;
 
   input: string;
   channel: string;
   message: (KnownBlock | Block)[];
   text: string;
 
-  constructor(say: SayFn, args: EZPRArguments) {
-    this.say = say;
+  constructor(client: WebClient, args: EZPRArguments) {
+    this.client = client;
     this.input = args.input || "";
     this.message = ezprMessage(args);
     this.channel = args.channel || "";
@@ -25,11 +25,13 @@ export class EZPRCommand implements ICommand {
   async handle() {
     // ez pr bot needs to be in the channel
     // should be a valid role
-    await this.say({
-      blocks: this.message,
-      channel: this.channel,
-      text: this.text,
-    })
+
+    await this.client.chat
+      .postMessage({
+        blocks: this.message,
+        channel: this.channel,
+        text: this.text,
+      })
       .then(() => console.log("PR Review Request submitted!"))
       .catch((error) => {
         throw error;

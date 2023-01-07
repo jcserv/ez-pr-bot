@@ -14,7 +14,7 @@ enum ArgIndices {
   CHANNEL = 4,
 }
 
-export function ParseSlashEZPRCommand(payload: SlashCommand): EZPRArguments {
+export function ParseEZPRSlashCommand(payload: SlashCommand): EZPRArguments {
   const args = parseCommandArgs(payload.text);
 
   if (args.length < MIN_SLASH_EZPR_ARGS || args.length > MAX_SLASH_EZPR_ARGS) {

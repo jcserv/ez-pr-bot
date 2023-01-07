@@ -1,7 +1,8 @@
-import { App, BlockAction } from "@slack/bolt";
+import { App, BlockAction, SlackViewAction } from "@slack/bolt";
 import { WebClient } from "@slack/web-api";
 import {
-  ACK,
+  INPUT,
+  EZPR_MODAL_SUBMISSION,
   OPEN_EZPR_MODAL,
   OPEN_HELP_USAGE_MODAL,
   SLASH_EZPR,
@@ -15,7 +16,7 @@ import {
   PublishHomeOverview,
 } from "./cmd";
 import { isHTTPError, isValidationError, toValidationError } from "./errors";
-import { ParseSlashEZPRCommand } from "./parse";
+import { ParseEZPRFormSubmission, ParseEZPRSlashCommand } from "./parse";
 
 require("dotenv").config();
 
@@ -29,7 +30,8 @@ const app = new App({
   socketMode: true,
 });
 
-app.action({ action_id: ACK }, async ({ ack }) => {
+// No-op acknowledgement
+app.action({ action_id: INPUT }, async ({ ack }) => {
   await ack();
 });
 
@@ -47,10 +49,26 @@ app.action({ action_id: OPEN_EZPR_MODAL }, async ({ ack, body, client }) => {
   }
 });
 
-app.command(SLASH_EZPR, async ({ ack, client, say, payload }) => {
+app.view(EZPR_MODAL_SUBMISSION, async ({ ack, client, payload }) => {
   try {
-    const args = ParseSlashEZPRCommand(payload);
-    const command = new EZPRCommand(say, args);
+    const args = ParseEZPRFormSubmission(payload);
+    const command = new EZPRCommand(client, args);
+    await command.handle();
+  } catch (error) {
+    // const { user, channel } = body as SlackViewAction;
+    //   if (user !== undefined && channel !== undefined) {
+    //     errorOccurred(client, user.id, channel.id, error);
+    //   }
+    console.error(error);
+  } finally {
+    ack();
+  }
+});
+
+app.command(SLASH_EZPR, async ({ ack, client, payload }) => {
+  try {
+    const args = ParseEZPRSlashCommand(payload);
+    const command = new EZPRCommand(client, args);
     await command.handle();
   } catch (error) {
     const { user_id, channel_id } = payload;
