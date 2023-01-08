@@ -26,8 +26,6 @@ export class EZPRCommand implements ICommand {
     // ez pr bot needs to be in the channel
     // should be a valid role
 
-    console.log(this.channel);
-
     await this.client.chat
       .postMessage({
         blocks: this.message,

@@ -27,7 +27,6 @@ EZ PR Bot :robot_face: is a tool for managing pull request reviews for software 
 The commands are:
 
   ezpr    submit a pull request for review
-  config  get and set (team/individual) options
   help    receive information about how to use EZ PR Bot and other commands
 
 Use \`/help <command>\` for more information about a command.
@@ -88,87 +87,12 @@ If [#team-channel] is not provided, it defaults to the posted channel.
 	*effect:* Sends a formatted Slack message to #team-ez-pr-bot that pings the @ez-pr-devs role, containing the pull request link, the estimated review time, and the description provided by the user.
 `;
 
-const configTeamsUsage = "`/config teams`";
-const configCreateTeamUsage = "`/config --team [team-key]`";
-const configSetTeamUsage =
-  "`/config --team [team-key] [#team-channel] [@role]`";
-const configSetTeamChannelUsage =
-  "`/config --team [team-key] --channel [#team-channel]`";
-const configSetTeamRoleUsage = "`/config --team [team-key] --role [@role]`";
-
 export const ezprHelp = [
   {
     type: "section",
     text: {
       type: "mrkdwn",
       text: ezprHelpMarkdown,
-    },
-  },
-  {
-    type: "divider",
-  },
-];
-
-const configHelpMarkdown = `
-> /help config
-
-*usage*: 
-
-  > teams
-
-	${configTeamsUsage}
-    Returns a list of teams registered with EZ PR Bot.
-
-	${configCreateTeamUsage}
-    Create a new team. If it exists, returns the settings for that team.
-
-  ${configSetTeamUsage}
-    Specify the #channel and @role for pull request reviews for the team.
-
-  ${configSetTeamChannelUsage}
-    Sets the #channel for the team to the provided value. Must be a Slack channel.
-
-  ${configSetTeamRoleUsage}
-    Sets the @role for the team to the provided value. Must be a Slack role.
-
-*description*: You can get/set configuration options for your team, including where pull request reviews from team members belonging to the provided role are sent.
-
-*options:*
-
-  --team
-    Read/write configuration options at the teams level.
-
-*arguments*:
-
-  teams - Returns a list of all registered teams.
-
-	[team-key] string
-    A unique String identifier for your team
-		ex. "team-ez-pr-bot"
-
-  [#team-channel] #string
-    A Slack channel that EZ PR Bot has joined
-		ex. #team-ez-pr-bot
-
-	[@role] @string
-    The role to mention, whom should review the PR.
-		ex. @ez-pr-devs
-
-*example usage*:
-
-Set up your team's EZ PR Bot configuration, which makes future PR review submissions easier!
-
-	\`/config --team ez-pr-devs\`
-	\`/config --team ez-pr-devs #team-ez-pr-bot @ez-pr-devs\`
-	\`/ezpr http://github.com/jcserv/ez-pr-bot/pulls/3 15m "Bug fix for /help command"\`
-`;
-
-export const configHelp = [
-  {
-    type: "section",
-    text: {
-      type: "mrkdwn",
-      text: configHelpMarkdown,
     },
   },
   {
