@@ -1,4 +1,4 @@
-import { parseCommandArgs } from "./parse";
+import { parseCommandArgs } from ".";
 
 describe("parseCommandArgs", () => {
   test("empty string should result in zero results", () => {
@@ -35,6 +35,12 @@ describe("parseCommandArgs", () => {
     expect(parseCommandArgs('"15 minutes" "Adds help command"')).toStrictEqual([
       "15 minutes",
       "Adds help command",
+    ]);
+  });
+
+  test("ascii double quotes", () => {
+    expect(parseCommandArgs("“testing multiple reviewers”")).toStrictEqual([
+      "testing multiple reviewers",
     ]);
   });
 });

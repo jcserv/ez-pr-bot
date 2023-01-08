@@ -1,0 +1,92 @@
+{
+  "type": "home",
+  "blocks": [
+    {
+      "type": "header",
+      "text": {
+        "type": "plain_text",
+        "text": "EZ PR Bot"
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "Howdy, I'm EZ PR Bot :robot_face: - the Slack bot that accelerates your team's PR review process! :zap:"
+      }
+    },
+    {
+      "type": "context",
+      "elements": [
+        {
+          "type": "image",
+          "image_url": "https://api.slack.com/img/blocks/bkb_template_images/placeholder.png",
+          "alt_text": "placeholder"
+        }
+      ]
+    },
+    {
+      "type": "divider"
+    },
+    {
+      "type": "header",
+      "text": {
+        "type": "plain_text",
+        "text": "Getting Started"
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "Click one of the below shortcuts, or use the command \n`/ezpr [pr link] [estimated review time] [description] [@role] [#channel]`\nto submit your PR for review! :rocket:"
+      }
+    },
+    {
+      "type": "context",
+      "elements": [
+        {
+          "type": "image",
+          "image_url": "https://api.slack.com/img/blocks/bkb_template_images/placeholder.png",
+          "alt_text": "placeholder"
+        }
+      ]
+    },
+    {
+      "type": "divider"
+    },
+    {
+      "type": "header",
+      "text": {
+        "type": "plain_text",
+        "text": "Quick Shortcuts"
+      }
+    },
+    {
+      "type": "actions",
+      "elements": [
+        {
+          "type": "button",
+          "text": {
+            "type": "plain_text",
+            "text": "Create PR Review Request",
+            "emoji": true
+          },
+          "style": "primary",
+          "value": "ezpr",
+          "action_id": "open_ezpr_modal"
+        },
+        {
+          "type": "button",
+          "text": {
+            "type": "plain_text",
+            "text": "More Help",
+            "emoji": true
+          },
+          "value": "usage",
+          "action_id": "open_help_usage_modal"
+        }
+      ]
+    }
+  ]
+}

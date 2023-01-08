@@ -5,7 +5,7 @@
   "main": "src/app.ts",
   "repository": "git@github.com:jcserv/ez-pr-bot.git",
   "author": "Jarrod Servilla",
-  "license": "MIT",
+  "license": "GPL-3.0",
   "scripts": {
     "build": "tsc",
     "start": "node ./bin/app.js",

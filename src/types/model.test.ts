@@ -1,10 +1,10 @@
-import { string, ZodError } from "zod";
+import { ZodError } from "zod";
 import {
   ChannelSchema,
   EstimatedReviewTimeSchema,
   PRDescriptionSchema,
   PRLinkSchema,
-} from "./index";
+} from ".";
 
 describe("ChannelSchema Validate", () => {
   test("channel, should be valid", () => {

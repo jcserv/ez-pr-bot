@@ -75,7 +75,7 @@ export class ValidationError extends Error {
   constructor(msg: string, issues: ZodIssue[], input?: string) {
     super(msg);
     this.issues = issues;
-    this.input = input;
+    this.input = input || "";
   }
 
   toString(): string {
