@@ -51,7 +51,7 @@ app.action({ action_id: OPEN_EZPR_MODAL }, async ({ ack, body, client }) => {
 
 app.view(EZPR_MODAL_SUBMISSION, async ({ ack, body, client, payload }) => {
   try {
-    const args = ParseEZPRFormSubmission(body, payload);
+    const args = await ParseEZPRFormSubmission(client, body, payload);
     const command = new EZPRCommand(client, args);
     await command.handle();
   } catch (error) {

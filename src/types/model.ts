@@ -2,9 +2,32 @@ import { z } from "zod";
 
 // <!subteam^S04HKF5MKRP|@ez-pr-devs>
 
+export declare type UserID = string;
+
+const NewUserIDSchema = z.string().trim().startsWith("U");
+const LegacyUserIDSchema = z.string().startsWith("W");
+
+export const UserIDSchema = NewUserIDSchema.or(LegacyUserIDSchema);
+
 export declare type Mention = string;
 
-export const MentionSchema = z.string();
+export declare type Mentions = Mention[];
+
+export function toMentions(usernames: string[]): Mentions {
+  var mentions: Mentions = [];
+  usernames.forEach((username) => mentions.push(toMention(username)));
+  return mentions;
+}
+
+export function toMention(username: string): Mention {
+  if (!username.startsWith("@")) {
+    username = "@" + username;
+  }
+  MentionSchema.parse(username);
+  return username;
+}
+
+export const MentionSchema = z.string().startsWith("@");
 
 export const MentionsSchema = z.array(MentionSchema);
 

@@ -6,6 +6,7 @@ import {
   PRLinkSchema,
   EstimatedReviewTimeSchema,
   PRDescriptionSchema,
+  Mention,
 } from ".";
 
 const EZPRArgumentsSchema = z
@@ -15,21 +16,21 @@ const EZPRArgumentsSchema = z
     ert: EstimatedReviewTimeSchema,
     description: PRDescriptionSchema,
     channel: ChannelSchema,
-    role: MentionsSchema,
+    reviewers: MentionsSchema,
   })
   .partial({
     channel: true,
-    role: true,
+    reviewers: true,
     input: true,
   });
 
 export class EZPRArguments {
-  submitter: string;
+  submitter: Mention;
   link: string;
   ert: string;
   description: string;
   channel?: string;
-  reviewers?: string[];
+  reviewers?: Mention[];
   input?: string;
 
   constructor(
