@@ -4,6 +4,7 @@ import {
   SELECTED_OPTION,
   SELECTED_USERS,
 } from "../constants";
+import { StringDictionary } from "../types";
 
 export * from "./ezpr";
 export * from "./help";
@@ -11,6 +12,22 @@ export * from "./help";
 const EMPTY_STRING = "";
 const SINGLE_QUOTES = "'";
 const DOUBLE_QUOTES = '"';
+const ASCII_DOUBLE_QUOTES_START = "“";
+const ASCII_DOUBLE_QUOTES_END = "”";
+
+const START_TERMINATORS = [
+  SINGLE_QUOTES,
+  DOUBLE_QUOTES,
+  ASCII_DOUBLE_QUOTES_START,
+];
+
+function getStartToEndTerminatorDict(): StringDictionary {
+  var d = new StringDictionary();
+  d.Entries[SINGLE_QUOTES] = SINGLE_QUOTES;
+  d.Entries[DOUBLE_QUOTES] = DOUBLE_QUOTES;
+  d.Entries[ASCII_DOUBLE_QUOTES_START] = ASCII_DOUBLE_QUOTES_END;
+  return d;
+}
 
 // parseCommandArgs parses Slack command arguments and returns a string containing each
 // argument. It treats input wrapped in quotes as one argument.
@@ -19,20 +36,22 @@ export function parseCommandArgs(text: string): string[] {
     return [];
   }
 
+  let startToEndTerminatorDict = getStartToEndTerminatorDict();
+
   var ret: string[] = [];
   const s = text.split(" ");
   var currArg: string = EMPTY_STRING;
   var terminateOnChar: string = EMPTY_STRING;
   s.forEach((item) => {
     if (
-      (item.startsWith(SINGLE_QUOTES) || item.startsWith(DOUBLE_QUOTES)) &&
+      START_TERMINATORS.includes(item[0]) &&
       terminateOnChar === EMPTY_STRING
     ) {
       currArg += item.slice(1);
-      terminateOnChar = item[0];
+      terminateOnChar = startToEndTerminatorDict.Entries[item[0]];
     } else if (
-      (item.endsWith(SINGLE_QUOTES) && terminateOnChar === SINGLE_QUOTES) ||
-      (item.endsWith(DOUBLE_QUOTES) && terminateOnChar === DOUBLE_QUOTES)
+      terminateOnChar !== EMPTY_STRING &&
+      item.endsWith(terminateOnChar)
     ) {
       currArg += " " + item.slice(0, item.length - 1);
       terminateOnChar = EMPTY_STRING;

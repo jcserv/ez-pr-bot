@@ -37,4 +37,10 @@ describe("parseCommandArgs", () => {
       "Adds help command",
     ]);
   });
+
+  test("ascii double quotes", () => {
+    expect(parseCommandArgs("“testing multiple reviewers”")).toStrictEqual([
+      "testing multiple reviewers",
+    ]);
+  });
 });

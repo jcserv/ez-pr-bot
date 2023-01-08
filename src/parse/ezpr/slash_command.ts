@@ -1,5 +1,5 @@
 import { SlashCommand } from "@slack/bolt";
-import { EZPRArguments } from "../../types";
+import { EZPRArguments, toMention } from "../../types";
 import { parseCommandArgs } from "..";
 import { HTTPError } from "../../errors";
 
@@ -16,7 +16,7 @@ enum ArgIndices {
 
 export function ParseEZPRSlashCommand(payload: SlashCommand): EZPRArguments {
   const args = parseCommandArgs(payload.text);
-
+  console.log(args);
   if (args.length < MIN_SLASH_EZPR_ARGS || args.length > MAX_SLASH_EZPR_ARGS) {
     throw new HTTPError(
       400,
@@ -34,7 +34,7 @@ export function ParseEZPRSlashCommand(payload: SlashCommand): EZPRArguments {
     args.length > MIN_SLASH_EZPR_ARGS ? [args[ArgIndices.REVIEWER]] : [];
 
   return new EZPRArguments(
-    payload.user_name,
+    toMention(payload.user_name),
     args[ArgIndices.PR_LINK],
     args[ArgIndices.ERT],
     args[ArgIndices.DESC],
