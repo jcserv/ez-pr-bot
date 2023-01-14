@@ -1,4 +1,4 @@
-import { EZPRArguments } from "../../types";
+import { EZPRArguments } from "../types";
 
 const ezprMarkdown = (args: EZPRArguments) => `
 ${args.reviewers?.join(" ")} :wave:

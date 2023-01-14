@@ -2,6 +2,11 @@ export * from "./model";
 export * from "./ezpr";
 export * from "./help";
 
+export interface ICommand {
+  input?: string;
+  handle(): any;
+}
+
 export interface Dictionary<T> {
   [Key: string]: T;
 }

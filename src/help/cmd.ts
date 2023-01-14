@@ -8,10 +8,12 @@ import {
   View,
 } from "@slack/bolt";
 import { WebClient } from "@slack/web-api";
-import { error, ezprHelp, helpUsage } from "../../blocks";
-import { ICommand } from "../interface";
-import { OpenModalCommand } from "../modal";
-import helpOverview from "../../blocks/help/overview.json";
+import { error, ezprHelp, helpUsage } from "./blocks";
+import { ICommand } from "../types";
+import { OpenModalCommand } from "../cmd/modal";
+import helpOverview from "./overview.json";
+
+export * from "./blocks";
 
 export class HelpCommand implements ICommand {
   ack: AckFn<string | RespondArguments>;
