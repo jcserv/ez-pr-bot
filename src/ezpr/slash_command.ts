@@ -1,7 +1,7 @@
 import { SlashCommand } from "@slack/bolt";
-import { EZPRArguments, toMention } from "../../types";
-import { parseCommandArgs } from "..";
-import { HTTPError } from "../../errors";
+import { EZPRArguments, toMention } from "../types";
+import { parseCommandArgs } from "../parse";
+import { HTTPError } from "../errors";
 
 const MIN_SLASH_EZPR_ARGS = 3;
 const MAX_SLASH_EZPR_ARGS = 5;

@@ -1,7 +1,6 @@
 import { WebClient } from "@slack/web-api";
 import { ValidationError } from "../../errors";
-import { UserID, UserIDSchema } from "../../types";
-import { ICommand } from "../interface";
+import { ICommand, UserID, UserIDSchema } from "../../types";
 
 export class GetNameByID implements ICommand {
   client: WebClient;
