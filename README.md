@@ -13,13 +13,12 @@ EZ PR Bot solves this by encapsulating the entire code PR review workflow into a
 ```text
 .
 ├── src
-│   ├── cmd                         # Implementation of slash commands is done using the Command pattern [4]
-│   │    ├── <cmd>
-│   │    │   ├── blocks.ts          # Markdown/block definitions that the command renders in Slack
-│   │    │   └── index.ts           # Implementation of commands. Should contain a Command class with a constructor & handler
-│   │    ├── index.ts               # Exports the <cmd> subpackages for simplication of import stmts
-│   │    └── interface.ts           # The base Command interface
+│   ├── cmd                         # General use commands, such as getNameByID and openModal [4]
+│   │    └── index.ts               # Exports the <cmd> subpackages for simplication of import stmts
+│   ├── ezpr
+│   ├── help
 │   ├── errors                      # Error classes to communicate issues to users
+│   ├── parse                       # Functions related to parsing command args, form inputs, etc.
 │   ├── types                       # Contains various relevant type declarations and zod parsing schemas
 │   ├── app.ts                      # Slack Command/Action handlers
 │   └── parse.ts                    # Parsing utility functions
@@ -35,7 +34,7 @@ EZ PR Bot follows trunk-based development.
 ```
 ──────────────────────── main ────────────────────────────────────    # Deployments
         │                                   │
-        └───────────── feat/[feat-name] ────                          # Dev branches
+        └─────────── feat/[feat-name] ──────│                         # Dev branches
 ```
 
 Dev branches should be appended with an indicator to describe the type of work being done,
@@ -51,7 +50,7 @@ For open source contributors:
 1. Fork the repo
 2. `git remote add upstream https://github.com/jcserv/ez-pr-bot/`
 3. `git fetch upstream`
-4. `git rebase upstream/develop`
+4. `git rebase upstream/main`
 5. See featurework
 
 ## ⛏️ Featurework:
@@ -70,14 +69,16 @@ For open source contributors:
 Create a .env file in the root directory:
 
 ```
-SLACK_APP_TOKEN=[YOUR APP TOKEN HERE]
+SLACK_SIGNING_SECRET=[YOUR APP SIGNING SECRET HERE]
 SLACK_BOT_TOKEN=[YOUR BOT TOKEN HERE]
+USER_ID=[YOUR USER_ID HERE] # Used to publish the home view on app startup
 ```
 
 Locally running:
 
 1. `yarn`
 2. `yarn dev`
+3. Update the Request URLs of the application with your ngrok generated URL
 
 ## Future Extensions
 
@@ -88,21 +89,20 @@ See our Github projects for an updated look at our planned/upcoming work, but he
 ├── V0.5.0 - CLI
 │   ├── /help
 │   ├── /ezpr
-│   ├── delete pr review request
-│   └── /statistics: view stats for your PRs/your team's PRs e.g. time-to-merge, time-to-approve, actual-review-time
 ├── V1.0.0 - Interactivity via UI
 |   ├── Forms/modals for easier use of /help, /ezpr, etc.
+├── V2.0.0 - Extended capabilities
 |   ├── Shortcuts compatibility
-│   ├── /assign: assign reviewers to your PR or randomly choose from a role
+│   ├── /statistics: view stats for your PRs/your team's PRs e.g. time-to-merge, time-to-approve, actual-review-time
+│   ├── /prs: view a list of open prs that require your review
 │   ├── /reminders: send reminders to assigned reviewers if PR still open after X time or next work day
-│   └── /openprs: view a list of open prs that require your review
-├── V2.0.0 - TBD
-└── README.md                       # You are here! :)
+│   └── /assign: assign reviewers to your PR or randomly choose from a role
+
 ```
 
 Some other ideas still under evaluation:
 
-- Urgency: Communicate to reviewers that this PR is urgent, maybe itll dm the team?
+- Urgency: Communicate to reviewers that this PR is urgent, maybe it'll dm the team
 - If 5 mins ETR selected —> assign reviewer(s) —> DM reviewer(s)
 - Github integration: inform that PR needs re-review after changes are pushed
 
@@ -116,7 +116,8 @@ Some other ideas still under evaluation:
 - https://www.upsilonit.com/blog/create-a-slack-bot-with-typescript-in-3-steps#step-1-initial-slack-bot-setup
 - https://www.freecodecamp.org/news/how-to-build-a-basic-slackbot-a-beginners-guide-6b40507db5c5/
 - https://refactoring.guru/design-patterns/command
+- https://slack.dev/bolt-js/deployments/aws-lambda
 
 ## 🏁 License
 
-Distributed under the Apache 2.0 License. See `LICENSE` for more information.
+Distributed under the GNU GPL-3.0 License. See `LICENSE` for more information.

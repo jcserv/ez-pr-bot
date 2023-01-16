@@ -2,7 +2,7 @@ import { Block, KnownBlock } from "@slack/bolt";
 import { View, WebClient } from "@slack/web-api";
 import { ezprMessage } from "./blocks";
 import { EZPRArguments, ICommand } from "../types";
-import { OpenModalCommand } from "../cmd/modal";
+import { OpenModalCommand } from "../cmd/openModal";
 import ezprModal from "./modal.json";
 
 export class EZPRCommand implements ICommand {
