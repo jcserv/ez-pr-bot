@@ -1,11 +1,11 @@
-import { EZPRArguments } from "../types";
+import { EZPRArguments, translateInputToHumanReadable } from "../types";
 
 const ezprMarkdown = (args: EZPRArguments) => `
 ${args.reviewers?.join(" ")} :wave:
 
 *From:* ${args.submitter}
 
-*Estimated Review Time*: ${args.ert}
+*Estimated Review Time*: ${translateInputToHumanReadable(args.ert)}
 
 Please review: ${args.description}
 
