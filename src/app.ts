@@ -1,4 +1,9 @@
-import { App, BlockAction, SlackViewAction } from "@slack/bolt";
+import {
+  App,
+  AwsLambdaReceiver,
+  BlockAction,
+  SlackViewAction,
+} from "@slack/bolt";
 import { WebClient } from "@slack/web-api";
 import {
   INPUT,
@@ -17,17 +22,23 @@ import {
 } from "./cmd";
 import { isHTTPError, isValidationError, toValidationError } from "./errors";
 import { ParseEZPRFormSubmission, ParseEZPRSlashCommand } from "./parse";
+import {
+  AwsEvent,
+  AwsCallback,
+} from "@slack/bolt/dist/receivers/AwsLambdaReceiver";
 
 require("dotenv").config();
 
-const SLACK_APP_TOKEN = process.env.SLACK_APP_TOKEN;
-const SLACK_BOT_TOKEN = process.env.SLACK_BOT_TOKEN;
+const SLACK_BOT_TOKEN = process.env.SLACK_BOT_TOKEN || "";
 const USER_ID = process.env.USER_ID;
 
+const awsLambdaReceiver = new AwsLambdaReceiver({
+  signingSecret: process.env.SLACK_SIGNING_SECRET || "",
+});
+
 const app = new App({
-  appToken: SLACK_APP_TOKEN,
   token: SLACK_BOT_TOKEN,
-  socketMode: true,
+  receiver: awsLambdaReceiver,
 });
 
 // No-op acknowledgement
@@ -51,6 +62,7 @@ app.action({ action_id: OPEN_EZPR_MODAL }, async ({ ack, body, client }) => {
 
 app.view(EZPR_MODAL_SUBMISSION, async ({ ack, body, client, payload }) => {
   try {
+    await ack();
     const args = await ParseEZPRFormSubmission(client, body, payload);
     const command = new EZPRCommand(client, args);
     await command.handle();
@@ -60,8 +72,6 @@ app.view(EZPR_MODAL_SUBMISSION, async ({ ack, body, client, payload }) => {
       errorOccurred(client, user.id, "", error);
     }
     console.error(error);
-  } finally {
-    ack();
   }
 });
 
@@ -143,3 +153,12 @@ app
     console.error(error);
     process.exit(1);
   });
+
+module.exports.handler = async (
+  event: AwsEvent,
+  context: any,
+  callback: AwsCallback
+) => {
+  const handler = await awsLambdaReceiver.start();
+  return handler(event, context, callback);
+};

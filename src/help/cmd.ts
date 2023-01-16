@@ -10,7 +10,7 @@ import {
 import { WebClient } from "@slack/web-api";
 import { error, ezprHelp, helpUsage } from "./blocks";
 import { ICommand } from "../types";
-import { OpenModalCommand } from "../cmd/modal";
+import { OpenModalCommand } from "../cmd/openModal";
 import helpOverview from "./overview.json";
 
 export * from "./blocks";

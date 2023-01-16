@@ -2,14 +2,14 @@
   "name": "ez-pr-bot",
   "version": "0.0.0",
   "description": "A Slack bot that accelerates your team's PR review process",
-  "main": "src/app.ts",
+  "main": "./src",
   "repository": "git@github.com:jcserv/ez-pr-bot.git",
   "author": "Jarrod Servilla",
   "license": "GPL-3.0",
   "scripts": {
     "build": "tsc",
     "start": "node ./bin/app.js",
-    "dev": "ts-node ./src/app.ts",
+    "dev": "serverless offline --noPrependStageInUrl && ngrok http 3000",
     "test": "jest",
     "coverage": "jest --coverage",
     "prettier": "npx prettier --write .",
@@ -36,6 +36,8 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^6.1.1",
     "jest": "^29.3.1",
+    "serverless-offline": "^12.0.4",
+    "serverless-plugin-typescript": "^2.1.4",
     "ts-jest": "^29.0.3",
     "ts-node": "^10.9.1"
   }
