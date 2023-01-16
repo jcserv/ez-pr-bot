@@ -42,6 +42,28 @@ export const PRLinkSchema = z.string().trim().url();
 
 export declare type EstimatedReviewTime = string;
 
+export function translateInputToHumanReadable(s: string): string {
+  var output = "";
+  var i = 0;
+
+  while (i < s.length && s.charAt(i) !== "h" && s.charAt(i) !== "m") {
+    if (s.charAt(i) !== " ") {
+      output += s.charAt(i);
+    }
+    i++;
+  }
+  const isPlural = parseInt(output.trim()) > 1;
+
+  if (s.charAt(i) === "h") {
+    output += " hour";
+  } else {
+    output += " minute";
+  }
+  if (isPlural) {
+    output += "s";
+  }
+  return output;
+}
 const ertRegex = new RegExp(/^(\d){1,2}( )?(hour|minute|min|hr|m|h)(s)?$/);
 
 export const EstimatedReviewTimeSchema = z.string().trim().regex(ertRegex, {
