@@ -38,6 +38,14 @@ describe("parseCommandArgs", () => {
     ]);
   });
 
+  test("base usage of ezpr", () => {
+    expect(parseCommandArgs('http://github.com "15m" "Adds help command"')).toStrictEqual([
+      "http://github.com",
+      "15m",
+      "Adds help command",
+    ]);
+  });
+
   test("ascii double quotes", () => {
     expect(parseCommandArgs("“testing multiple reviewers”")).toStrictEqual([
       "testing multiple reviewers",
