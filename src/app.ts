@@ -47,9 +47,9 @@ app.action({ action_id: INPUT }, async ({ ack }) => {
 });
 
 app.action({ action_id: OPEN_EZPR_MODAL }, async ({ ack, body, client }) => {
-  await ack();
   const blockAction = body as BlockAction;
   try {
+    await ack();
     OpenEZPRModal(client, blockAction.trigger_id);
   } catch (error) {
     const { user, channel } = blockAction;
@@ -59,6 +59,19 @@ app.action({ action_id: OPEN_EZPR_MODAL }, async ({ ack, body, client }) => {
     console.error(error);
   }
 });
+
+app.shortcut(OPEN_EZPR_MODAL, async ({ ack, client, shortcut }) => {
+  try {
+    await ack();
+    OpenEZPRModal(client, shortcut.trigger_id);
+  } catch (error) {
+    const { user } = shortcut;
+    if (user !== undefined) {
+      errorOccurred(client, user.id, "", error);
+    }
+    console.error(error);
+  }
+})
 
 app.view(EZPR_MODAL_SUBMISSION, async ({ ack, body, client, payload }) => {
   try {

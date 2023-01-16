@@ -43,13 +43,18 @@ export function parseCommandArgs(text: string): string[] {
   const s = text.split(" ");
   var currArg: string = EMPTY_STRING;
   var terminateOnChar: string = EMPTY_STRING;
+
   s.forEach((item) => {
     if (
       START_TERMINATORS.includes(item[0]) &&
       terminateOnChar === EMPTY_STRING
     ) {
-      currArg += item.slice(1);
-      terminateOnChar = startToEndTerminatorDict.Entries[item[0]];
+      if (item.endsWith(startToEndTerminatorDict.Entries[item[0]])) {
+        ret.push(item.slice(1, item.length - 1));
+      } else {
+        currArg += item.slice(1);
+        terminateOnChar = startToEndTerminatorDict.Entries[item[0]];
+      }
     } else if (
       terminateOnChar !== EMPTY_STRING &&
       item.endsWith(terminateOnChar)

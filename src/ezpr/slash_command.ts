@@ -16,7 +16,6 @@ enum ArgIndices {
 
 export function ParseEZPRSlashCommand(payload: SlashCommand): EZPRArguments {
   const args = parseCommandArgs(payload.text);
-  console.log(args);
   if (args.length < MIN_SLASH_EZPR_ARGS || args.length > MAX_SLASH_EZPR_ARGS) {
     throw new HTTPError(
       400,
