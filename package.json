@@ -1,6 +1,6 @@
 {
   "name": "ez-pr-bot",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "A Slack bot that accelerates your team's PR review process",
   "main": "./src",
   "repository": "git@github.com:jcserv/ez-pr-bot.git",
