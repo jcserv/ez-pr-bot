@@ -21,8 +21,9 @@ arguments:
 	[channel] - The Slack channel the PR review request was submitted to
 		ex. #team-ez-pr-bot
 
-	[status] - The status of the PR review request. Can be one of [“Open”, “Closed”]. Multiple statuses can be provided if comma separated. Case insensitive.
-		ex. “Open”, “Open,Closed”
+	[status] - The status of the PR review request. Can be one of ["IN_REVIEW", "VIEWED", "CHANGES_REQUESTED", "APPROVED", "MERGE_READY", "MERGED", "CLOSED"]. 
+	Multiple statuses can be provided if comma separated. Case insensitive.
+		ex. IN_REVIEW, CLOSED
 
 
 example usage:
