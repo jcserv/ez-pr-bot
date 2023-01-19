@@ -58,18 +58,30 @@ thus statistics are calculated on a best-effort basis.
 
 > As a user, I would like to react with emojis to PR review requests so that I can communicate to my team and calculate statistics based on Review Change Events.
 
-TODO
+<p align="center">
+    <img src="./set_status_reactions_activity_diagram.png" alt="Set Status - Reactions Activity Diagram">
+    <br />
+    Set Status - Reactions Activity Diagram
+</p>
 
 ### Statistics
 
 > As a user, I would like to view statistics about (my/my team/a singular) PR review request(s) so that I can
 be informed on the PR review request process.
 
-TODO
+<p align="center">
+    <img src="./statistics_activity_diagram.png" alt="Statistics - Activity Diagram">
+    <br />
+    Statistics - Activity Diagram
+</p>
 
-### List
+### List PRs
 
 > As a user, I would like to list (my/my team's) open PR review requests so that I can track the status of any
 open PR review requests.
 
-TODO
+<p align="center">
+    <img src="./statistics_activity_diagram.png" alt="List PRs - Activity Diagram">
+    <br />
+    List PRs - Activity Diagram
+</p>

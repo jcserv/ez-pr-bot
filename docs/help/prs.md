@@ -3,7 +3,7 @@
 usage: 
 
 	/prs 							# Lists all of your open PRs
-	/prs —channel [channel]		# List all open PRs submitted to the provided channel
+	/prs —channel [channel]			# List all open PRs submitted to the provided channel
 	/prs —status [status]
 	
 description: List all PR review requests opened by yourself or in a channel.
