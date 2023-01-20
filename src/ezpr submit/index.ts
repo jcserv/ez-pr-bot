@@ -1,4 +1,4 @@
-export * from "./";
+export * from ".";
 export * from "./blocks";
 export * from "./cmd";
 export * from "./form_submission";

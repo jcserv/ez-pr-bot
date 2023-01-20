@@ -6,9 +6,9 @@ import {
 } from "../constants";
 import { StringDictionary } from "../types";
 
-export * from "../ezpr/form_submission";
-export * from "../ezpr/slash_command";
-export * from "../help/slash_command";
+export * from "../ezpr submit/form_submission";
+export * from "../ezpr submit/slash_command";
+export * from "../ezpr help/slash_command";
 
 const EMPTY_STRING = "";
 const SINGLE_QUOTES = "'";
