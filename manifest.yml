@@ -3,15 +3,28 @@ display_information:
   description: A Slack bot that accelerates your team's PR review process
   background_color: "#586da6"
 features:
+  app_home:
+    home_tab_enabled: true
+    messages_tab_enabled: true
+    messages_tab_read_only_enabled: false
   bot_user:
     display_name: EZ PR Bot
     always_online: true
+  shortcuts:
+    - name: Submit PR Review Request
+      type: global
+      callback_id: open_ezpr_modal
+      description: Submit a pull request for review to the specified channel, which will ping the provided mentions.
   slash_commands:
     - command: /ezpr
-      description: Submit a pull request for review to the specified channel, which will ping the provided mention.
+      url: [URL]
+      description: Submit a pull request for review to the specified channel, which will ping the provided mentions.
+      usage_hint: "[link] [time] [desc] [@role] [#channel]"
       should_escape: false
     - command: /help
+      url: [URL]
       description: Provides information about EZ PR Bot, the commands available, and their usage.
+      usage_hint: "[topic]"
       should_escape: false
 oauth_config:
   scopes:
@@ -26,9 +39,12 @@ oauth_config:
       - reactions:read
       - reactions:write
       - workflow.steps:execute
+      - users:read
+      - channels:history
 settings:
   interactivity:
     is_enabled: true
+    request_url: [URL]
   org_deploy_enabled: false
-  socket_mode_enabled: true
+  socket_mode_enabled: false
   token_rotation_enabled: false
