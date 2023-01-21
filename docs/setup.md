@@ -134,6 +134,15 @@ settings:
 
 Run `yarn dev`
 
+You should see the following output in the CLI:
+
+```
+yarn run v1.22.17
+$ ts-node ./src/app.ts
+[INFO]  socket-mode:SocketModeClient:0 Going to establish a new connection to Slack ...
+[INFO]  socket-mode:SocketModeClient:0 Now connected to Slack
+```
+
 ---------------
 
 ## HTTP Mode
