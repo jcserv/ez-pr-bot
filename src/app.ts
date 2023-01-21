@@ -35,11 +35,10 @@ const SLACK_BOT_TOKEN = process.env.SLACK_BOT_TOKEN || "";
 const USER_ID = process.env.USER_ID;
 
 let app: App<StringIndexed>;
-let awsLambdaReceiver: { start: () => any; };
+let awsLambdaReceiver: AwsLambdaReceiver;
 
 if (NODE_ENV === "production") {
-  console.log("prod")
-  const awsLambdaReceiver = new AwsLambdaReceiver({
+  awsLambdaReceiver = new AwsLambdaReceiver({
     signingSecret: process.env.SLACK_SIGNING_SECRET || "",
   });
   app = new App({
