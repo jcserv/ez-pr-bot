@@ -26,20 +26,33 @@ import {
   AwsEvent,
   AwsCallback,
 } from "@slack/bolt/dist/receivers/AwsLambdaReceiver";
+import { StringIndexed } from "@slack/bolt/dist/types/helpers";
 
 require("dotenv").config();
 
+const NODE_ENV = process.env.NODE_ENV || "";
 const SLACK_BOT_TOKEN = process.env.SLACK_BOT_TOKEN || "";
 const USER_ID = process.env.USER_ID;
 
-const awsLambdaReceiver = new AwsLambdaReceiver({
-  signingSecret: process.env.SLACK_SIGNING_SECRET || "",
-});
+let app: App<StringIndexed>;
+let awsLambdaReceiver: AwsLambdaReceiver;
 
-const app = new App({
-  token: SLACK_BOT_TOKEN,
-  receiver: awsLambdaReceiver,
-});
+if (NODE_ENV === "production") {
+  awsLambdaReceiver = new AwsLambdaReceiver({
+    signingSecret: process.env.SLACK_SIGNING_SECRET || "",
+  });
+  app = new App({
+    token: SLACK_BOT_TOKEN,
+    receiver: awsLambdaReceiver,
+  });
+} else {
+  const SLACK_APP_TOKEN = process.env.SLACK_APP_TOKEN || "";
+  app = new App({
+    appToken: SLACK_APP_TOKEN,
+    token: SLACK_BOT_TOKEN,
+    socketMode: true,
+  });
+}
 
 // No-op acknowledgement
 app.action({ action_id: INPUT }, async ({ ack }) => {
@@ -71,7 +84,7 @@ app.shortcut(OPEN_EZPR_MODAL, async ({ ack, client, shortcut }) => {
     }
     console.error(error);
   }
-})
+});
 
 app.view(EZPR_MODAL_SUBMISSION, async ({ ack, body, client, payload }) => {
   try {
@@ -167,11 +180,13 @@ app
     process.exit(1);
   });
 
-module.exports.handler = async (
-  event: AwsEvent,
-  context: any,
-  callback: AwsCallback
-) => {
-  const handler = await awsLambdaReceiver.start();
-  return handler(event, context, callback);
-};
+if (NODE_ENV === "production") {
+  module.exports.handler = async (
+    event: AwsEvent,
+    context: any,
+    callback: AwsCallback
+  ) => {
+    const handler = await awsLambdaReceiver.start();
+    return handler(event, context, callback);
+  };
+}

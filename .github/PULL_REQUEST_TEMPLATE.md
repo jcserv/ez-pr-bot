@@ -7,6 +7,12 @@ Fixes: #
 - [ ] Has the code been formatted? Make sure you run `npx prettier --write .`
 - [ ] Have dependencies/packages been added?
 
+### Acceptance Criteria
+
+- [ ] Task 1
+- [ ] Task 2
+- [ ] Task 3
+
 ### Changes
 
 Explain the changes made at a higher level

@@ -9,16 +9,13 @@ labels: bug
 Thank you for helping to improve EZ PR Bot!
 
 Please be sure to search for open issues before raising a new one. We use issues
-for bug reports and feature requests. Please ask any general questions in the
-Discord server! :)
+for bug reports and feature requests.
 -->
 
 ### What problem are you facing? What is the expected behaviour?
 
 <!--
-Please tell us a little about your use case - it's okay if it's hypothetical!
-Leading with this context helps frame the feature request so we can ensure we
-implement it sensibly.
+Please tell us a little about your use case.
 --->
 
 ### How can we reproduce it?
@@ -27,16 +24,8 @@ implement it sensibly.
 Help us to reproduce your bug as succinctly and precisely as possible.
 -->
 
-### What environment did it happen in?
+### Acceptance Criteria
 
-<!-- Use a release tag or a commit hash :) -->
-
-EZ PR version:
-
-<!--
-Include at least the version or commit of EZ PR Bot you were running. Consider
-also including the following if relevant:
-
-* OS (e.g. from /etc/os-release)
-* Node.js Version
--->
+- [ ] Task 1
+- [ ] Task 2
+- [ ] Task 3

@@ -25,3 +25,9 @@ implement it sensibly.
 <!--
 Please provide an outline for your proposed solution of what can be done to solve this issue.
 -->
+
+### Acceptance Criteria
+
+- [ ] Task 1
+- [ ] Task 2
+- [ ] Task 3
