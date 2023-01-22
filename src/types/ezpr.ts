@@ -38,8 +38,8 @@ export class EZPRArguments {
     link: string,
     ert: string,
     description: string,
-    reviewers: string[],
     channel?: string,
+    reviewers?: string[],
     input?: string
   ) {
     const args = {

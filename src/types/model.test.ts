@@ -4,8 +4,42 @@ import {
   EstimatedReviewTimeSchema,
   PRDescriptionSchema,
   PRLinkSchema,
+  toMention,
+  toMentions,
   translateInputToHumanReadable,
 } from ".";
+
+describe("toMentions", () => {
+  test("empty array, should return empty array", () => {
+    expect(toMentions([])).toStrictEqual([]);
+  })
+
+  test("single length usernames w/o @, should return converted mention", () => {
+    expect(toMentions(["jane.doe"])).toStrictEqual(["@jane.doe"]);
+  })
+
+  test("single length usernames with @, should return unchanged", () => {
+    expect(toMentions(["@jane.doe"])).toStrictEqual(["@jane.doe"]);
+  })
+
+  test("mixed usage, should return as mentions", () => {
+    expect(toMentions(["jane.doe", "john.doe", "@bob"])).toStrictEqual(["@jane.doe", "@john.doe", "@bob"]);
+  })
+})
+
+describe("toMention", () => {
+  test("empty string, should return @empty string", () => {
+    expect(toMention("")).toStrictEqual("@");
+  })
+
+  test("single length username w/o @, should return converted mention", () => {
+    expect(toMention("jane.doe")).toStrictEqual("@jane.doe");
+  })
+
+  test("single length username with @, should return unchanged", () => {
+    expect(toMention("@jane.doe")).toStrictEqual("@jane.doe");
+  })
+})
 
 describe("ChannelSchema Validate", () => {
   test("channel, should be valid", () => {
@@ -178,7 +212,6 @@ describe("PRDescriptionSchema Validate", () => {
 });
 
 describe("translateInputToHumanReadable", () => {
-
   test("2h, should return 2 hours", () => {
     expect(translateInputToHumanReadable("2h")).toStrictEqual("2 hours");
   });

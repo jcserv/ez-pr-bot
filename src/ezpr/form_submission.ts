@@ -40,8 +40,8 @@ export async function ParseEZPRFormSubmission(
     url,
     ert,
     desc,
+    channel,
     toMentions(reviewerNames),
-    channel
   );
 }
 

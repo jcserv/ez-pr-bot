@@ -37,7 +37,7 @@ export function ParseEZPRSlashCommand(payload: SlashCommand): EZPRArguments {
     args[ArgIndices.PR_LINK],
     args[ArgIndices.ERT],
     args[ArgIndices.DESC],
+    channel,
     reviewer,
-    channel
   );
 }
