@@ -14,7 +14,7 @@ export declare type Mention = string;
 export declare type Mentions = Mention[];
 
 export function toMentions(usernames: string[]): Mentions {
-  var mentions: Mentions = [];
+  const mentions: Mentions = [];
   usernames.forEach((username) => mentions.push(toMention(username)));
   return mentions;
 }
@@ -43,8 +43,8 @@ export const PRLinkSchema = z.string().trim().url();
 export declare type EstimatedReviewTime = string;
 
 export function translateInputToHumanReadable(s: string): string {
-  var output = "";
-  var i = 0;
+  let output = "";
+  let i = 0;
 
   while (i < s.length && s.charAt(i) !== "h" && s.charAt(i) !== "m") {
     if (s.charAt(i) !== " ") {
@@ -64,7 +64,7 @@ export function translateInputToHumanReadable(s: string): string {
   }
   return output;
 }
-const ertRegex = new RegExp(/^(\d){1,2}( )?(hour|minute|min|hr|m|h)(s)?$/);
+const ertRegex = /^(\d){1,2}( )?(hour|minute|min|hr|m|h)(s)?$/;
 
 export const EstimatedReviewTimeSchema = z.string().trim().regex(ertRegex, {
   message:

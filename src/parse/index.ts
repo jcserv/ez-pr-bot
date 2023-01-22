@@ -23,7 +23,7 @@ const START_TERMINATORS = [
 ];
 
 function getStartToEndTerminatorDict(): StringDictionary {
-  var d = new StringDictionary();
+  const d = new StringDictionary();
   d.Entries[SINGLE_QUOTES] = SINGLE_QUOTES;
   d.Entries[DOUBLE_QUOTES] = DOUBLE_QUOTES;
   d.Entries[ASCII_DOUBLE_QUOTES_START] = ASCII_DOUBLE_QUOTES_END;
@@ -37,12 +37,12 @@ export function parseCommandArgs(text: string): string[] {
     return [];
   }
 
-  let startToEndTerminatorDict = getStartToEndTerminatorDict();
+  const startToEndTerminatorDict = getStartToEndTerminatorDict();
 
-  var ret: string[] = [];
+  const ret: string[] = [];
   const s = text.split(" ");
-  var currArg: string = EMPTY_STRING;
-  var terminateOnChar: string = EMPTY_STRING;
+  let currArg: string = EMPTY_STRING;
+  let terminateOnChar: string = EMPTY_STRING;
 
   s.forEach((item) => {
     if (

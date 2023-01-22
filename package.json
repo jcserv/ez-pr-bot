@@ -15,7 +15,7 @@
     "test": "jest",
     "coverage": "jest --coverage",
     "prettier": "npx prettier --write .",
-    "lint": "eslint . --ext .js"
+    "lint": "eslint . --ext .ts --fix"
   },
   "dependencies": {
     "@slack/bolt": "^3.12.2",
@@ -32,6 +32,8 @@
     "@slack-wrench/fixtures": "^2.2.4",
     "@types/jest": "^29.2.5",
     "@types/sinon": "^10.0.13",
+    "@typescript-eslint/eslint-plugin": "^5.48.2",
+    "@typescript-eslint/parser": "^5.48.2",
     "babel-jest": "^29.3.1",
     "eslint": "^8.31.0",
     "eslint-config-prettier": "^8.6.0",

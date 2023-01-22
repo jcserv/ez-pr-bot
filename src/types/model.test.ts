@@ -12,34 +12,38 @@ import {
 describe("toMentions", () => {
   test("empty array, should return empty array", () => {
     expect(toMentions([])).toStrictEqual([]);
-  })
+  });
 
   test("single length usernames w/o @, should return converted mention", () => {
     expect(toMentions(["jane.doe"])).toStrictEqual(["@jane.doe"]);
-  })
+  });
 
   test("single length usernames with @, should return unchanged", () => {
     expect(toMentions(["@jane.doe"])).toStrictEqual(["@jane.doe"]);
-  })
+  });
 
   test("mixed usage, should return as mentions", () => {
-    expect(toMentions(["jane.doe", "john.doe", "@bob"])).toStrictEqual(["@jane.doe", "@john.doe", "@bob"]);
-  })
-})
+    expect(toMentions(["jane.doe", "john.doe", "@bob"])).toStrictEqual([
+      "@jane.doe",
+      "@john.doe",
+      "@bob",
+    ]);
+  });
+});
 
 describe("toMention", () => {
   test("empty string, should return @empty string", () => {
     expect(toMention("")).toStrictEqual("@");
-  })
+  });
 
   test("single length username w/o @, should return converted mention", () => {
     expect(toMention("jane.doe")).toStrictEqual("@jane.doe");
-  })
+  });
 
   test("single length username with @, should return unchanged", () => {
     expect(toMention("@jane.doe")).toStrictEqual("@jane.doe");
-  })
-})
+  });
+});
 
 describe("ChannelSchema Validate", () => {
   test("channel, should be valid", () => {
@@ -303,7 +307,7 @@ describe("translateInputToHumanReadable", () => {
   test("1 hrs, should return 1 hour", () => {
     expect(translateInputToHumanReadable("1 hrs")).toStrictEqual("1 hour");
   });
-  
+
   test("1 hour, should return 1 hour", () => {
     expect(translateInputToHumanReadable("1 hour")).toStrictEqual("1 hour");
   });
@@ -405,7 +409,7 @@ describe("translateInputToHumanReadable", () => {
       "2 minutes"
     );
   });
-  
+
   test("2 minutes, should return 2 minutes", () => {
     expect(translateInputToHumanReadable("2 minutes")).toStrictEqual(
       "2 minutes"

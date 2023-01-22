@@ -6,7 +6,7 @@ import helpOverview from "./overview.json";
 describe("HelpCommand", () => {
   async function expectHelpCommand(args: string, expected: any) {
     const ackFn = sinon.fake.resolves({});
-    const cmd = new HelpCommand(ackFn, slashCommand("/help", { text: args}));
+    const cmd = new HelpCommand(ackFn, slashCommand("/help", { text: args }));
     expect(cmd.message).toStrictEqual(expected);
     await cmd.handle();
     expect(

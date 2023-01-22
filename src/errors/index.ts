@@ -79,7 +79,7 @@ export class ValidationError extends Error {
   }
 
   toString(): string {
-    var output: string = this.input
+    let output: string = this.input
       ? unableToParseCommandWithInput(this.input)
       : unableToParseCommand;
 

@@ -4,7 +4,12 @@ import {
   BlockAction,
   SlackViewAction,
 } from "@slack/bolt";
+import {
+  AwsEvent,
+  AwsCallback,
+} from "@slack/bolt/dist/receivers/AwsLambdaReceiver";
 import { WebClient } from "@slack/web-api";
+import dotenv from "dotenv";
 import {
   INPUT,
   EZPR_MODAL_SUBMISSION,
@@ -23,18 +28,13 @@ import {
 } from "./cmd";
 import { isHTTPError, isValidationError, toValidationError } from "./errors";
 import { ParseEZPRFormSubmission, ParseEZPRSlashCommand } from "./parse";
-import {
-  AwsEvent,
-  AwsCallback,
-} from "@slack/bolt/dist/receivers/AwsLambdaReceiver";
-
-require("dotenv").config();
+dotenv.config();
 
 const NODE_ENV = process.env.NODE_ENV || "";
 const SLACK_BOT_TOKEN = process.env.SLACK_BOT_TOKEN || "";
 const USER_ID = process.env.USER_ID;
 
-let awsLambdaReceiver = new AwsLambdaReceiver({
+const awsLambdaReceiver = new AwsLambdaReceiver({
   signingSecret: process.env.SLACK_SIGNING_SECRET || "",
 });
 let app = new App({
@@ -42,7 +42,7 @@ let app = new App({
   receiver: awsLambdaReceiver,
 });
 
-if (NODE_ENV == DEV) {
+if (NODE_ENV === DEV) {
   const SLACK_APP_TOKEN = process.env.SLACK_APP_TOKEN || "";
   app = new App({
     appToken: SLACK_APP_TOKEN,
@@ -146,7 +146,7 @@ async function errorOccurred(
   channel: string,
   error: any
 ) {
-  var output = "An unexpected error occurred.";
+  let output = "An unexpected error occurred.";
   error = toValidationError(error);
 
   if (isHTTPError(error) || isValidationError(error)) {
@@ -156,9 +156,9 @@ async function errorOccurred(
   try {
     await client.chat.postEphemeral({
       token: SLACK_BOT_TOKEN,
-      channel: channel,
+      channel,
       text: output,
-      user: user,
+      user,
     });
   } catch (error) {
     console.error(error);

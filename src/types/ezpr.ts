@@ -43,13 +43,13 @@ export class EZPRArguments {
     input?: string
   ) {
     const args = {
-      submitter: submitter,
-      link: link,
-      ert: ert,
-      description: description,
-      channel: channel,
-      reviewers: reviewers,
-      input: input,
+      submitter,
+      link,
+      ert,
+      description,
+      channel,
+      reviewers,
+      input,
     };
     EZPRArgumentsSchema.parse(args);
 

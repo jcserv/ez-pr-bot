@@ -1,5 +1,4 @@
 import { Block, KnownBlock } from "@slack/bolt";
-import { z } from "zod";
 import { error, ezprHelp, helpUsage } from "../help";
 import helpOverview from "../help/overview.json";
 
@@ -9,10 +8,6 @@ export class HelpArguments {
   input?: string;
 
   constructor(topic: string, input?: string) {
-    const args = {
-      topic: topic,
-      input: input,
-    };
     this.topic = topic;
     this.message = renderMessage(topic);
     this.input = input;

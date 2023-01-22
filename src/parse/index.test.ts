@@ -74,7 +74,9 @@ describe("getInputValue", () => {
         },
       },
     };
-    expect(getInputValue(formVals, "block_id", SELECTED_CONVERSATION)).toBe("foobar");
+    expect(getInputValue(formVals, "block_id", SELECTED_CONVERSATION)).toBe(
+      "foobar"
+    );
   });
 
   test("specify value key SELECTED_USERS", () => {
@@ -82,11 +84,13 @@ describe("getInputValue", () => {
       block_id: {
         input: {
           type: "string",
-          selected_users: ["foobar"]
+          selected_users: ["foobar"],
         },
       },
     };
-    expect(getInputValue(formVals, "block_id", SELECTED_USERS)).toStrictEqual(["foobar"]);
+    expect(getInputValue(formVals, "block_id", SELECTED_USERS)).toStrictEqual([
+      "foobar",
+    ]);
   });
 
   test("unsupported value key", () => {

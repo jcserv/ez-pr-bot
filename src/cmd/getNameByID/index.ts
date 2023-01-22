@@ -28,7 +28,7 @@ export class GetNameByIDCommand implements ICommand {
       result.user === undefined ||
       result.user.real_name === undefined
     ) {
-      console.log("im throwin")
+      console.log("im throwin");
       throw unableToFindUserErr;
     }
 
