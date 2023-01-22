@@ -1,5 +1,4 @@
 import { slashCommand } from "@slack-wrench/fixtures";
-import { AckFn, RespondArguments } from "@slack/bolt";
 import sinon from "sinon";
 import { error, ezprHelp, HelpCommand, helpUsage } from ".";
 import helpOverview from "./overview.json";

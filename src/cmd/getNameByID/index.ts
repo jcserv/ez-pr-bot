@@ -2,7 +2,7 @@ import { WebClient } from "@slack/web-api";
 import { ValidationError } from "../../errors";
 import { ICommand, UserID, UserIDSchema } from "../../types";
 
-export class GetNameByID implements ICommand {
+export class GetNameByIDCommand implements ICommand {
   client: WebClient;
   user_id: UserID;
 
@@ -28,6 +28,7 @@ export class GetNameByID implements ICommand {
       result.user === undefined ||
       result.user.real_name === undefined
     ) {
+      console.log("im throwin")
       throw unableToFindUserErr;
     }
 
