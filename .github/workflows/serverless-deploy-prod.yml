@@ -1,4 +1,4 @@
-name: Serverless Deploy
+name: Serverless Deploy - Production
 
 on:
   push:
@@ -29,5 +29,5 @@ jobs:
           SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY }}
           SLACK_SIGNING_SECRET: ${{ secrets.SLACK_SIGNING_SECRET }}
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-          NODE_ENV: "production"
+          NODE_ENV: ${{ secrets.NODE_ENV }}
           USER_ID: ${{ secrets.USER_ID }}

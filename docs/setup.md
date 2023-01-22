@@ -88,7 +88,7 @@ features:
     messages_tab_enabled: true
     messages_tab_read_only_enabled: false
   bot_user:
-    display_name: EZ PR Bot DEV
+    display_name: EZ PR Bot LOCAL DEV
     always_online: true
   shortcuts:
     - name: Submit PR Review Request

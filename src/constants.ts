@@ -1,3 +1,5 @@
+export const DEV = "development";
+
 // Action/command/view IDs
 
 export const ACK = "ack";

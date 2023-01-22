@@ -9,6 +9,7 @@ provider:
   environment:
     SLACK_SIGNING_SECRET: ${env:SLACK_SIGNING_SECRET}
     SLACK_BOT_TOKEN: ${env:SLACK_BOT_TOKEN}
+    NODE_ENV: ${env:NODE_ENV}
     USER_ID: ${env:USER_ID}
 functions:
   slack:
