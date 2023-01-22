@@ -25,7 +25,7 @@ export function ParseEZPRSlashCommand(payload: SlashCommand): EZPRArguments {
   }
 
   const channel =
-    args.length == MAX_SLASH_EZPR_ARGS
+    args.length === MAX_SLASH_EZPR_ARGS
       ? args[ArgIndices.CHANNEL]
       : payload.channel_name;
 
@@ -37,7 +37,7 @@ export function ParseEZPRSlashCommand(payload: SlashCommand): EZPRArguments {
     args[ArgIndices.PR_LINK],
     args[ArgIndices.ERT],
     args[ArgIndices.DESC],
-    reviewer,
-    channel
+    channel,
+    reviewer
   );
 }

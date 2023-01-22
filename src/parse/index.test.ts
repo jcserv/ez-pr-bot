@@ -1,4 +1,5 @@
-import { parseCommandArgs } from ".";
+import { getInputValue, parseCommandArgs } from ".";
+import { SELECTED_CONVERSATION, SELECTED_USERS } from "../constants";
 
 describe("parseCommandArgs", () => {
   test("empty string should result in zero results", () => {
@@ -39,16 +40,68 @@ describe("parseCommandArgs", () => {
   });
 
   test("base usage of ezpr", () => {
-    expect(parseCommandArgs('http://github.com "15m" "Adds help command"')).toStrictEqual([
-      "http://github.com",
-      "15m",
-      "Adds help command",
-    ]);
+    expect(
+      parseCommandArgs('http://github.com "15m" "Adds help command"')
+    ).toStrictEqual(["http://github.com", "15m", "Adds help command"]);
   });
 
   test("ascii double quotes", () => {
     expect(parseCommandArgs("“testing multiple reviewers”")).toStrictEqual([
       "testing multiple reviewers",
     ]);
+  });
+});
+
+describe("getInputValue", () => {
+  test("minimum usage", () => {
+    const formVals = {
+      block_id: {
+        input: {
+          type: "string",
+          value: "foobar",
+        },
+      },
+    };
+    expect(getInputValue(formVals, "block_id")).toBe("foobar");
+  });
+
+  test("specify value key SELECTED_CONVERSATION", () => {
+    const formVals = {
+      block_id: {
+        input: {
+          type: "string",
+          selected_conversation: "foobar",
+        },
+      },
+    };
+    expect(getInputValue(formVals, "block_id", SELECTED_CONVERSATION)).toBe(
+      "foobar"
+    );
+  });
+
+  test("specify value key SELECTED_USERS", () => {
+    const formVals = {
+      block_id: {
+        input: {
+          type: "string",
+          selected_users: ["foobar"],
+        },
+      },
+    };
+    expect(getInputValue(formVals, "block_id", SELECTED_USERS)).toStrictEqual([
+      "foobar",
+    ]);
+  });
+
+  test("unsupported value key", () => {
+    const formVals = {
+      block_id: {
+        input: {
+          type: "string",
+          val1: "foobar",
+        },
+      },
+    };
+    expect(getInputValue(formVals, "block_id", "val1")).toBeNull();
   });
 });

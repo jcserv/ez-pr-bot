@@ -1,7 +1,7 @@
 import { SlackViewAction, ViewOutput } from "@slack/bolt";
 import { WebClient } from "@slack/web-api";
 import { FormValues, getInputValue } from "../parse";
-import { GetNameByID } from "../cmd/getNameByID";
+import { GetNameByIDCommand } from "../cmd/getNameByID";
 import {
   SELECTED_CONVERSATION,
   SELECTED_OPTION,
@@ -30,7 +30,7 @@ export async function ParseEZPRFormSubmission(
   // Translate user ids of reviewers -> usernames -> mentions
   const reviewerNames = await Promise.all(
     reviewers.map(async (userId) => {
-      const command = new GetNameByID(client, userId);
+      const command = new GetNameByIDCommand(client, userId);
       const name = await command.handle();
       return name;
     })
@@ -40,8 +40,8 @@ export async function ParseEZPRFormSubmission(
     url,
     ert,
     desc,
-    toMentions(reviewerNames),
-    channel
+    channel,
+    toMentions(reviewerNames)
   );
 }
 
