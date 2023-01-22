@@ -5,12 +5,18 @@ module.exports = {
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
   collectCoverage: true,
   collectCoverageFrom: ["src/**/*.ts"],
+  coveragePathIgnorePatterns: [
+    "src/app.ts",
+    "src/cmd/index.ts",
+    "src/ezpr/index.ts",
+    "src/help/index.ts",
+  ],
   coverageThreshold: {
     global: {
-      branches: 0,
-      functions: 0,
-      lines: 0,
-      statements: 0,
+      statements: 80,
+      branches: 69,
+      functions: 61,
+      lines: 80,
     },
   },
 };
