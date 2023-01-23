@@ -1,13 +1,22 @@
 import { slashCommand } from "@slack-wrench/fixtures";
 import sinon from "sinon";
-import { error, ezprHelp, HelpCommand, helpUsage, ParseSlashHelpCommand } from ".";
+
+import {
+  error,
+  ezprHelp,
+  HelpCommand,
+  helpUsage,
+  ParseSlashHelpCommand,
+} from ".";
 import helpOverview from "./overview.json";
 
 describe("HelpCommand", () => {
   async function expectHelpCommand(args: string, expected: any) {
     const ackFn = sinon.fake.resolves({});
-    const cmd = new HelpCommand(ackFn, slashCommand("/help", { text: args }));
-    expect(cmd.message).toStrictEqual(expected);
+    const input = slashCommand("/help", { text: args });
+    const cmdArgs = ParseSlashHelpCommand(input);
+    const cmd = new HelpCommand(ackFn, cmdArgs);
+    expect(cmdArgs.message).toStrictEqual(expected);
     await cmd.handle();
     expect(
       ackFn.calledWith({

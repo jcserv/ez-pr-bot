@@ -5,20 +5,12 @@ import {
   SlackViewAction,
 } from "@slack/bolt";
 import {
-  AwsEvent,
   AwsCallback,
+  AwsEvent,
 } from "@slack/bolt/dist/receivers/AwsLambdaReceiver";
 import { WebClient } from "@slack/web-api";
 import dotenv from "dotenv";
-import {
-  INPUT,
-  EZPR_MODAL_SUBMISSION,
-  OPEN_EZPR_MODAL,
-  OPEN_HELP_USAGE_MODAL,
-  SLASH_EZPR,
-  SLASH_HELP,
-  DEV,
-} from "./constants";
+
 import {
   EZPRCommand,
   HelpCommand,
@@ -26,8 +18,29 @@ import {
   OpenHelpUsageModal,
   PublishHomeOverview,
 } from "./cmd";
+import {
+  ACTION,
+  COMMAND,
+  DEV,
+  EZPR,
+  EZPR_MODAL_SUBMISSION,
+  HELP,
+  INPUT,
+  OPEN_EZPR_MODAL,
+  OPEN_HELP_USAGE_MODAL,
+  SHORTCUT,
+  SLASH,
+  VIEW,
+} from "./constants";
 import { isHTTPError, isValidationError, toValidationError } from "./errors";
-import { ParseEZPRFormSubmission, ParseEZPRSlashCommand } from "./parse";
+import { logger } from "./logger";
+import { createInteractionCountMetric } from "./metrics";
+import { createArgsCountMetric } from "./metrics/argsCount";
+import {
+  ParseEZPRFormSubmission,
+  ParseEZPRSlashCommand,
+  ParseSlashHelpCommand,
+} from "./parse";
 dotenv.config();
 
 const NODE_ENV = process.env.NODE_ENV || "";
@@ -61,12 +74,14 @@ app.action({ action_id: OPEN_EZPR_MODAL }, async ({ ack, body, client }) => {
   try {
     await ack();
     OpenEZPRModal(client, blockAction.trigger_id);
+    const interactionCountMetric = createInteractionCountMetric(ACTION, EZPR);
+    await interactionCountMetric.publish();
   } catch (error) {
     const { user, channel } = blockAction;
     if (user !== undefined && channel !== undefined) {
       errorOccurred(client, user.id, channel.id, error);
     }
-    console.error(error);
+    logger.error(error);
   }
 });
 
@@ -74,12 +89,14 @@ app.shortcut(OPEN_EZPR_MODAL, async ({ ack, client, shortcut }) => {
   try {
     await ack();
     OpenEZPRModal(client, shortcut.trigger_id);
+    const interactionCountMetric = createInteractionCountMetric(SHORTCUT, EZPR);
+    await interactionCountMetric.publish();
   } catch (error) {
     const { user } = shortcut;
     if (user !== undefined) {
       errorOccurred(client, user.id, "", error);
     }
-    console.error(error);
+    logger.error(error);
   }
 });
 
@@ -89,24 +106,32 @@ app.view(EZPR_MODAL_SUBMISSION, async ({ ack, body, client, payload }) => {
     const args = await ParseEZPRFormSubmission(client, body, payload);
     const command = new EZPRCommand(client, args);
     await command.handle();
+    const interactionCountMetric = createInteractionCountMetric(VIEW, EZPR);
+    await interactionCountMetric.publish();
+    const argsCountMetric = createArgsCountMetric(VIEW, EZPR);
+    await argsCountMetric.publish(args.numArgs);
   } catch (error) {
     const { user } = body as SlackViewAction;
     if (user !== undefined) {
       errorOccurred(client, user.id, "", error);
     }
-    console.error(error);
+    logger.error(error);
   }
 });
 
-app.command(SLASH_EZPR, async ({ ack, client, payload }) => {
+app.command(SLASH + EZPR, async ({ ack, client, payload }) => {
   try {
     const args = ParseEZPRSlashCommand(payload);
     const command = new EZPRCommand(client, args);
     await command.handle();
+    const interactionCountMetric = createInteractionCountMetric(COMMAND, EZPR);
+    await interactionCountMetric.publish();
+    const argsCountMetric = createArgsCountMetric(COMMAND, EZPR);
+    await argsCountMetric.publish(args.numArgs);
   } catch (error) {
     const { user_id, channel_id } = payload;
     errorOccurred(client, user_id, channel_id, error);
-    console.error(error);
+    logger.error(error);
   } finally {
     ack();
   }
@@ -119,24 +144,31 @@ app.action(
     const blockAction = body as BlockAction;
     try {
       OpenHelpUsageModal(client, blockAction.trigger_id);
+      const interactionCountMetric = createInteractionCountMetric(ACTION, HELP);
+      await interactionCountMetric.publish();
     } catch (error) {
       const { user, channel } = blockAction;
       if (user !== undefined && channel !== undefined) {
         errorOccurred(client, user.id, channel.id, error);
       }
-      console.error(error);
+      logger.error(error);
     }
   }
 );
 
-app.command(SLASH_HELP, async ({ ack, client, payload }) => {
+app.command(SLASH + HELP, async ({ ack, client, payload }) => {
   try {
-    const command = new HelpCommand(ack, payload);
+    const args = ParseSlashHelpCommand(payload);
+    const command = new HelpCommand(ack, args);
     await command.handle();
+    const interactionCountMetric = createInteractionCountMetric(COMMAND, HELP);
+    await interactionCountMetric.publish();
+    const argsCountMetric = createArgsCountMetric(COMMAND, EZPR);
+    await argsCountMetric.publish(args.numArgs);
   } catch (error) {
     const { user_id, channel_id } = payload;
     errorOccurred(client, user_id, channel_id, error);
-    console.error(error);
+    logger.error(error);
   }
 });
 
@@ -161,7 +193,7 @@ async function errorOccurred(
       user,
     });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }
 
@@ -173,7 +205,7 @@ app
     }
   })
   .catch((error) => {
-    console.error(error);
+    logger.error(error);
     process.exit(1);
   });
 

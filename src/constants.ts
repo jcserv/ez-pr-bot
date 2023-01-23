@@ -1,6 +1,17 @@
 export const DEV = "development";
 
+// Slack Actions
+export const ACTION = "action";
+export const COMMAND = "command";
+export const SHORTCUT = "shortcut";
+export const VIEW = "view";
+
+// EZ PR Bot Functionality
+export const EZPR = "ezpr";
+export const HELP = "help";
+
 // Action/command/view IDs
+export const SLASH = "/";
 
 export const ACK = "ack";
 export const INPUT = "input";

@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { View } from "@slack/bolt";
+
 import { OpenModalCommand } from ".";
 
 const { WebClient } = require("@slack/web-api");

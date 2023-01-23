@@ -1,12 +1,13 @@
 import { SlackViewAction, ViewOutput } from "@slack/bolt";
 import { WebClient } from "@slack/web-api";
-import { FormValues, getInputValue } from "../parse";
-import { GetNameByIDCommand } from "../cmd/getNameByID";
+
+import { GetNameByIDCommand } from "../cmd";
 import {
   SELECTED_CONVERSATION,
   SELECTED_OPTION,
   SELECTED_USERS,
 } from "../constants";
+import { FormValues, getInputValue } from "../parse";
 import { EZPRArguments, toMention, toMentions } from "../types";
 
 const STATE = "state";
@@ -41,7 +42,8 @@ export async function ParseEZPRFormSubmission(
     ert,
     desc,
     channel,
-    toMentions(reviewerNames)
+    toMentions(reviewerNames),
+    6
   );
 }
 

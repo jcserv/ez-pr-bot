@@ -1,7 +1,7 @@
 import { error, ezprHelp, helpUsage } from "../help";
+import helpOverview from "../help/overview.json";
 import { EZPRArguments } from "./ezpr";
 import { HelpArguments, renderMessage } from "./help";
-import helpOverview from "../help/overview.json";
 
 describe("EZPRArguments", () => {
   test("happy path with minimum args", () => {
@@ -24,6 +24,7 @@ describe("EZPRArguments", () => {
         "description",
         "#test",
         ["@john.doe"],
+        6,
         "input"
       )
     ).toBeDefined();

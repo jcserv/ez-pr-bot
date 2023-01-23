@@ -1,8 +1,10 @@
 import { Block, KnownBlock } from "@slack/bolt";
 import { View, WebClient } from "@slack/web-api";
-import { ezprMessage } from "./blocks";
-import { EZPRArguments, ICommand } from "../types";
+
 import { OpenModalCommand } from "../cmd/openModal";
+import { logger } from "../logger";
+import { EZPRArguments, ICommand } from "../types";
+import { ezprMessage } from "./blocks";
 import ezprModal from "./modal.json";
 
 export class EZPRCommand implements ICommand {
@@ -31,7 +33,7 @@ export class EZPRCommand implements ICommand {
         channel: this.channel,
         text: this.text,
       })
-      .then(() => console.log("PR Review Request submitted!"))
+      .then(() => logger.info("PR Review Request submitted!"))
       .catch((error) => {
         throw error;
       });
