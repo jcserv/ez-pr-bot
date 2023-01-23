@@ -16,12 +16,12 @@ features:
       callback_id: open_ezpr_modal
       description: Submit a pull request for review to the specified channel, which will ping the provided mentions.
   slash_commands:
-    - command: /ezpr
+    - command: /ezpr submit
       url: [URL]
       description: Submit a pull request for review to the specified channel, which will ping the provided mentions.
       usage_hint: "[link] [time] [desc] [@role] [#channel]"
       should_escape: false
-    - command: /help
+    - command: /ezpr help
       url: [URL]
       description: Provides information about EZ PR Bot, the commands available, and their usage.
       usage_hint: "[topic]"
