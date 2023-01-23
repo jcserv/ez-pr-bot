@@ -1,46 +1,28 @@
-import {
-  AckFn,
-  Block,
-  HomeView,
-  KnownBlock,
-  RespondArguments,
-  SlashCommand,
-  View,
-} from "@slack/bolt";
+import { AckFn, HomeView, RespondArguments, View } from "@slack/bolt";
 import { WebClient } from "@slack/web-api";
-import { error, ezprHelp, helpUsage } from "./blocks";
-import { ICommand } from "../types";
+
 import { OpenModalCommand } from "../cmd/openModal";
+import { logger } from "../logger";
+import { HelpArguments, ICommand } from "../types";
+import { helpUsage } from "./blocks";
 import helpOverview from "./overview.json";
 
 export * from "./blocks";
 
 export class HelpCommand implements ICommand {
   ack: AckFn<string | RespondArguments>;
+  args: HelpArguments;
   input: string;
-  message: (KnownBlock | Block)[];
 
-  constructor(ack: AckFn<string | RespondArguments>, payload: SlashCommand) {
+  constructor(ack: AckFn<string | RespondArguments>, args: HelpArguments) {
     this.ack = ack;
-    this.input = `${payload.command} ${payload.text}`;
-    switch (payload.text) {
-      case "":
-        this.message = helpOverview.blocks;
-        break;
-      case "usage":
-        this.message = helpUsage;
-        break;
-      case "ezpr":
-        this.message = ezprHelp;
-        break;
-      default:
-        this.message = error(payload.text);
-    }
+    this.args = args;
+    this.input = args.input || "";
   }
 
   async handle() {
     await this.ack({
-      blocks: this.message,
+      blocks: this.args.message,
       response_type: "ephemeral",
     });
   }
@@ -66,5 +48,5 @@ export function PublishHomeOverview(client: WebClient) {
   const USER_ID = process.env.USER_ID as string;
   client.views
     .publish({ user_id: USER_ID, view: helpOverview as HomeView })
-    .catch((error) => console.error(error));
+    .catch((error) => logger.error(error));
 }

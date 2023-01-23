@@ -1,28 +1,25 @@
 import { z } from "zod";
+
 import {
   ChannelSchema,
+  EstimatedReviewTimeSchema,
+  Mention,
   MentionSchema,
   MentionsSchema,
-  PRLinkSchema,
-  EstimatedReviewTimeSchema,
   PRDescriptionSchema,
-  Mention,
-} from ".";
+  PRLinkSchema,
+} from "./model";
 
-const EZPRArgumentsSchema = z
-  .object({
-    submitter: MentionSchema,
-    link: PRLinkSchema,
-    ert: EstimatedReviewTimeSchema,
-    description: PRDescriptionSchema,
-    channel: ChannelSchema,
-    reviewers: MentionsSchema,
-  })
-  .partial({
-    channel: true,
-    reviewers: true,
-    input: true,
-  });
+const EZPRArgumentsSchema = z.object({
+  submitter: MentionSchema,
+  link: PRLinkSchema,
+  ert: EstimatedReviewTimeSchema,
+  description: PRDescriptionSchema,
+  channel: z.optional(ChannelSchema),
+  reviewers: z.optional(MentionsSchema),
+  numArgs: z.optional(z.number()),
+  input: z.optional(z.string()),
+});
 
 export class EZPRArguments {
   submitter: Mention;
@@ -31,6 +28,7 @@ export class EZPRArguments {
   description: string;
   channel?: string;
   reviewers?: Mention[];
+  numArgs?: number;
   input?: string;
 
   constructor(
@@ -40,6 +38,7 @@ export class EZPRArguments {
     description: string,
     channel?: string,
     reviewers?: string[],
+    numArgs?: number,
     input?: string
   ) {
     const args = {
@@ -49,8 +48,10 @@ export class EZPRArguments {
       description,
       channel,
       reviewers,
+      numArgs,
       input,
     };
+
     EZPRArgumentsSchema.parse(args);
 
     this.submitter = submitter;
@@ -59,6 +60,7 @@ export class EZPRArguments {
     this.description = description;
     this.channel = channel;
     this.reviewers = reviewers;
+    this.numArgs = numArgs;
     this.input = input;
   }
 }

@@ -1,5 +1,5 @@
-import { getInputValue, parseCommandArgs } from ".";
 import { SELECTED_CONVERSATION, SELECTED_USERS } from "../constants";
+import { getInputValue, parseCommandArgs } from ".";
 
 describe("parseCommandArgs", () => {
   test("empty string should result in zero results", () => {

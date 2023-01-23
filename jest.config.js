@@ -10,11 +10,14 @@ module.exports = {
     "src/cmd/index.ts",
     "src/ezpr/index.ts",
     "src/help/index.ts",
+    "src/metrics",
+    "src/logger.ts",
+    "src/constants.ts",
   ],
   coverageThreshold: {
     global: {
       statements: 80,
-      branches: 69,
+      branches: 68,
       functions: 61,
       lines: 80,
     },

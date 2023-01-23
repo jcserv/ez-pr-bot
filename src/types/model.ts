@@ -64,6 +64,7 @@ export function translateInputToHumanReadable(s: string): string {
   }
   return output;
 }
+
 const ertRegex = /^(\d){1,2}( )?(hour|minute|min|hr|m|h)(s)?$/;
 
 export const EstimatedReviewTimeSchema = z.string().trim().regex(ertRegex, {

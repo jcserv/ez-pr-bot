@@ -1,6 +1,6 @@
 module.exports = {
   parser: "@typescript-eslint/parser",
-  plugins: ["@typescript-eslint"],
+  plugins: ["@typescript-eslint", "simple-import-sort", "prettier"],
   env: {
     browser: true,
     commonjs: true,
@@ -20,6 +20,10 @@ module.exports = {
   rules: {
     camelcase: "off",
     semi: ["error", "always"],
-    "@typescript-eslint/no-explicit-any": "off"
+    "@typescript-eslint/no-explicit-any": "off",
+    "no-console": "error",
+    "prettier/prettier": ["error"],
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error",
   },
 };

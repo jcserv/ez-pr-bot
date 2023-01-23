@@ -1,7 +1,8 @@
 import { SlashCommand } from "@slack/bolt";
-import { EZPRArguments, toMention } from "../types";
-import { parseCommandArgs } from "../parse";
+
 import { HTTPError } from "../errors";
+import { parseCommandArgs } from "../parse";
+import { EZPRArguments, toMention } from "../types";
 
 const MIN_SLASH_EZPR_ARGS = 3;
 const MAX_SLASH_EZPR_ARGS = 5;
@@ -16,12 +17,9 @@ enum ArgIndices {
 
 export function ParseEZPRSlashCommand(payload: SlashCommand): EZPRArguments {
   const args = parseCommandArgs(payload.text);
+  const cmdInput = `${payload.command} ${payload.text}`;
   if (args.length < MIN_SLASH_EZPR_ARGS || args.length > MAX_SLASH_EZPR_ARGS) {
-    throw new HTTPError(
-      400,
-      "invalid number of arguments provided",
-      `${payload.command} ${payload.text}`
-    );
+    throw new HTTPError(400, "invalid number of arguments provided", cmdInput);
   }
 
   const channel =
@@ -38,6 +36,8 @@ export function ParseEZPRSlashCommand(payload: SlashCommand): EZPRArguments {
     args[ArgIndices.ERT],
     args[ArgIndices.DESC],
     channel,
-    reviewer
+    reviewer,
+    args.length,
+    cmdInput
   );
 }
