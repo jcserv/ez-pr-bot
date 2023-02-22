@@ -107,5 +107,6 @@ dist
 .tern-port
 
 .vscode
-
 .DS_Store
+prod_manifest.yml
+dev_manifest.yml

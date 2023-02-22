@@ -2,13 +2,13 @@
 
 **We'll cover the following:**
 
-* [System Requirements](#system-requirements)
-* [Entity-Relationship Diagram](#entity-relationship-diagram)
-* [PR Review Lifecycle](#pr-review-lifecycle)
-* [Activity Diagrams](#activity-diagrams)
-    * [Submit PR](#submit-pr)
-    * [Statistics](#statistics)
-* [Code](#code)
+- [System Requirements](#system-requirements)
+- [Entity-Relationship Diagram](#entity-relationship-diagram)
+- [PR Review Lifecycle](#pr-review-lifecycle)
+- [Activity Diagrams](#activity-diagrams)
+  - [Submit PR](#submit-pr)
+  - [Statistics](#statistics)
+- [Code](#code)
 
 ## System Requirements
 
@@ -38,7 +38,7 @@ Our PR Review Request Tracker API should meet the following requirements:
     PR Review Lifecycle
 </p>
 
-Note: There are no restrictions on state transitions. 
+Note: There are no restrictions on state transitions.
 This is because team members may forget to react and we don't have control over the source of truth (Github/Gitlab/Bitbucket),
 thus statistics are calculated on a best-effort basis.
 
@@ -67,7 +67,7 @@ thus statistics are calculated on a best-effort basis.
 ### Statistics
 
 > As a user, I would like to view statistics about (my/my team/a singular) PR review request(s) so that I can
-be informed on the PR review request process.
+> be informed on the PR review request process.
 
 <p align="center">
     <img src="./statistics_activity_diagram.png" alt="Statistics - Activity Diagram">
@@ -78,7 +78,7 @@ be informed on the PR review request process.
 ### List PRs
 
 > As a user, I would like to list (my/my team's) open PR review requests so that I can track the status of any
-open PR review requests.
+> open PR review requests.
 
 <p align="center">
     <img src="./statistics_activity_diagram.png" alt="List PRs - Activity Diagram">

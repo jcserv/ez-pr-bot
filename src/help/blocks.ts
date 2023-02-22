@@ -16,7 +16,7 @@ const ezprAllArgsExampleUsage =
   "`/ezpr [pr link] [estimated review time] [description] [@role] [#channel]`";
 
 const helpUsageMarkdown = `
-> /help usage
+> /ezpr-help usage
 
 EZ PR Bot :robot_face: is a tool for managing pull request reviews for software development teams.
 
