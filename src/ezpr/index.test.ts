@@ -25,6 +25,13 @@ describe("ParseEZPRSlashCommand", () => {
     const input = slashCommand("/ezpr", { text: args });
     expect(ParseEZPRSlashCommand(input)).toBeDefined();
   });
+
+  test("/ezpr with user group, should parse out @mention", async () => {
+    const args =
+      'http://github.com/jcserv/ez-pr-bot/pulls/1 15m "Please review :)" <!subteam^S04HKF5MKRP|@ez-pr-devs>';
+    const input = slashCommand("/ezpr", { text: args });
+    expect(ParseEZPRSlashCommand(input)).toBeDefined();
+  });
 });
 
 describe("ezprMessage", () => {
