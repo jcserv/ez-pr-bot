@@ -1,4 +1,4 @@
-> /help ezpr
+> /ezpr-help ezpr
 
 *usage*: 
 

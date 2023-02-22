@@ -8,7 +8,7 @@ export const VIEW = "view";
 
 // EZ PR Bot Functionality
 export const EZPR = "ezpr";
-export const HELP = "help";
+export const HELP = "ezpr-help";
 
 // Action/command/view IDs
 export const SLASH = "/";

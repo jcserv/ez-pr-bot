@@ -1,4 +1,4 @@
-> /help prs
+> /ezpr-help prs
 
 usage: 
 

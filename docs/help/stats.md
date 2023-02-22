@@ -1,4 +1,4 @@
-> /help stats
+> /ezpr-help stats
 
 usage: 
 

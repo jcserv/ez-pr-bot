@@ -1,4 +1,4 @@
-> /help set
+> /ezpr-help set
 
 usage: 
 
