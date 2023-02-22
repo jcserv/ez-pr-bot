@@ -3,11 +3,13 @@ import { ZodError } from "zod";
 import {
   ChannelSchema,
   EstimatedReviewTimeSchema,
+  IsUserGroup,
   PRDescriptionSchema,
   PRLinkSchema,
   toMention,
   toMentions,
   translateInputToHumanReadable,
+  UserGroupToMentionStringSchema,
 } from ".";
 
 describe("toMentions", () => {
@@ -43,6 +45,30 @@ describe("toMention", () => {
 
   test("single length username with @, should return unchanged", () => {
     expect(toMention("@jane.doe")).toStrictEqual("@jane.doe");
+  });
+});
+
+describe("IsUserGroup", () => {
+  test("empty string, should return false", () => {
+    expect(IsUserGroup("")).toStrictEqual(false);
+  });
+
+  test("mention string, should return false", () => {
+    expect(IsUserGroup("@jane.doe")).toStrictEqual(false);
+  });
+
+  test("valid usergroup string, should return true", () => {
+    expect(IsUserGroup("<!subteam^S04HKF5MKRP|@ez-pr-devs>")).toStrictEqual(
+      true
+    );
+  });
+});
+
+describe("UserGroupToMentionStringSchema", () => {
+  test("valid usergroup string, should return mention", () => {
+    expect(
+      UserGroupToMentionStringSchema.parse("<!subteam^S04HKF5MKRP|@ez-pr-devs>")
+    ).toStrictEqual("@ez-pr-devs");
   });
 });
 
