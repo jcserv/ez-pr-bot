@@ -1,7 +1,5 @@
 import { z } from "zod";
 
-// <!subteam^S04HKF5MKRP|@ez-pr-devs>
-
 export declare type UserID = string;
 
 const NewUserIDSchema = z.string().trim().startsWith("U");
@@ -30,6 +28,17 @@ export function toMention(username: string): Mention {
 export const MentionSchema = z.string().startsWith("@");
 
 export const MentionsSchema = z.array(MentionSchema);
+
+export declare type UserGroup = string;
+
+export function IsUserGroup(s: string): boolean {
+  return s.startsWith("<!subteam");
+}
+
+export const UserGroupToMentionStringSchema = z
+  .string()
+  .startsWith("<!subteam")
+  .transform((val) => val.substring(val.indexOf("|") + 1, val.length - 1));
 
 export declare type Channel = string;
 

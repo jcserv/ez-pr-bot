@@ -2,7 +2,12 @@ import { SlashCommand } from "@slack/bolt";
 
 import { HTTPError } from "../errors";
 import { parseCommandArgs } from "../parse";
-import { EZPRArguments, toMention } from "../types";
+import {
+  EZPRArguments,
+  IsUserGroup,
+  toMention,
+  UserGroupToMentionStringSchema,
+} from "../types";
 
 const MIN_SLASH_EZPR_ARGS = 3;
 const MAX_SLASH_EZPR_ARGS = 5;
@@ -27,8 +32,16 @@ export function ParseEZPRSlashCommand(payload: SlashCommand): EZPRArguments {
       ? args[ArgIndices.CHANNEL]
       : payload.channel_name;
 
-  const reviewer =
+  let reviewers =
     args.length > MIN_SLASH_EZPR_ARGS ? [args[ArgIndices.REVIEWER]] : [];
+
+  // Transform user group strings to mention strings if applicable
+  reviewers = reviewers.map((s) => {
+    if (!IsUserGroup(s)) {
+      return s;
+    }
+    return UserGroupToMentionStringSchema.parse(s);
+  });
 
   return new EZPRArguments(
     toMention(payload.user_name),
@@ -36,7 +49,7 @@ export function ParseEZPRSlashCommand(payload: SlashCommand): EZPRArguments {
     args[ArgIndices.ERT],
     args[ArgIndices.DESC],
     channel,
-    reviewer,
+    reviewers,
     args.length,
     cmdInput
   );
