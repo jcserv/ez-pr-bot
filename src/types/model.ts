@@ -45,9 +45,73 @@ export declare type Channel = string;
 // payload.channel_name provides the channel name without the # at front, so we don't validate #'s
 export const ChannelSchema = z.string().trim();
 
+export declare type PullRequest = {
+  website: string;
+  org: string;
+  repo: string;
+  num: string;
+  link: string;
+};
+
+function prLinkToPullRequest(link: string, regex: RegExp): PullRequest {
+  let pullRequest: PullRequest = {
+    website: "",
+    org: "",
+    repo: "",
+    num: "",
+    link: "",
+  };
+  const matches = link.match(regex);
+  if (matches == null || matches.length !== 5) {
+    return pullRequest;
+  }
+  pullRequest = {
+    website: matches[1],
+    org: matches[2],
+    repo: matches[3],
+    num: matches[4],
+    link: matches[0],
+  };
+  return pullRequest;
+}
+
 export declare type PRLink = string;
 
-export const PRLinkSchema = z.string().trim().url();
+const bitbucketURLRegex =
+  /^http[s]*:\/\/(bitbucket).org\/([\w|-]+)\/([\w|-]+)\/pull-requests\/(\d+)$/;
+
+export const BitbucketURLSchema = z
+  .string()
+  .trim()
+  .url()
+  .regex(bitbucketURLRegex)
+  .transform((val) => prLinkToPullRequest(val, bitbucketURLRegex));
+
+const githubURLRegex =
+  /^http[s]*:\/\/(github).com\/([\w|-]+)\/([\w|-]+)\/pulls\/(\d+$)/;
+
+export const GithubURLSchema = z
+  .string()
+  .trim()
+  .url()
+  .regex(githubURLRegex)
+  .transform((val) => prLinkToPullRequest(val, githubURLRegex));
+
+const gitlabURLRegex =
+  /^http[s]*:\/\/(gitlab).com\/([\w|-]+)\/([\w|-]+)\/merge_requests\/(\d+)$/;
+
+export const GitlabURLSchema = z
+  .string()
+  .trim()
+  .url()
+  .regex(gitlabURLRegex)
+  .transform((val) => prLinkToPullRequest(val, gitlabURLRegex));
+
+export const PRLinkSchema = z.union([
+  GithubURLSchema,
+  BitbucketURLSchema,
+  GitlabURLSchema,
+]);
 
 export declare type EstimatedReviewTime = string;
 

@@ -8,6 +8,7 @@ import {
   MentionsSchema,
   PRDescriptionSchema,
   PRLinkSchema,
+  PullRequest,
 } from "./model";
 
 const EZPRArgumentsSchema = z.object({
@@ -23,7 +24,7 @@ const EZPRArgumentsSchema = z.object({
 
 export class EZPRArguments {
   submitter: Mention;
-  link: string;
+  pullRequest: PullRequest;
   ert: string;
   description: string;
   channel?: string;
@@ -52,10 +53,10 @@ export class EZPRArguments {
       input,
     };
 
-    EZPRArgumentsSchema.parse(args);
-
+    // eslint-disable-next-line no-console
+    const pr = EZPRArgumentsSchema.parse(args) as unknown as PullRequest;
     this.submitter = submitter;
-    this.link = link;
+    this.pullRequest = pr;
     this.ert = ert;
     this.description = description;
     this.channel = channel;

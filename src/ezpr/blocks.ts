@@ -9,7 +9,7 @@ ${args.reviewers?.join(" ")} :wave:
 
 Please review: ${args.description}
 
-PR Link: ${args.link}
+PR Link: ${args.pullRequest.link}
 `;
 
 export const ezprMessage = (args: EZPRArguments) => [
@@ -19,5 +19,19 @@ export const ezprMessage = (args: EZPRArguments) => [
       type: "mrkdwn",
       text: ezprMarkdown(args),
     },
+  },
+  {
+    type: "actions",
+    elements: [
+      {
+        type: "button",
+        text: {
+          type: "plain_text",
+          text: "View",
+        },
+        style: "primary",
+        url: `${args.pullRequest.link}`,
+      },
+    ],
   },
 ];
