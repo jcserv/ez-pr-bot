@@ -55,11 +55,11 @@ describe("HelpCommand", () => {
 describe("ParseSlashHelpCommand", () => {
   test("/help, should set input", async () => {
     const input = slashCommand(SLASH_HELP, { text: "" });
-    expect(ParseSlashHelpCommand(input).input).toBe("/help ");
+    expect(ParseSlashHelpCommand(input).input).toBe(`${SLASH_HELP} `);
   });
 
   test("/help usage, should set input", async () => {
     const input = slashCommand(SLASH_HELP, { text: "usage" });
-    expect(ParseSlashHelpCommand(input).input).toBe("/help usage");
+    expect(ParseSlashHelpCommand(input).input).toBe(`${SLASH_HELP} usage`);
   });
 });
