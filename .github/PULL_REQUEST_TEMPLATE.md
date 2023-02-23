@@ -5,8 +5,8 @@
 Fixes: #
 
 - [ ] How has the code been tested?
-    - [ ] Smoke tests (Please provide recordings/screenshots)
-    - [ ] Unit tests
+  - [ ] Smoke tests (Please provide recordings/screenshots)
+  - [ ] Unit tests
 - [ ] Has the code been formatted? Make sure you run `npx prettier --write .`
 - [ ] Have dependencies/packages been added?
 

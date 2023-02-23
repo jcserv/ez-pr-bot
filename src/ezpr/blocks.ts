@@ -20,4 +20,18 @@ export const ezprMessage = (args: EZPRArguments) => [
       text: ezprMarkdown(args),
     },
   },
+  {
+    type: "actions",
+    elements: [
+      {
+        type: "button",
+        text: {
+          type: "plain_text",
+          text: "View",
+        },
+        style: "primary",
+        url: `${args.link}`,
+      },
+    ],
+  },
 ];
