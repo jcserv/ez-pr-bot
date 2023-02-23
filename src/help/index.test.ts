@@ -1,6 +1,7 @@
 import { slashCommand } from "@slack-wrench/fixtures";
 import sinon from "sinon";
 
+import { SLASH_HELP } from "../constants";
 import {
   error,
   ezprHelp,
@@ -13,7 +14,7 @@ import helpOverview from "./overview.json";
 describe("HelpCommand", () => {
   async function expectHelpCommand(args: string, expected: any) {
     const ackFn = sinon.fake.resolves({});
-    const input = slashCommand("/help", { text: args });
+    const input = slashCommand(SLASH_HELP, { text: args });
     const cmdArgs = ParseSlashHelpCommand(input);
     const cmd = new HelpCommand(ackFn, cmdArgs);
     expect(cmdArgs.message).toStrictEqual(expected);
@@ -53,12 +54,12 @@ describe("HelpCommand", () => {
 
 describe("ParseSlashHelpCommand", () => {
   test("/help, should set input", async () => {
-    const input = slashCommand("/help", { text: "" });
+    const input = slashCommand(SLASH_HELP, { text: "" });
     expect(ParseSlashHelpCommand(input).input).toBe("/help ");
   });
 
   test("/help usage, should set input", async () => {
-    const input = slashCommand("/help", { text: "usage" });
+    const input = slashCommand(SLASH_HELP, { text: "usage" });
     expect(ParseSlashHelpCommand(input).input).toBe("/help usage");
   });
 });

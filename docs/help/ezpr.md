@@ -2,6 +2,8 @@
 
 _usage_:
 
+`/ezpr [pr link]`
+
 `/ezpr [pr link] [estimated review time] [description]`
 
 `/ezpr [pr link] [estimated review time] [description] [@role]`
@@ -18,11 +20,11 @@ _arguments_:
     A URL link to the pull request
     	ex. http://github.com/jcserv/ez-pr-bot/pulls/1
 
-    [estimated review time] string *required*
+    [estimated review time] string
     How long it should take to review this PR. Should end with minutes ("m", "min", "minutes") or hours ("h", "hrs", "hours")
     	ex. 15m, 2hrs, "75 minutes"
 
-    [description] string *required*
+    [description] string
     A summary of the changes. Should be wrapped with quotes (")
     	ex. "Adds the help command allowing users to learn how to use the bot"
 

@@ -3,10 +3,12 @@ export const error = (text: string) => [
     type: "section",
     text: {
       type: "mrkdwn",
-      text: `\`/help ${text}\`: unknown help topic. Run \`/help\` or \`/help usage\``,
+      text: `\`/ezpr-help ${text}\`: unknown help topic. Run \`/ezpr-help\` or \`/ezpr-help usage\``,
     },
   },
 ];
+
+const ezprMinimumUsage = "`/ezpr [pr link]`";
 
 const ezprBaseExampleUsage =
   "`/ezpr [pr link] [estimated review time] [description]`";
@@ -26,8 +28,8 @@ EZ PR Bot :robot_face: is a tool for managing pull request reviews for software 
 
 The commands are:
 
-  ezpr    submit a pull request for review
-  help    receive information about how to use EZ PR Bot and other commands
+  ezpr         submit a pull request for review
+  ezpr-help    receive information about how to use EZ PR Bot and other commands
 
 Use \`/help <command>\` for more information about a command.
 `;
@@ -46,15 +48,16 @@ export const helpUsage = [
 ];
 
 const ezprHelpMarkdown = `
-> /help ezpr
+> /ezpr-help ezpr
 
 *usage*: 
 
+  ${ezprMinimumUsage}
 	${ezprAllArgsExampleUsage}
      ${ezprDefaultChannelExampleUsage}
 	${ezprBaseExampleUsage}
 
-*description*: You can submit a pull request for review to the specified channel, which will ping the provided mention.
+*description*: You can submit a pull request for review to the specified channel, which will ping the provided mentions.
 If [@role] is not provided, the message does not ping.
 If [#team-channel] is not provided, it defaults to the posted channel.
 

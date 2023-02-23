@@ -14,12 +14,12 @@ features:
     - name: Submit PR Review Request
       type: global
       callback_id: open_ezpr_modal
-      description: Submit a pull request for review to the specified channel, which will ping the provided mentions.
+      description: Submit a pull request for review
   slash_commands:
     - command: /ezpr
       url: [URL]
-      description: Submit a pull request for review to the specified channel, which will ping the provided mentions.
-      usage_hint: "[link] [time] [desc] [@role] [#channel]"
+      description: Submit a pull request for review
+      usage_hint: "[link]"
       should_escape: false
     - command: /ezpr-help
       url: [URL]

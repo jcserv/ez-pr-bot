@@ -29,7 +29,8 @@ import {
   OPEN_EZPR_MODAL,
   OPEN_HELP_USAGE_MODAL,
   SHORTCUT,
-  SLASH,
+  SLASH_EZPR,
+  SLASH_HELP,
   VIEW,
 } from "./constants";
 import { isHTTPError, isValidationError, toValidationError } from "./errors";
@@ -119,7 +120,7 @@ app.view(EZPR_MODAL_SUBMISSION, async ({ ack, body, client, payload }) => {
   }
 });
 
-app.command(SLASH + EZPR, async ({ ack, client, payload }) => {
+app.command(SLASH_EZPR, async ({ ack, client, payload }) => {
   try {
     const args = ParseEZPRSlashCommand(payload);
     const command = new EZPRCommand(client, args);
@@ -156,7 +157,7 @@ app.action(
   }
 );
 
-app.command(SLASH + HELP, async ({ ack, client, payload }) => {
+app.command(SLASH_HELP, async ({ ack, client, payload }) => {
   try {
     const args = ParseSlashHelpCommand(payload);
     const command = new HelpCommand(ack, args);
