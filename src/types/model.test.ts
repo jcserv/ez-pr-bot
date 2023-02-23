@@ -114,7 +114,31 @@ describe("PRLinkSchema Validate", () => {
     expect(PRLinkSchema.parse(input)).toStrictEqual(expected);
   });
 
-  test("valid http github link with extra spaces at front/bacl, should be valid", () => {
+  test("valid http bitbucket link, should be valid", () => {
+    const input = "https://bitbucket.org/my-company/repo/pull-requests/12345";
+    const expected: PullRequest = {
+      website: "bitbucket",
+      org: "my-company",
+      repo: "repo",
+      num: "12345",
+      link: input,
+    };
+    expect(PRLinkSchema.parse(input)).toStrictEqual(expected);
+  });
+
+  test("valid http gitlab link, should be valid", () => {
+    const input = "http://gitlab.com/my-group/my-project/merge_requests/1";
+    const expected: PullRequest = {
+      website: "gitlab",
+      org: "my-group",
+      repo: "my-project",
+      num: "1",
+      link: input,
+    };
+    expect(PRLinkSchema.parse(input)).toStrictEqual(expected);
+  });
+
+  test("valid http github link with extra spaces at front/back, should be valid", () => {
     const expected: PullRequest = {
       website: "github",
       org: "jcserv",

@@ -98,7 +98,7 @@ export const GithubURLSchema = z
   .transform((val) => prLinkToPullRequest(val, githubURLRegex));
 
 const gitlabURLRegex =
-  /^http[s]*:\/\/(gitlab).com\/([\w|-]+)\/([\w|-]+)\/merge-requests\/(\d+)$/;
+  /^http[s]*:\/\/(gitlab).com\/([\w|-]+)\/([\w|-]+)\/merge_requests\/(\d+)$/;
 
 export const GitlabURLSchema = z
   .string()
