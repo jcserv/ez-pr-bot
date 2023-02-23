@@ -19,7 +19,7 @@ describe("EZPRArguments", () => {
     expect(
       new EZPRArguments(
         "@jane.doe",
-        "http://github.com",
+        "http://github.com/jcserv/ez-pr-bot/pulls/1",
         "15m",
         "description",
         "#test",

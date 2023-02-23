@@ -6,6 +6,7 @@ import {
   IsUserGroup,
   PRDescriptionSchema,
   PRLinkSchema,
+  PullRequest,
   toMention,
   toMentions,
   translateInputToHumanReadable,
@@ -91,18 +92,39 @@ describe("ChannelSchema Validate", () => {
 describe("PRLinkSchema Validate", () => {
   test("valid https github link, should be valid", () => {
     const input = "https://github.com/jcserv/ez-pr-bot/pulls/1";
-    expect(PRLinkSchema.parse(input)).toStrictEqual(input);
+    const expected: PullRequest = {
+      website: "github",
+      org: "jcserv",
+      repo: "ez-pr-bot",
+      num: "1",
+      link: input,
+    };
+    expect(PRLinkSchema.parse(input)).toStrictEqual(expected);
   });
 
   test("valid http github link, should be valid", () => {
     const input = "http://github.com/jcserv/ez-pr-bot/pulls/1";
-    expect(PRLinkSchema.parse(input)).toStrictEqual(input);
+    const expected: PullRequest = {
+      website: "github",
+      org: "jcserv",
+      repo: "ez-pr-bot",
+      num: "1",
+      link: input,
+    };
+    expect(PRLinkSchema.parse(input)).toStrictEqual(expected);
   });
 
   test("valid http github link with extra spaces at front/bacl, should be valid", () => {
+    const expected: PullRequest = {
+      website: "github",
+      org: "jcserv",
+      repo: "ez-pr-bot",
+      num: "1",
+      link: "http://github.com/jcserv/ez-pr-bot/pulls/1",
+    };
     expect(
       PRLinkSchema.parse("   http://github.com/jcserv/ez-pr-bot/pulls/1  ")
-    ).toStrictEqual("http://github.com/jcserv/ez-pr-bot/pulls/1");
+    ).toStrictEqual(expected);
   });
 
   test("invalid link, should be invalid", () => {
@@ -111,6 +133,12 @@ describe("PRLinkSchema Validate", () => {
         validation: "url",
         code: "invalid_string",
         message: "Invalid url",
+        path: [],
+      },
+      {
+        validation: "regex",
+        code: "invalid_string",
+        message: "Invalid",
         path: [],
       },
     ]);
