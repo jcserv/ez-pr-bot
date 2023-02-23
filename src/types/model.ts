@@ -1,4 +1,3 @@
-import { message } from "@slack-wrench/fixtures/lib/events";
 import { z } from "zod";
 
 export declare type UserID = string;

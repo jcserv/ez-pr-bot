@@ -9,7 +9,7 @@ import {
   PRDescriptionSchema,
   PRLinkSchema,
   PullRequest,
-} from "./model";
+} from "../types/model";
 
 const EZPRArgumentsSchema = z.object({
   submitter: MentionSchema,

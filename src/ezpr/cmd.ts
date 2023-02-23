@@ -3,7 +3,8 @@ import { View, WebClient } from "@slack/web-api";
 
 import { OpenModalCommand } from "../cmd/openModal";
 import { logger } from "../logger";
-import { EZPRArguments, ICommand } from "../types";
+import { ICommand } from "../types";
+import { EZPRArguments } from "./args";
 import { ezprMessage, ezprText } from "./blocks";
 import ezprModal from "./modal.json";
 

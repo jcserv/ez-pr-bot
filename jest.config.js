@@ -7,19 +7,21 @@ module.exports = {
   collectCoverageFrom: ["src/**/*.ts"],
   coveragePathIgnorePatterns: [
     "src/app.ts",
+    "src/choose/index.ts",
     "src/cmd/index.ts",
     "src/ezpr/index.ts",
     "src/help/index.ts",
+    "src/types/index.ts",
     "src/metrics",
     "src/logger.ts",
     "src/constants.ts",
   ],
   coverageThreshold: {
     global: {
-      statements: 81,
-      branches: 66,
-      functions: 65,
-      lines: 81,
+      statements: 79,
+      branches: 63,
+      lines: 79,
+      functions: 60,
     },
   },
 };

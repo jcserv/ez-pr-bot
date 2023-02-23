@@ -1,7 +1,6 @@
 import { slashCommand } from "@slack-wrench/fixtures";
 
-import { EZPRArguments } from "../types";
-import { ParseEZPRSlashCommand } from ".";
+import { EZPRArguments, ParseEZPRSlashCommand } from ".";
 import { ezprMessage } from "./blocks";
 
 describe("ParseEZPRSlashCommand", () => {

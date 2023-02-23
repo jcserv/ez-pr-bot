@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { GetNameByIDCommand } from ".";
+import { GetNameByIDCommand } from "./";
 
 const { WebClient } = require("@slack/web-api");
 

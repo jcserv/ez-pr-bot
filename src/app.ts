@@ -12,6 +12,7 @@ import { WebClient } from "@slack/web-api";
 import dotenv from "dotenv";
 
 import {
+  ChooseCommand,
   EZPRCommand,
   HelpCommand,
   OpenEZPRModal,
@@ -20,6 +21,7 @@ import {
 } from "./cmd";
 import {
   ACTION,
+  CHOOSE,
   COMMAND,
   DEV,
   EZPR,
@@ -29,17 +31,18 @@ import {
   OPEN_EZPR_MODAL,
   OPEN_HELP_USAGE_MODAL,
   SHORTCUT,
+  SLASH_CHOOSE,
   SLASH_EZPR,
   SLASH_HELP,
   VIEW,
 } from "./constants";
 import { isHTTPError, isValidationError, toValidationError } from "./errors";
 import { logger } from "./logger";
-import { createInteractionCountMetric } from "./metrics";
-import { createArgsCountMetric } from "./metrics/argsCount";
+import { createArgsCountMetric, createInteractionCountMetric } from "./metrics";
 import {
   ParseEZPRFormSubmission,
   ParseEZPRSlashCommand,
+  ParseSlashChooseCommand,
   ParseSlashHelpCommand,
 } from "./parse";
 dotenv.config();
@@ -69,6 +72,8 @@ if (NODE_ENV === DEV) {
 app.action({ action_id: INPUT }, async ({ ack }) => {
   await ack();
 });
+
+// EZPR
 
 app.action({ action_id: OPEN_EZPR_MODAL }, async ({ ack, body, client }) => {
   const blockAction = body as BlockAction;
@@ -138,6 +143,8 @@ app.command(SLASH_EZPR, async ({ ack, client, payload }) => {
   }
 });
 
+// HELP
+
 app.action(
   { action_id: OPEN_HELP_USAGE_MODAL },
   async ({ ack, body, client }) => {
@@ -165,6 +172,27 @@ app.command(SLASH_HELP, async ({ ack, client, payload }) => {
     const interactionCountMetric = createInteractionCountMetric(COMMAND, HELP);
     await interactionCountMetric.publish();
     const argsCountMetric = createArgsCountMetric(COMMAND, EZPR);
+    await argsCountMetric.publish(args.numArgs);
+  } catch (error) {
+    const { user_id, channel_id } = payload;
+    errorOccurred(client, user_id, channel_id, error);
+    logger.error(error);
+  }
+});
+
+// CHOOSE
+
+app.command(SLASH_CHOOSE, async ({ ack, client, payload }) => {
+  try {
+    const args = ParseSlashChooseCommand(payload);
+    const command = new ChooseCommand(ack, args);
+    await command.handle();
+    const interactionCountMetric = createInteractionCountMetric(
+      COMMAND,
+      CHOOSE
+    );
+    await interactionCountMetric.publish();
+    const argsCountMetric = createArgsCountMetric(COMMAND, CHOOSE);
     await argsCountMetric.publish(args.numArgs);
   } catch (error) {
     const { user_id, channel_id } = payload;

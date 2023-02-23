@@ -9,6 +9,7 @@ export const VIEW = "view";
 // EZ PR Bot Functionality
 export const EZPR = "ezpr";
 export const HELP = "ezpr-help";
+export const CHOOSE = "ezpr-choose";
 
 // Action/command/view IDs
 export const SLASH = "/";
@@ -20,6 +21,7 @@ export const EZPR_MODAL_SUBMISSION = "ezpr_modal_submission";
 export const OPEN_HELP_USAGE_MODAL = "open_help_usage_modal";
 export const SLASH_EZPR = SLASH + EZPR;
 export const SLASH_HELP = SLASH + HELP;
+export const SLASH_CHOOSE = SLASH + CHOOSE;
 
 // Parsing arguments
 

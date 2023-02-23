@@ -1,4 +1,5 @@
-import { EZPRArguments, translateInputToHumanReadable } from "../types";
+import { translateInputToHumanReadable } from "../types";
+import { EZPRArguments } from "./";
 
 const ezprMarkdown = (args: EZPRArguments) => `
 ${args.reviewers?.length === 0 ? "" : args.reviewers?.join(" ")}

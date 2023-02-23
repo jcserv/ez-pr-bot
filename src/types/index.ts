@@ -1,5 +1,3 @@
-export * from "./ezpr";
-export * from "./help";
 export * from "./model";
 
 export interface ICommand {

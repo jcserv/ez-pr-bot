@@ -1,10 +1,10 @@
 import { AckFn, HomeView, RespondArguments, View } from "@slack/bolt";
 import { WebClient } from "@slack/web-api";
 
-import { OpenModalCommand } from "../cmd/openModal";
+import { OpenModalCommand } from "../cmd";
 import { logger } from "../logger";
-import { HelpArguments, ICommand } from "../types";
-import { helpUsage } from "./blocks";
+import { ICommand } from "../types";
+import { HelpArguments, helpUsage } from "./";
 import helpOverview from "./overview.json";
 
 export * from "./blocks";

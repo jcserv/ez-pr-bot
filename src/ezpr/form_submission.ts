@@ -8,7 +8,8 @@ import {
   SELECTED_USERS,
 } from "../constants";
 import { FormValues, getInputValue } from "../parse";
-import { EZPRArguments, toMention, toMentions } from "../types";
+import { toMention, toMentions } from "../types";
+import { EZPRArguments } from ".";
 
 const STATE = "state";
 const VALUES = "values";

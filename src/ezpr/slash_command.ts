@@ -3,11 +3,11 @@ import { SlashCommand } from "@slack/bolt";
 import { HTTPError } from "../errors";
 import { parseCommandArgs } from "../parse";
 import {
-  EZPRArguments,
   IsUserGroup,
   toMention,
   UserGroupToMentionStringSchema,
 } from "../types";
+import { EZPRArguments } from "./";
 
 const MIN_SLASH_EZPR_ARGS = 1;
 const MAX_SLASH_EZPR_ARGS = 5;

@@ -1,35 +1,5 @@
-import { error, ezprHelp, helpUsage } from "../help";
-import helpOverview from "../help/overview.json";
-import { EZPRArguments } from "./ezpr";
-import { HelpArguments, renderMessage } from "./help";
-
-describe("EZPRArguments", () => {
-  test("happy path with minimum args", () => {
-    expect(
-      new EZPRArguments(
-        "@jane.doe",
-        "http://github.com/jcserv/ez-pr-bot/pulls/1",
-        "15m",
-        "desc"
-      )
-    ).toBeDefined();
-  });
-
-  test("happy path with all args", () => {
-    expect(
-      new EZPRArguments(
-        "@jane.doe",
-        "http://github.com/jcserv/ez-pr-bot/pulls/1",
-        "15m",
-        "description",
-        "#test",
-        ["@john.doe"],
-        6,
-        "input"
-      )
-    ).toBeDefined();
-  });
-});
+import { error, ezprHelp, HelpArguments, helpUsage, renderMessage } from ".";
+import helpOverview from "./overview.json";
 
 describe("HelpArguments", () => {
   describe("Constructor", () => {
