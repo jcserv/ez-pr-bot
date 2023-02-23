@@ -1,18 +1,26 @@
 import { EZPRArguments, translateInputToHumanReadable } from "../types";
 
 const ezprMarkdown = (args: EZPRArguments) => `
-${args.reviewers?.join(" ")} :wave:
-
+${args.reviewers?.length === 0 ? "" : args.reviewers?.join(" ")}
 *From:* ${args.submitter}
-
-*Estimated Review Time*: ${translateInputToHumanReadable(args.ert)}
-
-Please review: ${args.description}
-
+${
+  args.ert === ""
+    ? ""
+    : `\n*Estimated Review Time*: ${translateInputToHumanReadable(args.ert)}\n`
+}
+${args.description === "" ? "" : `\nPlease review: ${args.description}\n`}
 PR Link: ${args.pullRequest.link}
 `;
 
 export const ezprMessage = (args: EZPRArguments) => [
+  {
+    type: "header",
+    text: {
+      type: "plain_text",
+      text: ":rocket: PR Review Request",
+      emoji: true,
+    },
+  },
   {
     type: "section",
     text: {
@@ -34,4 +42,14 @@ export const ezprMessage = (args: EZPRArguments) => [
       },
     ],
   },
+  {
+    type: "divider",
+  },
 ];
+
+export const ezprText = (args: EZPRArguments) =>
+  `${args.submitter} submitted a PR Review Request ${
+    args.ert === "" ? "" : `with an estimated review time of ${args.ert}`
+  } to ${args.channel}${
+    args.description === "" ? "" : `| ${args.description}`
+  }`;

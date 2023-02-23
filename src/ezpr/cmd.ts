@@ -4,7 +4,7 @@ import { View, WebClient } from "@slack/web-api";
 import { OpenModalCommand } from "../cmd/openModal";
 import { logger } from "../logger";
 import { EZPRArguments, ICommand } from "../types";
-import { ezprMessage } from "./blocks";
+import { ezprMessage, ezprText } from "./blocks";
 import ezprModal from "./modal.json";
 
 export class EZPRCommand implements ICommand {
@@ -20,7 +20,7 @@ export class EZPRCommand implements ICommand {
     this.input = args.input || "";
     this.message = ezprMessage(args);
     this.channel = args.channel || "";
-    this.text = `${args.submitter} submitted a PR Review Request with an estimated review time of ${args.ert} to ${args.channel}\n${args.description}`;
+    this.text = ezprText(args);
   }
 
   async handle() {

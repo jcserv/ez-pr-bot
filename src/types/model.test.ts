@@ -2,7 +2,9 @@ import { ZodError } from "zod";
 
 import {
   ChannelSchema,
+  ertErrorMsg,
   EstimatedReviewTimeSchema,
+  githubErrorMsg,
   IsUserGroup,
   PRDescriptionSchema,
   PRLinkSchema,
@@ -162,7 +164,7 @@ describe("PRLinkSchema Validate", () => {
       {
         validation: "regex",
         code: "invalid_string",
-        message: "Invalid",
+        message: githubErrorMsg,
         path: [],
       },
     ]);
@@ -180,8 +182,7 @@ describe("EstimatedReviewTimeSchema Validate", () => {
     {
       validation: "regex",
       code: "invalid_string",
-      message:
-        "Invalid input: must start with 1 or 2 digits and end with a support time unit",
+      message: ertErrorMsg,
       path: [],
     },
   ]);

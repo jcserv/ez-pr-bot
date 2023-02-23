@@ -9,7 +9,7 @@ import {
   UserGroupToMentionStringSchema,
 } from "../types";
 
-const MIN_SLASH_EZPR_ARGS = 3;
+const MIN_SLASH_EZPR_ARGS = 1;
 const MAX_SLASH_EZPR_ARGS = 5;
 
 enum ArgIndices {
@@ -28,12 +28,15 @@ export function ParseEZPRSlashCommand(payload: SlashCommand): EZPRArguments {
   }
 
   const channel =
-    args.length === MAX_SLASH_EZPR_ARGS
+    args.length >= ArgIndices.CHANNEL + 1
       ? args[ArgIndices.CHANNEL]
       : payload.channel_name;
 
   let reviewers =
-    args.length > MIN_SLASH_EZPR_ARGS ? [args[ArgIndices.REVIEWER]] : [];
+    args.length >= ArgIndices.REVIEWER + 1 ? [args[ArgIndices.REVIEWER]] : [];
+
+  const ert = args.length >= ArgIndices.ERT + 1 ? args[ArgIndices.ERT] : "";
+  const desc = args.length >= ArgIndices.DESC + 1 ? args[ArgIndices.DESC] : "";
 
   // Transform user group strings to mention strings if applicable
   reviewers = reviewers.map((s) => {
@@ -46,8 +49,8 @@ export function ParseEZPRSlashCommand(payload: SlashCommand): EZPRArguments {
   return new EZPRArguments(
     toMention(payload.user_name),
     args[ArgIndices.PR_LINK],
-    args[ArgIndices.ERT],
-    args[ArgIndices.DESC],
+    ert,
+    desc,
     channel,
     reviewers,
     args.length,

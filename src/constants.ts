@@ -26,3 +26,5 @@ export const SLASH_HELP = "/help";
 export const SELECTED_CONVERSATION = "selected_conversation";
 export const SELECTED_OPTION = "selected_option";
 export const SELECTED_USERS = "selected_users";
+
+// Errors

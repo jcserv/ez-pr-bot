@@ -5,6 +5,18 @@ import { ParseEZPRSlashCommand } from ".";
 import { ezprMessage } from "./blocks";
 
 describe("ParseEZPRSlashCommand", () => {
+  test("/ezpr [pr link]", async () => {
+    const args = "http://github.com/jcserv/ez-pr-bot/pulls/1";
+    const input = slashCommand("/ezpr", { text: args });
+    expect(ParseEZPRSlashCommand(input)).toBeDefined();
+  });
+
+  test("/ezpr [pr link] [estimated review time]", async () => {
+    const args = "http://github.com/jcserv/ez-pr-bot/pulls/1 15m";
+    const input = slashCommand("/ezpr", { text: args });
+    expect(ParseEZPRSlashCommand(input)).toBeDefined();
+  });
+
   test("/ezpr [pr link] [estimated review time] [description]", async () => {
     const args =
       'http://github.com/jcserv/ez-pr-bot/pulls/1 15m "Please review :)"';

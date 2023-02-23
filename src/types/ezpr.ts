@@ -14,8 +14,8 @@ import {
 const EZPRArgumentsSchema = z.object({
   submitter: MentionSchema,
   link: PRLinkSchema,
-  ert: EstimatedReviewTimeSchema,
-  description: PRDescriptionSchema,
+  ert: EstimatedReviewTimeSchema.or(z.literal("")),
+  description: z.optional(PRDescriptionSchema),
   channel: z.optional(ChannelSchema),
   reviewers: z.optional(MentionsSchema),
   numArgs: z.optional(z.number()),
@@ -52,11 +52,9 @@ export class EZPRArguments {
       numArgs,
       input,
     };
-
-    // eslint-disable-next-line no-console
-    const pr = EZPRArgumentsSchema.parse(args) as unknown as PullRequest;
+    const obj = EZPRArgumentsSchema.parse(args);
     this.submitter = submitter;
-    this.pullRequest = pr;
+    this.pullRequest = obj.link;
     this.ert = ert;
     this.description = description;
     this.channel = channel;
