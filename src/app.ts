@@ -182,10 +182,10 @@ app.command(SLASH_HELP, async ({ ack, client, payload }) => {
 
 // CHOOSE
 
-app.command(SLASH_CHOOSE, async ({ ack, client, payload }) => {
+app.command(SLASH_CHOOSE, async ({ client, payload }) => {
   try {
     const args = ParseSlashChooseCommand(payload);
-    const command = new ChooseCommand(ack, args);
+    const command = new ChooseCommand(client, args);
     await command.handle();
     const interactionCountMetric = createInteractionCountMetric(
       COMMAND,
