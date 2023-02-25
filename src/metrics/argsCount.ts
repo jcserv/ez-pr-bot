@@ -1,6 +1,6 @@
 import { Dimension } from "@aws-sdk/client-cloudwatch";
 
-import { MetricPublisher, usageNamespace } from ".";
+import { MetricPublisher, usageNamespace } from "./publisher";
 
 const argsCountMetricName = "args_count";
 

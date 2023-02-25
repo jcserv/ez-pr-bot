@@ -32,17 +32,16 @@ export class ChooseArguments {
       include,
       exclude,
       channel,
-      input,
       numArgs,
+      input,
     };
-
     ChooseArgumentsSchema.parse(args);
 
     this.amount = amount;
     this.include = include;
     this.exclude = exclude;
     this.channel = channel;
-    this.input = input;
     this.numArgs = numArgs;
+    this.input = input;
   }
 }

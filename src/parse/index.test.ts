@@ -1,5 +1,10 @@
 import { SELECTED_CONVERSATION, SELECTED_USERS } from "../constants";
-import { getInputValue, parseCommandArgs } from ".";
+import {
+  getInputValue,
+  isFlagProvided,
+  mapUntilFlagEncountered,
+  parseCommandArgs,
+} from ".";
 
 describe("parseCommandArgs", () => {
   test("empty string should result in zero results", () => {
@@ -48,6 +53,39 @@ describe("parseCommandArgs", () => {
   test("ascii double quotes", () => {
     expect(parseCommandArgs("“testing multiple reviewers”")).toStrictEqual([
       "testing multiple reviewers",
+    ]);
+  });
+});
+
+const mockFlag = "--TEST";
+
+describe("isFlagProvided", () => {
+  test("empty array, should return false", () => {
+    expect(isFlagProvided([], mockFlag)).toBe(false);
+  });
+
+  test("flag is provided with one arg, should return true", () => {
+    expect(isFlagProvided([mockFlag, "hi!"], mockFlag)).toBe(true);
+  });
+
+  test("flag is provided but no args after, should return false", () => {
+    expect(isFlagProvided([mockFlag], mockFlag)).toBe(false);
+  });
+});
+
+describe("mapUntilFlagEncountered", () => {
+  test("empty array input, should return empty array", () => {
+    expect(mapUntilFlagEncountered([])).toStrictEqual([]);
+  });
+
+  test("first argument is a flag, should return empty array", () => {
+    expect(mapUntilFlagEncountered([mockFlag])).toStrictEqual([]);
+  });
+
+  test("some args then a flag, should return those args before flag", () => {
+    expect(mapUntilFlagEncountered(["hi", "bye", mockFlag])).toStrictEqual([
+      "hi",
+      "bye",
     ]);
   });
 });

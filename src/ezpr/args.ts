@@ -27,7 +27,7 @@ export class EZPRArguments {
   pullRequest: PullRequest;
   ert: string;
   description: string;
-  channel?: string;
+  channel: string;
   reviewers?: Mention[];
   numArgs?: number;
   input?: string;
@@ -37,7 +37,7 @@ export class EZPRArguments {
     link: string,
     ert: string,
     description: string,
-    channel?: string,
+    channel: string,
     reviewers?: string[],
     numArgs?: number,
     input?: string
@@ -55,7 +55,7 @@ export class EZPRArguments {
     const obj = EZPRArgumentsSchema.parse(args);
     this.submitter = submitter;
     this.pullRequest = obj.link;
-    this.ert = ert;
+    this.ert = obj.ert;
     this.description = description;
     this.channel = channel;
     this.reviewers = reviewers;

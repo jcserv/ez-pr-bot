@@ -9,6 +9,7 @@ module.exports = {
     "src/app.ts",
     "src/choose/index.ts",
     "src/cmd/index.ts",
+    "src/errors/markdown.ts",
     "src/ezpr/index.ts",
     "src/help/index.ts",
     "src/types/index.ts",

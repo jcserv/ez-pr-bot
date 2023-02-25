@@ -1,26 +1,23 @@
 import { WebClient } from "@slack/web-api";
 
-import { ICommand, UserID, UserIDSchema } from "../../types";
+import { ICommand, SlackMessage } from "../../types";
 
 export class PostMessageCommand implements ICommand {
   client: WebClient;
-  user_id: UserID;
+  message: SlackMessage;
 
-  constructor(client: WebClient, user_id: string) {
+  constructor(client: WebClient, message: SlackMessage) {
     this.client = client;
-    UserIDSchema.parse(user_id);
-    this.user_id = user_id;
+    this.message = message;
   }
 
   async handle() {
-    //   await this.client.chat
-    //     .postMessage({
-    //       blocks: this.message,
-    //       channel: this.channel,
-    //       text: this.text,
-    //     })
-    //     .catch((error) => {
-    //       throw error;
-    //     });
+    const result = await this.client.chat.postMessage({
+      blocks: this.message.blocks,
+      channel: this.message.channel,
+      text: this.message.text,
+    });
+
+    return result;
   }
 }

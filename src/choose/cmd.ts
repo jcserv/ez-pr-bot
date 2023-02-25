@@ -1,8 +1,8 @@
-import { Block } from "@slack/bolt";
 import { WebClient } from "@slack/web-api";
 import _ from "lodash";
 
-import { ICommand } from "../types";
+import { PostMessageCommand } from "../cmd";
+import { ICommand, SlackMessage } from "../types";
 import { ChooseArguments } from "./";
 import { diceMessages } from "./blocks";
 
@@ -10,22 +10,21 @@ export class ChooseCommand implements ICommand {
   client: WebClient;
 
   input: string;
-  channel: string;
   args: ChooseArguments;
 
   constructor(client: WebClient, args: ChooseArguments) {
     this.client = client;
     this.args = args;
-    this.channel = args.channel || "";
     this.input = args.input || "";
   }
 
-  generateMessages(chosen: string[]): Block[][] {
-    switch (chosen.length) {
-      case 1:
-        return diceMessages;
-    }
-    return diceMessages;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  generateMessages(_: string[]): SlackMessage[] {
+    // switch (chosen.length) {
+    //   case 1:
+    //     return diceMessages(channel);
+    // }
+    return diceMessages(this.args.channel);
   }
 
   async handle() {
@@ -36,15 +35,8 @@ export class ChooseCommand implements ICommand {
     const messages = this.generateMessages(chosen);
 
     messages.forEach(async (msg) => {
-      await this.client.chat
-        .postMessage({
-          blocks: msg,
-          channel: this.channel,
-          text: "",
-        })
-        .catch((error) => {
-          throw error;
-        });
+      const command = new PostMessageCommand(this.client, msg);
+      await command.handle();
     });
   }
 }

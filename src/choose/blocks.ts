@@ -1,11 +1,15 @@
-import { Block } from "@slack/bolt";
+import { Channel, SlackMessage } from "../types";
 
-const simpleMessage = (text: string) => ({
-  type: "section",
-  text: {
-    type: "mrkdwn",
-    text,
+const simpleMessage = (text: string) => [
+  {
+    type: "section",
+    text: {
+      type: "mrkdwn",
+      text,
+    },
   },
-});
+];
 
-export const diceMessages: Block[][] = [[simpleMessage("*rolls dice*")]];
+export const diceMessages = (channel: Channel): SlackMessage[] => [
+  new SlackMessage(simpleMessage("*rolls dice*"), channel, "Swag"),
+];

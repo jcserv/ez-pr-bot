@@ -108,27 +108,32 @@ describe("EstimatedReviewTimeSchema Validate", () => {
 
   test("1m, should be valid", () => {
     const input = "1m";
-    expect(EstimatedReviewTimeSchema.parse(input)).toStrictEqual(input);
+    const expected = "1 minute";
+    expect(EstimatedReviewTimeSchema.parse(input)).toStrictEqual(expected);
   });
 
   test("15m, should be valid", () => {
     const input = "15m";
-    expect(EstimatedReviewTimeSchema.parse(input)).toStrictEqual(input);
+    const expected = "15 minutes";
+    expect(EstimatedReviewTimeSchema.parse(input)).toStrictEqual(expected);
   });
 
   test("5min, should be valid", () => {
     const input = "5min";
-    expect(EstimatedReviewTimeSchema.parse(input)).toStrictEqual(input);
+    const expected = "5 minutes";
+    expect(EstimatedReviewTimeSchema.parse(input)).toStrictEqual(expected);
   });
 
   test("5mins, should be valid", () => {
     const input = "5mins";
-    expect(EstimatedReviewTimeSchema.parse(input)).toStrictEqual(input);
+    const expected = "5 minutes";
+    expect(EstimatedReviewTimeSchema.parse(input)).toStrictEqual(expected);
   });
 
   test("5 minute, should be valid", () => {
     const input = "5 minute";
-    expect(EstimatedReviewTimeSchema.parse(input)).toStrictEqual(input);
+    const expected = "5 minutes";
+    expect(EstimatedReviewTimeSchema.parse(input)).toStrictEqual(expected);
   });
 
   test("1 hour, should be valid", () => {
@@ -138,11 +143,13 @@ describe("EstimatedReviewTimeSchema Validate", () => {
 
   test("12 hrs, should be valid", () => {
     const input = "12 hrs";
-    expect(EstimatedReviewTimeSchema.parse(input)).toStrictEqual(input);
+    const expected = "12 hours";
+    expect(EstimatedReviewTimeSchema.parse(input)).toStrictEqual(expected);
   });
 
   test("valid input with extra spaces at front/back, should be valid", () => {
-    expect(EstimatedReviewTimeSchema.parse("  1m  ")).toStrictEqual("1m");
+    const expected = "1 minute";
+    expect(EstimatedReviewTimeSchema.parse("  1m  ")).toStrictEqual(expected);
   });
 
   test("extra chars at start, should be invalid", () => {

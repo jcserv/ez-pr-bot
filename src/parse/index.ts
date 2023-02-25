@@ -17,6 +17,7 @@ const SINGLE_QUOTES = "'";
 const DOUBLE_QUOTES = '"';
 const ASCII_DOUBLE_QUOTES_START = "“";
 const ASCII_DOUBLE_QUOTES_END = "”";
+const VALUE = "value";
 
 const START_TERMINATORS = [
   SINGLE_QUOTES,
@@ -79,7 +80,23 @@ export function parseCommandArgs(text: string): string[] {
   return ret;
 }
 
-const VALUE = "value";
+export function isFlagProvided(args: string[], flag: string) {
+  return args.includes(flag) && args.length > args.indexOf(flag) + 1;
+}
+
+export function mapUntilFlagEncountered(
+  args: string[],
+  startIndex = 0
+): string[] {
+  const output = [];
+  for (let i = startIndex; i < args.length; i++) {
+    if (args[i].startsWith("--")) {
+      break;
+    }
+    output.push(args[i]);
+  }
+  return output;
+}
 
 export interface FormValues {
   [blockId: string]: {

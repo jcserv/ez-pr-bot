@@ -40,7 +40,6 @@ export abstract class MetricPublisher {
 
   public async publish(count?: number): Promise<void> {
     try {
-      logger.info("Publishing metric");
       const command = new PutMetricDataCommand({
         MetricData: [
           {
@@ -55,7 +54,6 @@ export abstract class MetricPublisher {
       });
 
       await this.client.send(command);
-      logger.info("Successfully published metric " + this.metricName);
     } catch (err) {
       logger.error("Failed to publish metric", err);
     }

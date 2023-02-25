@@ -46,8 +46,14 @@ export declare type Channel = string;
 // payload.channel_name provides the channel name without the # at front, so we don't validate #'s
 export const ChannelSchema = z.string().trim();
 
-export declare type SlackMessage = {
+export class SlackMessage {
   blocks: (KnownBlock | Block)[];
   channel: Channel;
   text: string;
-};
+
+  constructor(blocks: (KnownBlock | Block)[], channel: Channel, text: string) {
+    this.blocks = blocks;
+    this.channel = channel;
+    this.text = text;
+  }
+}

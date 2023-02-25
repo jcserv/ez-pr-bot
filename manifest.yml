@@ -21,6 +21,11 @@ features:
       description: Submit a pull request for review
       usage_hint: "[link]"
       should_escape: false
+    - command: /ezpr-choose
+      url: [URL]
+      description: Choose N users randomly from the provided role/mentions.
+      usage_hint: "[number] [@role/@mention]..."
+      should_escape: false
     - command: /ezpr-help
       url: [URL]
       description: Provides information about EZ PR Bot, the commands available, and their usage.

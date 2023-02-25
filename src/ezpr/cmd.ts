@@ -1,9 +1,8 @@
-import { Block, KnownBlock } from "@slack/bolt";
 import { View, WebClient } from "@slack/web-api";
 
+import { PostMessageCommand } from "../cmd";
 import { OpenModalCommand } from "../cmd/openModal";
-import { logger } from "../logger";
-import { ICommand } from "../types";
+import { ICommand, SlackMessage } from "../types";
 import { EZPRArguments } from "./args";
 import { ezprMessage, ezprText } from "./blocks";
 import ezprModal from "./modal.json";
@@ -12,32 +11,21 @@ export class EZPRCommand implements ICommand {
   client: WebClient;
 
   input: string;
-  channel: string;
-  message: (KnownBlock | Block)[];
-  text: string;
+  message: SlackMessage;
 
   constructor(client: WebClient, args: EZPRArguments) {
     this.client = client;
     this.input = args.input || "";
-    this.message = ezprMessage(args);
-    this.channel = args.channel || "";
-    this.text = ezprText(args);
+    this.message = new SlackMessage(
+      ezprMessage(args),
+      args.channel || "",
+      ezprText(args)
+    );
   }
 
   async handle() {
-    // ez pr bot needs to be in the channel
-    // should be a valid role
-
-    await this.client.chat
-      .postMessage({
-        blocks: this.message,
-        channel: this.channel,
-        text: this.text,
-      })
-      .then(() => logger.info("PR Review Request submitted!"))
-      .catch((error) => {
-        throw error;
-      });
+    const command = new PostMessageCommand(this.client, this.message);
+    return await command.handle();
   }
 }
 

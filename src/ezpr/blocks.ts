@@ -1,14 +1,9 @@
-import { translateInputToHumanReadable } from "../types";
 import { EZPRArguments } from "./";
 
 const ezprMarkdown = (args: EZPRArguments) => `
 ${args.reviewers?.length === 0 ? "" : args.reviewers?.join(" ")}
 *From:* ${args.submitter}
-${
-  args.ert === ""
-    ? ""
-    : `\n*Estimated Review Time*: ${translateInputToHumanReadable(args.ert)}\n`
-}
+${args.ert === "" ? "" : `\n*Estimated Review Time*: ${args.ert}\n`}
 ${args.description === "" ? "" : `\nPlease review: ${args.description}\n`}
 PR Link: ${args.pullRequest.link}
 `;
@@ -52,5 +47,5 @@ export const ezprText = (args: EZPRArguments) =>
   `${args.submitter} submitted a PR Review Request ${
     args.ert === "" ? "" : `with an estimated review time of ${args.ert}`
   } to ${args.channel}${
-    args.description === "" ? "" : `| ${args.description}`
+    args.description === "" ? "" : ` | ${args.description}`
   }`;
