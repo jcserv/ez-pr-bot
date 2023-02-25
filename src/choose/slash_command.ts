@@ -29,8 +29,6 @@ export function ParseSlashChooseCommand(
     ? mapUntilFlagEncountered(args, args.indexOf(EXCLUDE_FLAG) + 1)
     : [];
 
-  // eslint-disable-next-line no-console
-  console.log(args);
   return new ChooseArguments(
     amount,
     include,

@@ -23,8 +23,8 @@ features:
       should_escape: false
     - command: /ezpr-choose
       url: [URL]
-      description: Choose N users randomly from the provided role/mentions.
-      usage_hint: "[number] [@role/@mention]..."
+      description: Choose user(s) randomly from the provided role/mentions.
+      usage_hint: "[@role/@mention]..."
       should_escape: false
     - command: /ezpr-help
       url: [URL]

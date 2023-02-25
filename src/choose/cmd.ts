@@ -18,13 +18,12 @@ export class ChooseCommand implements ICommand {
     this.input = args.input || "";
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  generateMessages(_: string[]): SlackMessage[] {
+  generateMessages(chosen: string[]): SlackMessage[] {
     // switch (chosen.length) {
     //   case 1:
     //     return diceMessages(channel);
     // }
-    return diceMessages(this.args.channel);
+    return diceMessages(chosen, this.args.channel);
   }
 
   async handle() {
@@ -33,7 +32,6 @@ export class ChooseCommand implements ICommand {
       this.args.amount
     );
     const messages = this.generateMessages(chosen);
-
     messages.forEach(async (msg) => {
       const command = new PostMessageCommand(this.client, msg);
       await command.handle();
