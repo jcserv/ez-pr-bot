@@ -27,18 +27,4 @@ _example usage_:
 
     *input:* /ezpr-choose @ez-pr-devs
 
-    *output:*
-
-    *rolls dice* -> "Rolled a X, @person has been chosen!"
-
-    *spins wheel* -> "It stopped on @person, you have been chosen!"
-
-    *hands out straws* -> "X drew the short straw, you have been chosen!"
-
-    *chooses a card* -> "@person, is this your card? You have been chosen."
-
-    *reads crystal ball* -> "My heavens, @person is the chosen one!"
-
-    *flips coin* -> "It's [heads/tails]! @person has been chosen."
-
-    *races ducks* -> "And they're off!" -> "X is hot out the gates" -> "but what's that? Y is gaining slowly, edging them out and taking the lead" -> "It's gonna be a photo finish between X, Y, Z" -> "Golly! @person with the stunning comeback to win it all!"
+    *output:* Returns a message indicating who was chosen.

@@ -4,7 +4,13 @@ import _ from "lodash";
 import { PostMessageCommand } from "../cmd";
 import { ICommand, SlackMessage } from "../types";
 import { ChooseArguments } from "./";
-import { diceMessages } from "./blocks";
+import {
+  drawStrawsMessage,
+  flipCoinMessage,
+  pickACardMessage,
+  rollDiceMessage,
+  spinWheelMessage,
+} from "./blocks";
 
 export class ChooseCommand implements ICommand {
   client: WebClient;
@@ -18,12 +24,20 @@ export class ChooseCommand implements ICommand {
     this.input = args.input || "";
   }
 
-  generateMessages(chosen: string[]): SlackMessage[] {
-    // switch (chosen.length) {
-    //   case 1:
-    //     return diceMessages(channel);
-    // }
-    return diceMessages(chosen, this.args.channel);
+  generateMessage(chosen: string[]): SlackMessage {
+    const r = _.random(1, 5);
+    switch (r) {
+      case 1:
+        return rollDiceMessage(chosen, this.args.channel);
+      case 2:
+        return spinWheelMessage(chosen, this.args.channel);
+      case 3:
+        return drawStrawsMessage(chosen, this.args.channel);
+      case 4:
+        return pickACardMessage(chosen, this.args.channel);
+      default:
+        return flipCoinMessage(chosen, this.args.channel);
+    }
   }
 
   async handle() {
@@ -31,10 +45,8 @@ export class ChooseCommand implements ICommand {
       _.difference(this.args.include, this.args.exclude),
       this.args.amount
     );
-    const messages = this.generateMessages(chosen);
-    messages.forEach(async (msg) => {
-      const command = new PostMessageCommand(this.client, msg);
-      await command.handle();
-    });
+    const message = this.generateMessage(chosen);
+    const command = new PostMessageCommand(this.client, message);
+    await command.handle();
   }
 }
