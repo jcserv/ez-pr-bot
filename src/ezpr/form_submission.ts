@@ -1,7 +1,6 @@
 import { SlackViewAction, ViewOutput } from "@slack/bolt";
 import { WebClient } from "@slack/web-api";
 
-import { GetNameByIDCommand } from "../cmd";
 import {
   SELECTED_CONVERSATION,
   SELECTED_OPTION,
