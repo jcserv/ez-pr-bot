@@ -1,9 +1,12 @@
+import { ZodError } from "zod";
+
 import {
   ChannelSchema,
-  IsUserGroup,
   toMention,
   toMentions,
-  UserGroupToMentionStringSchema,
+  UserGroupAsMentionSchema,
+  userGroupErrorMsg,
+  UserGroupSchema,
 } from ".";
 
 describe("toMentions", () => {
@@ -42,27 +45,42 @@ describe("toMention", () => {
   });
 });
 
-describe("IsUserGroup", () => {
-  test("empty string, should return false", () => {
-    expect(IsUserGroup("")).toStrictEqual(false);
+describe("UserGroupSchema", () => {
+  test("valid user group, should be parsed", () => {
+    const input = "<!subteam^S01ABC2DEFG|@ez-pr-devs>";
+    expect(UserGroupSchema.parse(input)).toStrictEqual(input);
   });
 
-  test("mention string, should return false", () => {
-    expect(IsUserGroup("@jane.doe")).toStrictEqual(false);
+  const expectedInvalidUserGroupErr = new ZodError([
+    {
+      validation: "regex",
+      code: "invalid_string",
+      message: userGroupErrorMsg,
+      path: [],
+    },
+  ]);
+
+  test("empty string, should return validation error", () => {
+    try {
+      UserGroupSchema.parse("");
+    } catch (error) {
+      expect(error).toStrictEqual(expectedInvalidUserGroupErr);
+    }
   });
 
-  test("valid usergroup string, should return true", () => {
-    expect(IsUserGroup("<!subteam^S04HKF5MKRP|@ez-pr-devs>")).toStrictEqual(
-      true
-    );
+  test("mention, should return validation error", () => {
+    try {
+      UserGroupSchema.parse("@jane.doe");
+    } catch (error) {
+      expect(error).toStrictEqual(expectedInvalidUserGroupErr);
+    }
   });
 });
 
-describe("UserGroupToMentionStringSchema", () => {
-  test("valid usergroup string, should return mention", () => {
-    expect(
-      UserGroupToMentionStringSchema.parse("<!subteam^S04HKF5MKRP|@ez-pr-devs>")
-    ).toStrictEqual("@ez-pr-devs");
+describe("UserGroupAsMentionSchema", () => {
+  test("valid user group, should be parse out mention", () => {
+    const input = "<!subteam^S01ABC2DEFG|@ez-pr-devs>";
+    expect(UserGroupAsMentionSchema.parse(input)).toStrictEqual("@ez-pr-devs");
   });
 });
 

@@ -52,7 +52,7 @@ const ezprHelpMarkdown = `
 
 *usage*: 
 
-  ${ezprMinimumUsage}
+    ${ezprMinimumUsage}
 	${ezprAllArgsExampleUsage}
      ${ezprDefaultChannelExampleUsage}
 	${ezprBaseExampleUsage}

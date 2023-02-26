@@ -44,8 +44,6 @@ export const ezprMessage = (args: EZPRArguments) => [
 ];
 
 export const ezprText = (args: EZPRArguments) =>
-  `${args.submitter} submitted a PR Review Request ${
-    args.ert === "" ? "" : `with an estimated review time of ${args.ert}`
-  } to ${args.channel}${
-    args.description === "" ? "" : ` | ${args.description}`
-  }`;
+  `A PR Review Request was submitted to ${args.channel}${
+    args.ert === "" ? "" : ` with an estimated review time of ${args.ert}`
+  }${args.description === "" ? "" : ` | ${args.description}`}`;

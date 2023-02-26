@@ -29,6 +29,9 @@ export function ParseSlashChooseCommand(
     ? mapUntilFlagEncountered(args, args.indexOf(EXCLUDE_FLAG) + 1)
     : [];
 
+  // need to translate @skellzore --> user_id
+  // need to translate user group to individual users
+
   return new ChooseArguments(
     amount,
     include,

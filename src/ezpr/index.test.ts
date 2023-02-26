@@ -42,7 +42,7 @@ describe("EZPRCommand", () => {
     const command = new EZPRCommand(
       client,
       new EZPRArguments(
-        "@jane.doe",
+        "U12345",
         "https://github.com/jcserv/ez-pr-bot/pulls/1",
         "15m",
         "Bug fix",
@@ -113,7 +113,7 @@ describe("EZPRArguments", () => {
   test("happy path with minimum args", () => {
     expect(
       new EZPRArguments(
-        "@jane.doe",
+        "U12345",
         "http://github.com/jcserv/ez-pr-bot/pulls/1",
         "15m",
         "desc",
@@ -125,12 +125,12 @@ describe("EZPRArguments", () => {
   test("happy path with all args", () => {
     expect(
       new EZPRArguments(
-        "@jane.doe",
+        "U12345",
         "http://github.com/jcserv/ez-pr-bot/pulls/1",
         "15m",
         "description",
         "#test",
-        ["@john.doe"],
+        ["U12345"],
         6,
         "input"
       )
@@ -141,7 +141,7 @@ describe("EZPRArguments", () => {
 describe("ezprMessage", () => {
   test("happy path", async () => {
     const input = new EZPRArguments(
-      "@jane.doe",
+      "U12345",
       "http://github.com/jcserv/ez-pr-bot/pulls/1",
       "15m",
       "desc",
@@ -154,14 +154,52 @@ describe("ezprMessage", () => {
 describe("ezprText", () => {
   test("happy path", async () => {
     const input = new EZPRArguments(
-      "@jane.doe",
+      "U12345",
       "http://github.com/jcserv/ez-pr-bot/pulls/1",
       "15m",
       "Fixes bug",
       "#channel"
     );
     const expected =
-      "@jane.doe submitted a PR Review Request with an estimated review time of 15 minutes to #channel | Fixes bug";
+      "A PR Review Request was submitted to #channel with an estimated review time of 15 minutes | Fixes bug";
+    expect(ezprText(input)).toBe(expected);
+  });
+
+  test("estimated review time not provided", async () => {
+    const input = new EZPRArguments(
+      "U12345",
+      "http://github.com/jcserv/ez-pr-bot/pulls/1",
+      "",
+      "Fixes bug",
+      "#channel"
+    );
+    const expected =
+      "A PR Review Request was submitted to #channel | Fixes bug";
+    expect(ezprText(input)).toBe(expected);
+  });
+
+  test("description not provided", async () => {
+    const input = new EZPRArguments(
+      "U12345",
+      "http://github.com/jcserv/ez-pr-bot/pulls/1",
+      "15m",
+      "",
+      "#channel"
+    );
+    const expected =
+      "A PR Review Request was submitted to #channel with an estimated review time of 15 minutes";
+    expect(ezprText(input)).toBe(expected);
+  });
+
+  test("description and ert not provided", async () => {
+    const input = new EZPRArguments(
+      "U12345",
+      "http://github.com/jcserv/ez-pr-bot/pulls/1",
+      "",
+      "",
+      "#channel"
+    );
+    const expected = "A PR Review Request was submitted to #channel";
     expect(ezprText(input)).toBe(expected);
   });
 });

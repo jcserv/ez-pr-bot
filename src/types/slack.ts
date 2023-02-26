@@ -8,38 +8,59 @@ const LegacyUserIDSchema = z.string().startsWith("W");
 
 export const UserIDSchema = NewUserIDSchema.or(LegacyUserIDSchema);
 
+export const UserIDAsMentionSchema = UserIDSchema.transform(
+  (val) => `<@${val}>`
+);
+
+export declare type UserGroup = string;
+
+const userGroupRegex = /^<!subteam\^S[\w]{10}\|@[\w+\-?]+>$/;
+
+export const userGroupErrorMsg =
+  "Invalid input: expected a Slack UserGroup, ex: <!subteam^S01ABC2DEFG|@ez-pr-devs>";
+
+export const UserGroupSchema = z
+  .string()
+  .trim()
+  .regex(userGroupRegex, { message: userGroupErrorMsg });
+
+export const UserGroupAsMentionSchema = UserGroupSchema.transform((val) =>
+  val.substring(val.indexOf("|") + 1, val.length - 1)
+);
+
 export declare type Mention = string;
 
+export const MentionSchema = z
+  .string()
+  .trim()
+  .transform((val) => {
+    if (val.startsWith("@")) {
+      return val;
+    }
+    return "@" + val;
+  });
+
+export function toMention(val: string): Mention {
+  return MentionInputSchema.parse(val);
+}
+
+export const MentionInputSchema = z.union([
+  UserGroupAsMentionSchema,
+  UserIDAsMentionSchema,
+  MentionSchema,
+]);
+
 export declare type Mentions = Mention[];
+
+export const MentionsSchema = z
+  .array(MentionSchema)
+  .transform((vals) => toMentions(vals));
 
 export function toMentions(usernames: string[]): Mentions {
   const mentions: Mentions = [];
   usernames.forEach((username) => mentions.push(toMention(username)));
   return mentions;
 }
-
-export function toMention(username: string): Mention {
-  if (!username.startsWith("@")) {
-    username = "@" + username;
-  }
-  MentionSchema.parse(username);
-  return username;
-}
-
-export const MentionSchema = z.string().startsWith("@");
-
-export const MentionsSchema = z.array(MentionSchema);
-
-export declare type UserGroup = string;
-
-export function IsUserGroup(s: string): boolean {
-  return s.startsWith("<!subteam");
-}
-
-export const UserGroupToMentionStringSchema = z
-  .string()
-  .startsWith("<!subteam")
-  .transform((val) => val.substring(val.indexOf("|") + 1, val.length - 1));
 
 export declare type Channel = string;
 

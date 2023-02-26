@@ -29,21 +29,13 @@ export async function ParseEZPRFormSubmission(
   const { user } = body;
   const { url, ert, desc, channel, reviewers } = getInput(values);
 
-  // Translate user ids of reviewers -> usernames -> mentions
-  const reviewerNames = await Promise.all(
-    reviewers.map(async (userId) => {
-      const command = new GetNameByIDCommand(client, userId);
-      const name = await command.handle();
-      return name;
-    })
-  );
   return new EZPRArguments(
-    toMention(user.name),
+    toMention(user.id),
     url,
     ert,
     desc,
     channel,
-    toMentions(reviewerNames),
+    toMentions(reviewers),
     6
   );
 }
