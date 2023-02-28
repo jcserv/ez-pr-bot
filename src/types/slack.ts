@@ -14,7 +14,19 @@ export const UserIDAsMentionSchema = UserIDSchema.transform(
 
 export declare type UserGroup = string;
 
-const userGroupRegex = /^<!subteam\^S[\w]{10}\|@[\w+\-?]+>$/;
+const userGroupRegex = /^<!subteam\^(S[\w]{10})\|@[\w+\-?]+>$/;
+
+export function IsUserGroup(val: string): boolean {
+  return userGroupRegex.test(val);
+}
+
+export function UserGroupToID(val: UserGroup): string {
+  const matches = val.match(userGroupRegex);
+  if (matches == null || matches.length <= 1) {
+    return "";
+  }
+  return matches[1];
+}
 
 export const userGroupErrorMsg =
   "Invalid input: expected a Slack UserGroup, ex: <!subteam^S01ABC2DEFG|@ez-pr-devs>";

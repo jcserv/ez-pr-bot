@@ -1,28 +1,28 @@
 import { WebClient } from "@slack/web-api";
 
-import { ICommand } from "../../types";
+import { ICommand, StringDictionary } from "../../types";
 
 export class GetIDsByNamesCommand implements ICommand {
   client: WebClient;
-  targetNames: string[];
+  targetNames: Set<string>;
 
-  constructor(client: WebClient, targetNames: string[]) {
+  constructor(client: WebClient, targetNames: Set<string>) {
     this.client = client;
     this.targetNames = targetNames;
   }
 
   async handle() {
     const response = await this.client.users.list();
-    const result: string[] = [];
+    const result = new StringDictionary();
     const remainingNames = this.targetNames;
 
     response.members?.forEach((member) => {
-      if (member.name === undefined || member.id === undefined) {
+      if (member.id === undefined || member.name === undefined) {
         return;
       }
-      if (remainingNames.includes(member.name)) {
-        result.push(member.id);
-        remainingNames.splice(remainingNames.indexOf(member.name), 1);
+      if (remainingNames.has(member.name)) {
+        result.Entries[member.name] = member.id;
+        remainingNames.delete(member.name);
       }
     });
 

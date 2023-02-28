@@ -22,12 +22,14 @@ import {
 import {
   ACTION,
   CHOOSE,
+  CHOOSE_MODAL_SUBMISSION,
   COMMAND,
   DEV,
   EZPR,
   EZPR_MODAL_SUBMISSION,
   HELP,
   INPUT,
+  OPEN_CHOOSE_MODAL,
   OPEN_EZPR_MODAL,
   OPEN_HELP_USAGE_MODAL,
   SHORTCUT,
@@ -172,27 +174,6 @@ app.command(SLASH_HELP, async ({ ack, client, payload }) => {
     const interactionCountMetric = createInteractionCountMetric(COMMAND, HELP);
     await interactionCountMetric.publish();
     const argsCountMetric = createArgsCountMetric(COMMAND, EZPR);
-    await argsCountMetric.publish(args.numArgs);
-  } catch (error) {
-    const { user_id, channel_id } = payload;
-    errorOccurred(client, user_id, channel_id, error);
-    logger.error(error);
-  }
-});
-
-// CHOOSE
-
-app.command(SLASH_CHOOSE, async ({ client, payload }) => {
-  try {
-    const args = ParseSlashChooseCommand(payload);
-    const command = new ChooseCommand(client, args);
-    await command.handle();
-    const interactionCountMetric = createInteractionCountMetric(
-      COMMAND,
-      CHOOSE
-    );
-    await interactionCountMetric.publish();
-    const argsCountMetric = createArgsCountMetric(COMMAND, CHOOSE);
     await argsCountMetric.publish(args.numArgs);
   } catch (error) {
     const { user_id, channel_id } = payload;

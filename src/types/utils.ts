@@ -10,3 +10,7 @@ export interface Dictionary<T> {
 export class StringDictionary {
   Entries: Dictionary<string> = {};
 }
+
+export class StringArrayDictionary {
+  Entries: Dictionary<string[]> = {};
+}
