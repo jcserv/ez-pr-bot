@@ -7,7 +7,6 @@ module.exports = {
   collectCoverageFrom: ["src/**/*.ts"],
   coveragePathIgnorePatterns: [
     "src/app.ts",
-    "src/choose/index.ts",
     "src/cmd/index.ts",
     "src/errors/markdown.ts",
     "src/ezpr/index.ts",

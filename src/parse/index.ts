@@ -7,7 +7,6 @@ import {
 } from "../constants";
 import { StringDictionary } from "../types";
 
-export * from "../choose/slash_command";
 export * from "../ezpr/form_submission";
 export * from "../ezpr/slash_command";
 export * from "../help/slash_command";

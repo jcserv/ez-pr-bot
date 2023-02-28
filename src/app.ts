@@ -12,7 +12,6 @@ import { WebClient } from "@slack/web-api";
 import dotenv from "dotenv";
 
 import {
-  ChooseCommand,
   EZPRCommand,
   HelpCommand,
   OpenEZPRModal,
@@ -21,19 +20,15 @@ import {
 } from "./cmd";
 import {
   ACTION,
-  CHOOSE,
-  CHOOSE_MODAL_SUBMISSION,
   COMMAND,
   DEV,
   EZPR,
   EZPR_MODAL_SUBMISSION,
   HELP,
   INPUT,
-  OPEN_CHOOSE_MODAL,
   OPEN_EZPR_MODAL,
   OPEN_HELP_USAGE_MODAL,
   SHORTCUT,
-  SLASH_CHOOSE,
   SLASH_EZPR,
   SLASH_HELP,
   VIEW,
@@ -44,7 +39,6 @@ import { createArgsCountMetric, createInteractionCountMetric } from "./metrics";
 import {
   ParseEZPRFormSubmission,
   ParseEZPRSlashCommand,
-  ParseSlashChooseCommand,
   ParseSlashHelpCommand,
 } from "./parse";
 dotenv.config();
