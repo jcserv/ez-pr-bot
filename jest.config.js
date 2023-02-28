@@ -8,18 +8,20 @@ module.exports = {
   coveragePathIgnorePatterns: [
     "src/app.ts",
     "src/cmd/index.ts",
+    "src/errors/markdown.ts",
     "src/ezpr/index.ts",
     "src/help/index.ts",
+    "src/types/index.ts",
     "src/metrics",
     "src/logger.ts",
     "src/constants.ts",
   ],
   coverageThreshold: {
     global: {
-      statements: 81,
-      branches: 66,
-      functions: 65,
-      lines: 81,
+      statements: 86,
+      branches: 71,
+      lines: 85,
+      functions: 76,
     },
   },
 };

@@ -1,16 +1,17 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { GetNameByIDCommand } from ".";
+import { SlackMessage } from "../../types";
+import { PostMessageCommand } from ".";
 
 const { WebClient } = require("@slack/web-api");
 
 jest.mock("@slack/web-api");
 
-describe("GetNameByID", () => {
+describe("PostMessageCommand", () => {
   function mockClientResponse(response: any) {
     WebClient.mockImplementation(() => {
       return {
-        users: {
-          info: () => {
+        chat: {
+          postMessage: () => {
             return response;
           },
         },
@@ -21,16 +22,12 @@ describe("GetNameByID", () => {
   test("happy path", async () => {
     const mockResponse = {
       ok: true,
-      user: {
-        real_name: "john.doe",
-      },
     };
 
     mockClientResponse(mockResponse);
     const client = new WebClient({});
-    const cmd = new GetNameByIDCommand(client, "U123");
-
-    const username = await cmd.handle();
-    expect(username).toBe("john.doe");
+    const cmd = new PostMessageCommand(client, new SlackMessage([], "", ""));
+    const result = await cmd.handle();
+    expect(result.ok).toBeTruthy();
   });
 });

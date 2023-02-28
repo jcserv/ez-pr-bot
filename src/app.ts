@@ -35,8 +35,7 @@ import {
 } from "./constants";
 import { isHTTPError, isValidationError, toValidationError } from "./errors";
 import { logger } from "./logger";
-import { createInteractionCountMetric } from "./metrics";
-import { createArgsCountMetric } from "./metrics/argsCount";
+import { createArgsCountMetric, createInteractionCountMetric } from "./metrics";
 import {
   ParseEZPRFormSubmission,
   ParseEZPRSlashCommand,
@@ -69,6 +68,8 @@ if (NODE_ENV === DEV) {
 app.action({ action_id: INPUT }, async ({ ack }) => {
   await ack();
 });
+
+// EZPR
 
 app.action({ action_id: OPEN_EZPR_MODAL }, async ({ ack, body, client }) => {
   const blockAction = body as BlockAction;
@@ -137,6 +138,8 @@ app.command(SLASH_EZPR, async ({ ack, client, payload }) => {
     ack();
   }
 });
+
+// HELP
 
 app.action(
   { action_id: OPEN_HELP_USAGE_MODAL },

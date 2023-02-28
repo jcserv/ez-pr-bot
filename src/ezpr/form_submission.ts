@@ -1,14 +1,14 @@
 import { SlackViewAction, ViewOutput } from "@slack/bolt";
 import { WebClient } from "@slack/web-api";
 
-import { GetNameByIDCommand } from "../cmd";
 import {
   SELECTED_CONVERSATION,
   SELECTED_OPTION,
   SELECTED_USERS,
 } from "../constants";
 import { FormValues, getInputValue } from "../parse";
-import { EZPRArguments, toMention, toMentions } from "../types";
+import { toMention, toMentions } from "../types";
+import { EZPRArguments } from ".";
 
 const STATE = "state";
 const VALUES = "values";
@@ -28,21 +28,13 @@ export async function ParseEZPRFormSubmission(
   const { user } = body;
   const { url, ert, desc, channel, reviewers } = getInput(values);
 
-  // Translate user ids of reviewers -> usernames -> mentions
-  const reviewerNames = await Promise.all(
-    reviewers.map(async (userId) => {
-      const command = new GetNameByIDCommand(client, userId);
-      const name = await command.handle();
-      return name;
-    })
-  );
   return new EZPRArguments(
-    toMention(user.name),
+    toMention(user.id),
     url,
     ert,
     desc,
     channel,
-    toMentions(reviewerNames),
+    toMentions(reviewers),
     6
   );
 }
