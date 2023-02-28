@@ -1,16 +1,16 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { GetNameByIDCommand } from "./";
+import { GetIDsByNamesCommand } from ".";
 
 const { WebClient } = require("@slack/web-api");
 
 jest.mock("@slack/web-api");
 
-describe("GetNameByID", () => {
+describe("GetIDsByNamesCommand", () => {
   function mockClientResponse(response: any) {
     WebClient.mockImplementation(() => {
       return {
         users: {
-          info: () => {
+          list: () => {
             return response;
           },
         },
@@ -21,16 +21,19 @@ describe("GetNameByID", () => {
   test("happy path", async () => {
     const mockResponse = {
       ok: true,
-      user: {
-        real_name: "john.doe",
-      },
+      members: [
+        {
+          id: "U123",
+          name: "john.doe",
+        },
+      ],
     };
 
     mockClientResponse(mockResponse);
     const client = new WebClient({});
-    const cmd = new GetNameByIDCommand(client, "U123");
+    const cmd = new GetIDsByNamesCommand(client, ["john.doe"]);
 
     const username = await cmd.handle();
-    expect(username).toBe("john.doe");
+    expect(username).toStrictEqual(["U123"]);
   });
 });
