@@ -4,20 +4,14 @@ import {
   BlockAction,
   SlackViewAction,
 } from "@slack/bolt";
-import {
-  AwsCallback,
-  AwsEvent,
-} from "@slack/bolt/dist/receivers/AwsLambdaReceiver";
-import { WebClient } from "@slack/web-api";
 import dotenv from "dotenv";
 
 import {
-  EZPRCommand,
-  HelpCommand,
-  OpenEZPRModal,
-  OpenHelpUsageModal,
-  PublishHomeOverview,
-} from "./cmd";
+  errorOccurred,
+  logger,
+  PublishInteractionCountMetric,
+  PublishUsageMetrics,
+} from "./@lib";
 import {
   ACTION,
   COMMAND,
@@ -33,21 +27,25 @@ import {
   SLASH_HELP,
   VIEW,
 } from "./constants";
-import { isHTTPError, isValidationError, toValidationError } from "./errors";
-import { logger } from "./logger";
-import { createArgsCountMetric, createInteractionCountMetric } from "./metrics";
 import {
+  EZPRCommand,
+  OpenEZPRModal,
   ParseEZPRFormSubmission,
   ParseEZPRSlashCommand,
+} from "./ezpr";
+import {
+  HelpCommand,
+  OpenHelpUsageModal,
   ParseSlashHelpCommand,
-} from "./parse";
+  PublishHomeOverview,
+} from "./help";
 dotenv.config();
 
 const NODE_ENV = process.env.NODE_ENV || "";
 const SLACK_BOT_TOKEN = process.env.SLACK_BOT_TOKEN || "";
 const USER_ID = process.env.USER_ID;
 
-const awsLambdaReceiver = new AwsLambdaReceiver({
+export const awsLambdaReceiver = new AwsLambdaReceiver({
   signingSecret: process.env.SLACK_SIGNING_SECRET || "",
 });
 let app = new App({
@@ -62,6 +60,7 @@ if (NODE_ENV === DEV) {
     token: SLACK_BOT_TOKEN,
     socketMode: true,
   });
+  logger.info("Running in development mode");
 }
 
 // No-op acknowledgement
@@ -76,8 +75,7 @@ app.action({ action_id: OPEN_EZPR_MODAL }, async ({ ack, body, client }) => {
   try {
     await ack();
     OpenEZPRModal(client, blockAction.trigger_id);
-    const interactionCountMetric = createInteractionCountMetric(ACTION, EZPR);
-    await interactionCountMetric.publish();
+    PublishInteractionCountMetric(ACTION, EZPR);
   } catch (error) {
     const { user, channel } = blockAction;
     if (user !== undefined && channel !== undefined) {
@@ -91,8 +89,7 @@ app.shortcut(OPEN_EZPR_MODAL, async ({ ack, client, shortcut }) => {
   try {
     await ack();
     OpenEZPRModal(client, shortcut.trigger_id);
-    const interactionCountMetric = createInteractionCountMetric(SHORTCUT, EZPR);
-    await interactionCountMetric.publish();
+    PublishInteractionCountMetric(SHORTCUT, EZPR);
   } catch (error) {
     const { user } = shortcut;
     if (user !== undefined) {
@@ -108,10 +105,7 @@ app.view(EZPR_MODAL_SUBMISSION, async ({ ack, body, client, payload }) => {
     const args = await ParseEZPRFormSubmission(client, body, payload);
     const command = new EZPRCommand(client, args);
     await command.handle();
-    const interactionCountMetric = createInteractionCountMetric(VIEW, EZPR);
-    await interactionCountMetric.publish();
-    const argsCountMetric = createArgsCountMetric(VIEW, EZPR);
-    await argsCountMetric.publish(args.numArgs);
+    PublishUsageMetrics(VIEW, EZPR, args.numArgs || 0);
   } catch (error) {
     const { user } = body as SlackViewAction;
     if (user !== undefined) {
@@ -126,10 +120,7 @@ app.command(SLASH_EZPR, async ({ ack, client, payload }) => {
     const args = ParseEZPRSlashCommand(payload);
     const command = new EZPRCommand(client, args);
     await command.handle();
-    const interactionCountMetric = createInteractionCountMetric(COMMAND, EZPR);
-    await interactionCountMetric.publish();
-    const argsCountMetric = createArgsCountMetric(COMMAND, EZPR);
-    await argsCountMetric.publish(args.numArgs);
+    PublishUsageMetrics(COMMAND, EZPR, args.numArgs || 0);
   } catch (error) {
     const { user_id, channel_id } = payload;
     errorOccurred(client, user_id, channel_id, error);
@@ -148,8 +139,7 @@ app.action(
     const blockAction = body as BlockAction;
     try {
       OpenHelpUsageModal(client, blockAction.trigger_id);
-      const interactionCountMetric = createInteractionCountMetric(ACTION, HELP);
-      await interactionCountMetric.publish();
+      PublishInteractionCountMetric(ACTION, HELP);
     } catch (error) {
       const { user, channel } = blockAction;
       if (user !== undefined && channel !== undefined) {
@@ -165,10 +155,7 @@ app.command(SLASH_HELP, async ({ ack, client, payload }) => {
     const args = ParseSlashHelpCommand(payload);
     const command = new HelpCommand(ack, args);
     await command.handle();
-    const interactionCountMetric = createInteractionCountMetric(COMMAND, HELP);
-    await interactionCountMetric.publish();
-    const argsCountMetric = createArgsCountMetric(COMMAND, EZPR);
-    await argsCountMetric.publish(args.numArgs);
+    PublishUsageMetrics(COMMAND, HELP, args.numArgs || 0);
   } catch (error) {
     const { user_id, channel_id } = payload;
     errorOccurred(client, user_id, channel_id, error);
@@ -176,34 +163,10 @@ app.command(SLASH_HELP, async ({ ack, client, payload }) => {
   }
 });
 
-async function errorOccurred(
-  client: WebClient,
-  user: string,
-  channel: string,
-  error: any
-) {
-  let output = "An unexpected error occurred.";
-  error = toValidationError(error);
-
-  if (isHTTPError(error) || isValidationError(error)) {
-    output = error.toString();
-  }
-
-  try {
-    await client.chat.postEphemeral({
-      token: SLACK_BOT_TOKEN,
-      channel,
-      text: output,
-      user,
-    });
-  } catch (error) {
-    logger.error(error);
-  }
-}
-
 app
   .start()
   .then(() => {
+    logger.info("⚡️ Bolt app is running!");
     if (USER_ID !== undefined) {
       PublishHomeOverview(app.client);
     }
@@ -212,12 +175,3 @@ app
     logger.error(error);
     process.exit(1);
   });
-
-module.exports.handler = async (
-  event: AwsEvent,
-  context: any,
-  callback: AwsCallback
-) => {
-  const handler = await awsLambdaReceiver.start();
-  return handler(event, context, callback);
-};

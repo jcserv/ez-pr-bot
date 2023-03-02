@@ -1,13 +1,13 @@
 import { SlackViewAction, ViewOutput } from "@slack/bolt";
 import { WebClient } from "@slack/web-api";
 
+import { FormValues, getInputValue } from "../@lib/parse";
+import { toMention, toMentions } from "../@lib/types";
 import {
   SELECTED_CONVERSATION,
   SELECTED_OPTION,
   SELECTED_USERS,
 } from "../constants";
-import { FormValues, getInputValue } from "../parse";
-import { toMention, toMentions } from "../types";
 import { EZPRArguments } from ".";
 
 const STATE = "state";
