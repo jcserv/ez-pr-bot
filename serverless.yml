@@ -1,6 +1,6 @@
 org: jcserv
-app: serverless-bolt-ts
-service: serverless-bolt-ts
+app: ez-pr-bot
+service: slack-bolt-app
 frameworkVersion: "3"
 provider:
   name: aws
