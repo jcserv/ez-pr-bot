@@ -1,4 +1,5 @@
 export const DEV = "development";
+export const PROD = "production";
 
 // Slack Actions
 export const ACTION = "action";

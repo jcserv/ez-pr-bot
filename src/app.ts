@@ -4,6 +4,7 @@ import {
   BlockAction,
   SlackViewAction,
 } from "@slack/bolt";
+import { StringIndexed } from "@slack/bolt/dist/types/helpers";
 import dotenv from "dotenv";
 
 import {
@@ -22,6 +23,7 @@ import {
   INPUT,
   OPEN_EZPR_MODAL,
   OPEN_HELP_USAGE_MODAL,
+  PROD,
   SHORTCUT,
   SLASH_EZPR,
   SLASH_HELP,
@@ -48,19 +50,27 @@ const USER_ID = process.env.USER_ID;
 export const awsLambdaReceiver = new AwsLambdaReceiver({
   signingSecret: process.env.SLACK_SIGNING_SECRET || "",
 });
-let app = new App({
-  token: SLACK_BOT_TOKEN,
-  receiver: awsLambdaReceiver,
-});
 
-if (NODE_ENV === DEV) {
-  const SLACK_APP_TOKEN = process.env.SLACK_APP_TOKEN || "";
-  app = new App({
-    appToken: SLACK_APP_TOKEN,
-    token: SLACK_BOT_TOKEN,
-    socketMode: true,
-  });
-  logger.info("Running in development mode");
+let app: App<StringIndexed>;
+
+switch (NODE_ENV) {
+  case PROD:
+    app = new App({
+      token: SLACK_BOT_TOKEN,
+      receiver: awsLambdaReceiver,
+    });
+    break;
+  case DEV:
+    app = new App({
+      appToken: process.env.SLACK_APP_TOKEN || "",
+      token: SLACK_BOT_TOKEN,
+      socketMode: true,
+    });
+    logger.info("Running in development mode");
+    break;
+  default:
+    logger.error("Environment not specified, shutting down.");
+    process.exit(1);
 }
 
 // No-op acknowledgement
