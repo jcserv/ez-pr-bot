@@ -59,5 +59,3 @@ export abstract class MetricPublisher {
     }
   }
 }
-
-export * from "./usageCount";

@@ -12,7 +12,6 @@ export const HELP = "ezpr-help";
 
 // Action/command/view IDs
 export const SLASH = "/";
-
 export const ACK = "ack";
 export const INPUT = "input";
 export const OPEN_EZPR_MODAL = "open_ezpr_modal";

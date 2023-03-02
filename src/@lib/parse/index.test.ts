@@ -1,4 +1,4 @@
-import { SELECTED_CONVERSATION, SELECTED_USERS } from "../constants";
+import { SELECTED_CONVERSATION, SELECTED_USERS } from "../../constants";
 import {
   getInputValue,
   isFlagProvided,

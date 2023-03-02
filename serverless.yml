@@ -5,19 +5,20 @@ frameworkVersion: "3"
 provider:
   name: aws
   runtime: nodejs14.x
-  stage: dev
+  stage: production
   environment:
     SLACK_SIGNING_SECRET: ${env:SLACK_SIGNING_SECRET}
     SLACK_BOT_TOKEN: ${env:SLACK_BOT_TOKEN}
-    NODE_ENV: ${env:NODE_ENV}
     USER_ID: ${env:USER_ID}
+    NODE_ENV: ${env:NODE_ENV}
 functions:
   slack:
-    handler: src/app.handler
+    handler: src/handlers.slack
     events:
       - http:
           path: slack/events
           method: post
 plugins:
   - serverless-plugin-typescript
+  - serverless-plugin-warmup
   - serverless-offline
