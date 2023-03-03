@@ -1,0 +1,22 @@
+import { App } from "@slack/bolt";
+import { StringIndexed } from "@slack/bolt/dist/types/helpers";
+
+import { errorOccurred, logger, PublishUsageMetrics } from "../../@lib";
+import { COMMAND, HELP, SLASH_HELP } from "../../constants";
+import { HelpCommand } from "../cmd";
+import { ParseSlashHelpCommand } from "../slash_command";
+
+export function registerCommandListener(app: App<StringIndexed>) {
+  app.command(SLASH_HELP, async ({ ack, client, payload }) => {
+    try {
+      const args = ParseSlashHelpCommand(payload);
+      const command = new HelpCommand(ack, args);
+      await command.handle();
+      PublishUsageMetrics(COMMAND, HELP, args.numArgs || 0);
+    } catch (error) {
+      const { user_id, channel_id } = payload;
+      errorOccurred(client, user_id, channel_id, error);
+      logger.error(error);
+    }
+  });
+}
