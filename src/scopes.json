@@ -1,0 +1,15 @@
+[
+  "app_mentions:read",
+  "channels:join",
+  "channels:history",
+  "chat:write",
+  "chat:write.public",
+  "commands",
+  "emoji:read",
+  "im:write",
+  "reactions:read",
+  "reactions:write",
+  "users:read",
+  "usergroups:read",
+  "workflow.steps:execute"
+]

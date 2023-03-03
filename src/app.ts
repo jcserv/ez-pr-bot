@@ -2,6 +2,7 @@ import {
   App,
   AwsLambdaReceiver,
   BlockAction,
+  FileInstallationStore,
   SlackViewAction,
 } from "@slack/bolt";
 import { StringIndexed } from "@slack/bolt/dist/types/helpers";
@@ -13,6 +14,7 @@ import {
   PublishInteractionCountMetric,
   PublishUsageMetrics,
 } from "./@lib";
+import { customRoutes } from "./auth";
 import {
   ACTION,
   COMMAND,
@@ -41,6 +43,8 @@ import {
   ParseSlashHelpCommand,
   PublishHomeOverview,
 } from "./help";
+import scopes from "./scopes.json";
+
 dotenv.config();
 
 const NODE_ENV = process.env.NODE_ENV || "";
@@ -63,7 +67,12 @@ switch (NODE_ENV) {
   case DEV:
     app = new App({
       appToken: process.env.SLACK_APP_TOKEN || "",
-      token: SLACK_BOT_TOKEN,
+      clientId: process.env.SLACK_CLIENT_ID || "",
+      clientSecret: process.env.SLACK_CLIENT_SECRET || "",
+      stateSecret: process.env.STATE_SECRET || "",
+      customRoutes,
+      scopes,
+      installationStore: new FileInstallationStore(),
       socketMode: true,
     });
     logger.info("Running in development mode");
@@ -173,11 +182,13 @@ app.command(SLASH_HELP, async ({ ack, client, payload }) => {
   }
 });
 
+/* Start Bolt App */
 app
   .start()
   .then(() => {
     logger.info("⚡️ Bolt app is running!");
-    if (USER_ID !== undefined) {
+    // TODO: Should publish using installation details
+    if (USER_ID !== "") {
       PublishHomeOverview(app.client);
     }
   })
