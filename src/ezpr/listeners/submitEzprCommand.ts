@@ -4,7 +4,7 @@ import { StringIndexed } from "@slack/bolt/dist/types/helpers";
 import { errorOccurred, logger, PublishUsageMetrics } from "../../@lib";
 import { COMMAND, EZPR, SLASH_EZPR } from "../../constants";
 import { EZPRCommand } from "../cmd";
-import { ParseEZPRSlashCommand } from "../slash_command";
+import { ParseEZPRSlashCommand } from "../slashCommand";
 
 export function registerCommandListener(app: App<StringIndexed>) {
   app.command(SLASH_EZPR, async ({ ack, client, payload }) => {

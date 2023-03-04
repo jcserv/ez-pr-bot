@@ -6,9 +6,6 @@
   "repository": "git@github.com:jcserv/ez-pr-bot.git",
   "author": "Jarrod Servilla",
   "license": "GPL-3.0",
-  "prisma": {
-    "schema": "./src/prisma/schema.prisma"
-  },
   "scripts": {
     "build": "tsc",
     "start": "node ./bin/app.js",

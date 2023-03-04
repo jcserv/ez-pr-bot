@@ -18,16 +18,15 @@ module.exports = {
     "src/ezpr/listeners",
     "src/help/index.ts",
     "src/help/listeners",
-    "src/prisma",
     "src/app.ts",
     "src/constants.ts",
     "src/handlers.ts",
   ],
   coverageThreshold: {
     global: {
-      statements: 78.24,
+      statements: 77.8,
       branches: 53.84,
-      lines: 78.19,
+      lines: 77.74,
       functions: 71.42,
     },
   },

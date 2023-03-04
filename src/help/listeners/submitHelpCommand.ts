@@ -4,7 +4,7 @@ import { StringIndexed } from "@slack/bolt/dist/types/helpers";
 import { errorOccurred, logger, PublishUsageMetrics } from "../../@lib";
 import { COMMAND, HELP, SLASH_HELP } from "../../constants";
 import { HelpCommand } from "../cmd";
-import { ParseSlashHelpCommand } from "../slash_command";
+import { ParseSlashHelpCommand } from "../slashCommand";
 
 export function registerCommandListener(app: App<StringIndexed>) {
   app.command(SLASH_HELP, async ({ ack, client, payload }) => {

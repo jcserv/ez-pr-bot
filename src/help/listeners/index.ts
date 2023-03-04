@@ -2,8 +2,8 @@
 import { App } from "@slack/bolt";
 import { StringIndexed } from "@slack/bolt/dist/types/helpers";
 
-const openHelpModal = require("./open_help_modal");
-const submitHelpCommand = require("./submit_help_command");
+const openHelpModal = require("./openHelpModal");
+const submitHelpCommand = require("./submitHelpCommand");
 
 export function registerHelpListeners(app: App<StringIndexed>) {
   openHelpModal.registerActionListener(app);

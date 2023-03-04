@@ -4,13 +4,13 @@ import { StringIndexed } from "@slack/bolt/dist/types/helpers";
 import { errorOccurred, logger, PublishUsageMetrics } from "../../@lib";
 import { EZPR, EZPR_MODAL_SUBMISSION, VIEW } from "../../constants";
 import { EZPRCommand } from "../cmd";
-import { ParseEZPRFormSubmission } from "../form_submission";
+import { ParseEZPRFormSubmission } from "../formSubmission";
 
 export function registerViewListener(app: App<StringIndexed>) {
   app.view(EZPR_MODAL_SUBMISSION, async ({ ack, body, client, payload }) => {
     try {
       await ack();
-      const args = await ParseEZPRFormSubmission(client, body, payload);
+      const args = await ParseEZPRFormSubmission(body, payload);
       const command = new EZPRCommand(client, args);
       await command.handle();
       PublishUsageMetrics(VIEW, EZPR, args.numArgs || 0);

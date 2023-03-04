@@ -2,9 +2,9 @@
 import { App } from "@slack/bolt";
 import { StringIndexed } from "@slack/bolt/dist/types/helpers";
 
-const openEZPRModal = require("./open_ezpr_modal");
-const submitEZPRForm = require("./submit_ezpr_form");
-const submitEZPRCommand = require("./submit_ezpr_command");
+const openEZPRModal = require("./openEzprModal");
+const submitEZPRForm = require("./submitEzprForm");
+const submitEZPRCommand = require("./submitEzprCommand");
 
 export function registerEZPRListeners(app: App<StringIndexed>) {
   openEZPRModal.registerActionListener(app);

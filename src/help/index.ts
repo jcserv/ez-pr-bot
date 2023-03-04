@@ -3,4 +3,4 @@ export * from "./args";
 export * from "./blocks";
 export * from "./cmd";
 export * from "./listeners";
-export * from "./slash_command";
+export * from "./slashCommand";

@@ -1,7 +1,7 @@
 import { Installation } from "@slack/bolt";
 
 import { HTTPError } from "../@lib";
-import { prisma } from "../prisma/client";
+import { prisma } from "../client";
 
 export const saveWorkspaceInstallation = async (installation: Installation) => {
   if (installation.team === undefined) {

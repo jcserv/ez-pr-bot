@@ -1,5 +1,4 @@
 import { SlackViewAction, ViewOutput } from "@slack/bolt";
-import { WebClient } from "@slack/web-api";
 
 import { toMention, toMentions } from "../@lib/@types";
 import { FormValues, getInputValue } from "../@lib/parse";
@@ -20,7 +19,6 @@ const CHANNEL = "channel";
 const REVIEWERS = "reviewers";
 
 export async function ParseEZPRFormSubmission(
-  client: WebClient,
   body: SlackViewAction,
   payload: ViewOutput
 ): Promise<EZPRArguments> {

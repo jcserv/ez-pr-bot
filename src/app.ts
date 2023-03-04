@@ -4,10 +4,10 @@ import dotenv from "dotenv";
 
 import { logger } from "./@lib";
 import { customRoutes } from "./auth";
+import { prisma } from "./client";
 import { DEV, INPUT, PROD } from "./constants";
 import { registerEZPRListeners } from "./ezpr";
 import { PublishHomeOverview, registerHelpListeners } from "./help";
-import { prisma } from "./prisma/client";
 import scopes from "./scopes.json";
 
 dotenv.config();
@@ -47,13 +47,13 @@ switch (NODE_ENV) {
           //   return orgAuth.saveUserOrgInstall(installation);
           // }
           if (installation.team !== undefined) {
-            return workspaceAuth.saveUserWorkspaceInstall(installation);
+            return; // workspaceAuth.saveUserWorkspaceInstall(installation);
           }
           throw new Error(
             "Failed saving installation data to installationStore"
           );
         },
-        fetchInstallation: async (installQuery) => {
+        fetchInstallation: async () => {
           // console.log("installQuery: " + installQuery);
           // console.log(installQuery);
           // if (
@@ -62,9 +62,9 @@ switch (NODE_ENV) {
           // ) {
           //   return dbQuery.findUser(installQuery.enterpriseId);
           // }
-          if (installQuery.teamId !== undefined) {
-            return dbQuery.findUser(installQuery.teamId);
-          }
+          // if (installQuery.teamId !== undefined) {
+          //   return
+          // }
           throw new Error("Failed fetching installation");
         },
       },
@@ -89,7 +89,7 @@ app
   .start()
   .then(() => {
     logger.info("⚡️ Bolt app is running!");
-    // TODO: Should publish using installation details
+    // TODO: Should publish on home opened
     if (USER_ID !== "") {
       PublishHomeOverview(app.client);
     }
