@@ -1,3 +1,12 @@
+.vscode
+.DS_Store
+prod_manifest.yml
+dev_manifest.yml
+
+# Prisma
+*.db
+*.db-journal
+
 # Logs
 logs
 *.log
@@ -105,8 +114,3 @@ dist
 
 # TernJS port file
 .tern-port
-
-.vscode
-.DS_Store
-prod_manifest.yml
-dev_manifest.yml

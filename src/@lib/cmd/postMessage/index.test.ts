@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { SlackMessage } from "../../types";
+import { SlackMessage } from "../../@types";
 import { PostMessageCommand } from ".";
 
 const { WebClient } = require("@slack/web-api");

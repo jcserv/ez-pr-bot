@@ -1,8 +1,11 @@
 import { View, WebClient } from "@slack/web-api";
 
-import { PostMessageCommand } from "../@lib/cmd";
-import { OpenModalCommand } from "../@lib/cmd/openModal";
-import { ICommand, SlackMessage } from "../@lib/types";
+import {
+  ICommand,
+  OpenModalCommand,
+  PostMessageCommand,
+  SlackMessage,
+} from "../@lib";
 import { EZPRArguments } from "./args";
 import { ezprMessage, ezprText } from "./blocks";
 import ezprModal from "./modal.json";

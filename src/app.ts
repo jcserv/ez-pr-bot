@@ -1,4 +1,4 @@
-import { App, AwsLambdaReceiver, FileInstallationStore } from "@slack/bolt";
+import { App, AwsLambdaReceiver } from "@slack/bolt";
 import { StringIndexed } from "@slack/bolt/dist/types/helpers";
 import dotenv from "dotenv";
 
@@ -7,6 +7,7 @@ import { customRoutes } from "./auth";
 import { DEV, INPUT, PROD } from "./constants";
 import { registerEZPRListeners } from "./ezpr";
 import { PublishHomeOverview, registerHelpListeners } from "./help";
+import { prisma } from "./prisma/client";
 import scopes from "./scopes.json";
 
 dotenv.config();
@@ -36,8 +37,37 @@ switch (NODE_ENV) {
       stateSecret: process.env.STATE_SECRET || "",
       customRoutes,
       scopes,
-      installationStore: new FileInstallationStore(),
       socketMode: true,
+      installationStore: {
+        storeInstallation: async (installation) => {
+          // if (
+          //   installation.isEnterpriseInstall &&
+          //   installation.enterprise !== undefined
+          // ) {
+          //   return orgAuth.saveUserOrgInstall(installation);
+          // }
+          if (installation.team !== undefined) {
+            return workspaceAuth.saveUserWorkspaceInstall(installation);
+          }
+          throw new Error(
+            "Failed saving installation data to installationStore"
+          );
+        },
+        fetchInstallation: async (installQuery) => {
+          // console.log("installQuery: " + installQuery);
+          // console.log(installQuery);
+          // if (
+          //   installQuery.isEnterpriseInstall &&
+          //   installQuery.enterpriseId !== undefined
+          // ) {
+          //   return dbQuery.findUser(installQuery.enterpriseId);
+          // }
+          if (installQuery.teamId !== undefined) {
+            return dbQuery.findUser(installQuery.teamId);
+          }
+          throw new Error("Failed fetching installation");
+        },
+      },
     });
     logger.info("Running in development mode");
     break;
@@ -65,6 +95,7 @@ app
     }
   })
   .catch((error) => {
+    prisma.$disconnect();
     logger.error(error);
     process.exit(1);
   });

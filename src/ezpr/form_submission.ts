@@ -1,8 +1,8 @@
 import { SlackViewAction, ViewOutput } from "@slack/bolt";
 import { WebClient } from "@slack/web-api";
 
+import { toMention, toMentions } from "../@lib/@types";
 import { FormValues, getInputValue } from "../@lib/parse";
-import { toMention, toMentions } from "../@lib/types";
 import {
   SELECTED_CONVERSATION,
   SELECTED_OPTION,
