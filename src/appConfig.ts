@@ -2,8 +2,7 @@ import { App, AppOptions, AwsLambdaReceiver, CustomRoute } from "@slack/bolt";
 import { StringIndexed } from "@slack/bolt/dist/types/helpers";
 import dotenv from "dotenv";
 
-import { InstallationController } from "./@lib";
-import { customRoutes } from "./auth";
+import { customRoutes, InstallationController } from "./@lib";
 
 dotenv.config();
 
