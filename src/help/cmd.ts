@@ -42,9 +42,8 @@ export function OpenHelpUsageModal(client: WebClient, trigger_id: string) {
   return command.handle();
 }
 
-export function PublishHomeOverview(client: WebClient) {
-  const USER_ID = process.env.USER_ID as string;
+export function PublishHomeOverview(client: WebClient, user_id: string) {
   client.views
-    .publish({ user_id: USER_ID, view: helpOverview as HomeView })
+    .publish({ user_id, view: helpOverview as HomeView })
     .catch((error) => logger.error(error));
 }
