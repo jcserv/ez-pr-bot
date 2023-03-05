@@ -1,38 +1,48 @@
 import { PrismaClient } from "@prisma/client";
 import { Installation } from "@slack/bolt";
 
-import { HTTPError, logger } from "../..";
+import { logger } from "../..";
 import { prismaClient } from "../../prisma";
 
-export default class SlackInstallationStore {
+export interface InstallationRepo {
+  get(id: string): Installation;
+}
+
+export default class PrismaInstallationRepo implements InstallationRepo {
   private client: PrismaClient;
 
   constructor() {
     this.client = prismaClient;
   }
 
-  async get(id: string): Promise<Installation<"v1" | "v2", boolean>> {
-    if (id === undefined || id === "") {
-      throw new HTTPError(400, "installation.id cannot be undefined or empty");
-    }
-    try {
-      const installation = await this.client.installation.findUniqueOrThrow({
+  get(id: string) {
+    this.client.installation
+      .findUniqueOrThrow({
         where: {
           id,
         },
-      });
-      console.log(installation);
-      return installation as unknown as Installation;
-    } catch (error) {
-      logger.error(error);
-    }
+      })
+      .then((result) => {
+        const slackInstallation: Installation = {
+          ...result,
+          authVersion: "v2",
+          tokenType: "bot",
+          bot: JSON.parse(result.bot),
+          team: JSON.parse(result.team),
+          enterprise: JSON.parse(result.enterprise),
+          user: JSON.parse(result.user),
+        };
+        return slackInstallation;
+      })
+      .catch((error) => logger.error(error));
     return {} as Installation;
   }
 
-  async save(installation: Installation): Promise<void> {
+  save(installation: Installation): void {
     if (installation.team === undefined) {
-      throw new HTTPError(400, "installation.team cannot be undefined");
+      return;
     }
+
     const id = installation.team.id;
 
     const updateRecord = {
@@ -63,16 +73,12 @@ export default class SlackInstallationStore {
       ...updateRecord,
     };
 
-    try {
-      await this.client.installation.upsert({
-        where: {
-          id,
-        },
-        update: updateRecord,
-        create: createRecord,
-      });
-    } catch (error) {
-      logger.error(error);
-    }
+    this.client.installation.upsert({
+      where: {
+        id,
+      },
+      update: updateRecord,
+      create: createRecord,
+    });
   }
 }

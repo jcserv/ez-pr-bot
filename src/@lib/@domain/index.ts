@@ -1,1 +1,1 @@
-export * from "./slackInstallation";
+export * from "./installation";

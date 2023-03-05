@@ -2,7 +2,7 @@ import { App, AppOptions, AwsLambdaReceiver, CustomRoute } from "@slack/bolt";
 import { StringIndexed } from "@slack/bolt/dist/types/helpers";
 import dotenv from "dotenv";
 
-import { SlackInstallationController } from "./@lib";
+import { InstallationController } from "./@lib";
 import { customRoutes } from "./auth";
 
 dotenv.config();
@@ -30,7 +30,7 @@ class BaseAppConfig implements AppOptions {
   stateSecret: string;
   customRoutes: CustomRoute[];
   scopes: string[];
-  installationStore: SlackInstallationController;
+  installationStore: InstallationController;
 
   constructor() {
     this.appToken = process.env.SLACK_APP_TOKEN || "";
@@ -39,7 +39,7 @@ class BaseAppConfig implements AppOptions {
     this.stateSecret = process.env.STATE_SECRET || "";
     this.customRoutes = customRoutes;
     this.scopes = scopes;
-    this.installationStore = new SlackInstallationController();
+    this.installationStore = new InstallationController();
   }
 }
 
