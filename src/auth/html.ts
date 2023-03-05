@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 
-import scopes from "../scopes.json";
+import { scopes } from "../appConfig";
 
 dotenv.config();
 

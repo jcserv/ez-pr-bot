@@ -12,6 +12,7 @@
     "dev": "ts-node ./src/app.ts",
     "dev-lambda": "serverless offline --noPrependStageInUrl",
     "migrate": "prisma format && prisma migrate dev --name init",
+    "db:push": "prisma db push",
     "serve": "ngrok http 3000",
     "test": "jest",
     "coverage": "jest --coverage",

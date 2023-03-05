@@ -1,7 +1,7 @@
 export const DEV = "development";
 export const PROD = "production";
 
-// Slack Actions
+// Slack Listeners
 export const ACTION = "action";
 export const COMMAND = "command";
 export const SHORTCUT = "shortcut";
