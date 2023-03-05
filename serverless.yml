@@ -7,9 +7,13 @@ provider:
   runtime: nodejs14.x
   stage: production
   environment:
+    SLACK_APP_TOKEN: ${env:SLACK_APP_SECRET}
     SLACK_SIGNING_SECRET: ${env:SLACK_SIGNING_SECRET}
-    SLACK_BOT_TOKEN: ${env:SLACK_BOT_TOKEN}
-    USER_ID: ${env:USER_ID}
+    SLACK_CLIENT_ID: ${env:SLACK_CLIENT_ID}
+    SLACK_CLIENT_SECRET: ${env:SLACK_CLIENT_SECRET}
+    STATE_SECRET: ${env:STATE_SECRET}
+    REDIRECT_URL: ${env:REDIRECT_URL}
+    DATABASE_URL: ${env:DATABASE_URL}
     NODE_ENV: ${env:NODE_ENV}
 functions:
   slack:

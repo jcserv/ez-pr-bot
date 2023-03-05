@@ -24,6 +24,7 @@ export const scopes = [
 
 class BaseAppConfig implements AppOptions {
   appToken: string;
+  signingSecret: string;
   clientId: string;
   clientSecret: string;
   stateSecret: string;
@@ -33,6 +34,7 @@ class BaseAppConfig implements AppOptions {
 
   constructor() {
     this.appToken = process.env.SLACK_APP_TOKEN || "";
+    this.signingSecret = process.env.SIGNING_SECRET || "";
     this.clientId = process.env.SLACK_CLIENT_ID || "";
     this.clientSecret = process.env.SLACK_CLIENT_SECRET || "";
     this.stateSecret = process.env.STATE_SECRET || "";
@@ -43,12 +45,10 @@ class BaseAppConfig implements AppOptions {
 }
 
 class ProdConfig extends BaseAppConfig {
-  token: string;
   receiver: AwsLambdaReceiver;
 
   constructor(receiver: AwsLambdaReceiver) {
     super();
-    this.token = process.env.SLACK_BOT_TOKEN || "";
     this.receiver = receiver;
   }
 }
