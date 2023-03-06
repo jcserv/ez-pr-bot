@@ -35,7 +35,7 @@ registerHelpListeners(app);
 /* Start Bolt App */
 app
   .start()
-  .then(() => {
+  .then(async () => {
     logger.info("⚡️ Bolt app is running!");
   })
   .catch((error) => {

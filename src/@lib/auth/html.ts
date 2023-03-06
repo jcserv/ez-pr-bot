@@ -4,7 +4,7 @@ import { scopes } from "../../appConfig";
 
 dotenv.config();
 
-const oauthRedirect = process.env.REDIRECT_URL || "";
+const oauthRedirect = `${process.env.BASE_URL}/slack/oauth_redirect`;
 
 export const workspaceInstallHtml = `
 <a

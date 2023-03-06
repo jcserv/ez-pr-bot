@@ -20,7 +20,6 @@ export const scopes = [
   "channels:history",
   "chat:write",
   "chat:write.public",
-  "chat:write:bot",
   "commands",
   "emoji:read",
   "im:write",
