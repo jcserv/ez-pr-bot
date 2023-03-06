@@ -1,16 +1,16 @@
 import {
   App,
   AppOptions,
+  Authorize,
   AwsLambdaReceiver,
-  CustomRoute,
-  FileInstallationStore,
   InstallationStore,
+  LogLevel,
 } from "@slack/bolt";
 import { HTTPReceiverInstallerOptions } from "@slack/bolt/dist/receivers/HTTPReceiver";
 import { StringIndexed } from "@slack/bolt/dist/types/helpers";
 import dotenv from "dotenv";
 
-import { customRoutes, InstallationController } from "./@lib";
+import { InstallationController } from "./@lib";
 
 dotenv.config();
 
@@ -36,40 +36,35 @@ class BaseAppConfig implements AppOptions {
   clientId: string;
   clientSecret: string;
   stateSecret: string;
-  customRoutes: CustomRoute[];
   scopes: string[];
   installationStore: InstallationStore;
   installerOptions: HTTPReceiverInstallerOptions;
+  authorize: Authorize<boolean>;
+  receiver: AwsLambdaReceiver;
 
-  constructor() {
+  constructor(receiver: AwsLambdaReceiver) {
+    const controller = new InstallationController();
     this.signingSecret = process.env.SLACK_SIGNING_SECRET || "";
     this.clientId = process.env.SLACK_CLIENT_ID || "";
     this.clientSecret = process.env.SLACK_CLIENT_SECRET || "";
     this.stateSecret = process.env.STATE_SECRET || "";
-    this.customRoutes = customRoutes;
     this.scopes = scopes;
-    this.installationStore = new FileInstallationStore();
+    this.installationStore = controller;
     this.installerOptions = {
       stateVerification: true,
     };
-    // eslint-disable-next-line no-console
-  }
-}
-
-class ProdConfig extends BaseAppConfig {
-  receiver: AwsLambdaReceiver;
-
-  constructor(receiver: AwsLambdaReceiver) {
-    super();
+    this.authorize = controller.fetchInstallation;
     this.receiver = receiver;
   }
 }
 
+class ProdConfig extends BaseAppConfig {}
 class DevConfig extends BaseAppConfig {
-  receiver: AwsLambdaReceiver;
+  logLevel: LogLevel;
+
   constructor(receiver: AwsLambdaReceiver) {
-    super();
-    this.receiver = receiver;
+    super(receiver);
+    this.logLevel = LogLevel.DEBUG;
   }
 }
 

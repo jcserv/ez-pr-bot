@@ -1,8 +1,8 @@
-import { App, AwsLambdaReceiver } from "@slack/bolt";
+import { AwsLambdaReceiver } from "@slack/bolt";
 import dotenv from "dotenv";
 
-import { errorOccurred, InstallationController, logger } from "./@lib";
-import { scopes } from "./appConfig";
+import { errorOccurred, logger } from "./@lib";
+import { AppFactory } from "./appConfig";
 import { INPUT } from "./constants";
 import { registerEZPRListeners } from "./ezpr";
 import { PublishHomeOverview, registerHelpListeners } from "./help";
@@ -13,18 +13,7 @@ export const awsLambdaReceiver = new AwsLambdaReceiver({
   signingSecret: process.env.SLACK_SIGNING_SECRET || "",
 });
 
-const installationController = new InstallationController();
-
-const app = new App({
-  receiver: awsLambdaReceiver,
-  signingSecret: process.env.SLACK_SIGNING_SECRET,
-  clientId: process.env.SLACK_CLIENT_ID,
-  clientSecret: process.env.SLACK_CLIENT_SECRET,
-  stateSecret: process.env.STATE_SECRET,
-  scopes,
-  installationStore: installationController,
-  authorize: installationController.fetchInstallation,
-});
+const app = new AppFactory(awsLambdaReceiver).build();
 
 // No-op acknowledgement
 app.action({ action_id: INPUT }, async ({ ack }) => {
