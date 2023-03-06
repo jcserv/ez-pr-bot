@@ -8,18 +8,16 @@ import { logger } from "../../logger";
 import InstallationService from "./service";
 
 export class InstallationController implements InstallationStore {
-  private installationService: InstallationService;
-
-  constructor() {
-    this.installationService = new InstallationService();
-  }
-
   async fetchInstallation(
     query: InstallationQuery<boolean>
   ): Promise<Installation<"v1" | "v2", boolean>> {
+    const installationService = new InstallationService();
     try {
+      if (query.isEnterpriseInstall && query.enterpriseId !== undefined) {
+        return installationService.get(query.enterpriseId);
+      }
       if (query.teamId !== undefined) {
-        return this.installationService.get(query.teamId);
+        return installationService.get(query.teamId);
       }
     } catch (error) {
       logger.error(error);
@@ -30,8 +28,9 @@ export class InstallationController implements InstallationStore {
   async storeInstallation<AuthVersion extends "v1" | "v2">(
     installation: Installation<AuthVersion, boolean>
   ): Promise<void> {
+    const installationService = new InstallationService();
     try {
-      this.installationService.save(installation);
+      installationService.save(installation);
     } catch (error) {
       logger.error(error);
     }

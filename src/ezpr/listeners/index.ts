@@ -2,13 +2,16 @@
 import { App } from "@slack/bolt";
 import { StringIndexed } from "@slack/bolt/dist/types/helpers";
 
-const openEZPRModal = require("./openEzprModal");
-const submitEZPRForm = require("./submitEzprForm");
-const submitEZPRCommand = require("./submitEzprCommand");
+import {
+  registerActionListener,
+  registerShortcutListener,
+} from "./openEzprModal";
+import { registerCommandListener } from "./submitEzprCommand";
+import { registerViewListener } from "./submitEzprForm";
 
 export function registerEZPRListeners(app: App<StringIndexed>) {
-  openEZPRModal.registerActionListener(app);
-  openEZPRModal.registerShortcutListener(app);
-  submitEZPRForm.registerViewListener(app);
-  submitEZPRCommand.registerCommandListener(app);
+  registerActionListener(app);
+  registerShortcutListener(app);
+  registerViewListener(app);
+  registerCommandListener(app);
 }

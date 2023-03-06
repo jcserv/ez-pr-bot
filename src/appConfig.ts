@@ -1,4 +1,12 @@
-import { App, AppOptions, AwsLambdaReceiver, CustomRoute } from "@slack/bolt";
+import {
+  App,
+  AppOptions,
+  AwsLambdaReceiver,
+  CustomRoute,
+  FileInstallationStore,
+  InstallationStore,
+} from "@slack/bolt";
+import { HTTPReceiverInstallerOptions } from "@slack/bolt/dist/receivers/HTTPReceiver";
 import { StringIndexed } from "@slack/bolt/dist/types/helpers";
 import dotenv from "dotenv";
 
@@ -12,6 +20,7 @@ export const scopes = [
   "channels:history",
   "chat:write",
   "chat:write.public",
+  "chat:write:bot",
   "commands",
   "emoji:read",
   "im:write",
@@ -23,24 +32,27 @@ export const scopes = [
 ];
 
 class BaseAppConfig implements AppOptions {
-  appToken: string;
   signingSecret: string;
   clientId: string;
   clientSecret: string;
   stateSecret: string;
   customRoutes: CustomRoute[];
   scopes: string[];
-  installationStore: InstallationController;
+  installationStore: InstallationStore;
+  installerOptions: HTTPReceiverInstallerOptions;
 
   constructor() {
-    this.appToken = process.env.SLACK_APP_TOKEN || "";
-    this.signingSecret = process.env.SIGNING_SECRET || "";
+    this.signingSecret = process.env.SLACK_SIGNING_SECRET || "";
     this.clientId = process.env.SLACK_CLIENT_ID || "";
     this.clientSecret = process.env.SLACK_CLIENT_SECRET || "";
     this.stateSecret = process.env.STATE_SECRET || "";
     this.customRoutes = customRoutes;
     this.scopes = scopes;
-    this.installationStore = new InstallationController();
+    this.installationStore = new FileInstallationStore();
+    this.installerOptions = {
+      stateVerification: true,
+    };
+    // eslint-disable-next-line no-console
   }
 }
 
@@ -54,11 +66,10 @@ class ProdConfig extends BaseAppConfig {
 }
 
 class DevConfig extends BaseAppConfig {
-  socketMode: boolean;
-
-  constructor() {
+  receiver: AwsLambdaReceiver;
+  constructor(receiver: AwsLambdaReceiver) {
     super();
-    this.socketMode = true;
+    this.receiver = receiver;
   }
 }
 
@@ -77,7 +88,7 @@ export class AppFactory {
         this.config = new ProdConfig(receiver);
         break;
       case Environment.DEV:
-        this.config = new DevConfig();
+        this.config = new DevConfig(receiver);
         break;
       default:
         throw new Error("expected NODE_ENV to be set");

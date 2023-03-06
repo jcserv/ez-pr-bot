@@ -11,7 +11,7 @@ datasource db {
 }
 
 model Installation {
-  id                  String  @unique
+  id                  String  @id @unique
   team                String
   user                String
   bot                 String

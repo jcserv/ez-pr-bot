@@ -2,12 +2,12 @@ org: jcserv
 app: ez-pr-bot
 service: slack-bolt-app
 frameworkVersion: "3"
+useDotenv: true
 provider:
   name: aws
   runtime: nodejs14.x
   stage: production
   environment:
-    SLACK_APP_TOKEN: ${env:SLACK_APP_SECRET}
     SLACK_SIGNING_SECRET: ${env:SLACK_SIGNING_SECRET}
     SLACK_CLIENT_ID: ${env:SLACK_CLIENT_ID}
     SLACK_CLIENT_SECRET: ${env:SLACK_CLIENT_SECRET}

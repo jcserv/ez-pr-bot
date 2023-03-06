@@ -18,7 +18,6 @@ export default class InstallationService {
         id
       );
     }
-
     return this.repo.get(id);
   }
 

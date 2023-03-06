@@ -7,10 +7,7 @@
   "author": "Jarrod Servilla",
   "license": "GPL-3.0",
   "scripts": {
-    "build": "tsc",
-    "start": "node ./bin/app.js",
-    "dev": "ts-node ./src/app.ts",
-    "dev-lambda": "serverless offline --noPrependStageInUrl",
+    "dev": "serverless offline --noPrependStageInUrl",
     "migrate": "prisma format && prisma migrate dev --name init",
     "db:push": "prisma db push",
     "serve": "ngrok http 3000",
