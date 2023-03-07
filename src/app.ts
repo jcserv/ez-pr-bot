@@ -2,18 +2,19 @@ import { AwsLambdaReceiver } from "@slack/bolt";
 import dotenv from "dotenv";
 
 import { errorOccurred, logger } from "./@lib";
-import { AppFactory } from "./appConfig";
+import { AppFactory, ExpressReceiverFactory } from "./appConfig";
 import { INPUT } from "./constants";
 import { registerEZPRListeners } from "./ezpr";
 import { PublishHomeOverview, registerHelpListeners } from "./help";
 
 dotenv.config();
 
+export const expressReceiver = new ExpressReceiverFactory().build();
 export const awsLambdaReceiver = new AwsLambdaReceiver({
   signingSecret: process.env.SLACK_SIGNING_SECRET || "",
 });
 
-const app = new AppFactory(awsLambdaReceiver).build();
+export const app = new AppFactory(awsLambdaReceiver).build();
 
 // No-op acknowledgement
 app.action({ action_id: INPUT }, async ({ ack }) => {
@@ -31,14 +32,3 @@ app.event("app_home_opened", async ({ client, event }) => {
 
 registerEZPRListeners(app);
 registerHelpListeners(app);
-
-/* Start Bolt App */
-app
-  .start()
-  .then(async () => {
-    logger.info("⚡️ Bolt app is running!");
-  })
-  .catch((error) => {
-    logger.error(error);
-    process.exit(1);
-  });

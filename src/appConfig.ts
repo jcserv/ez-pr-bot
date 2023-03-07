@@ -3,10 +3,11 @@ import {
   AppOptions,
   Authorize,
   AwsLambdaReceiver,
+  ExpressReceiver,
+  ExpressReceiverOptions,
   InstallationStore,
   LogLevel,
 } from "@slack/bolt";
-import { HTTPReceiverInstallerOptions } from "@slack/bolt/dist/receivers/HTTPReceiver";
 import { StringIndexed } from "@slack/bolt/dist/types/helpers";
 import dotenv from "dotenv";
 
@@ -30,30 +31,36 @@ export const scopes = [
   "workflow.steps:execute",
 ];
 
-class BaseAppConfig implements AppOptions {
+class BaseConfig implements ExpressReceiverOptions {
   signingSecret: string;
   clientId: string;
   clientSecret: string;
   stateSecret: string;
   scopes: string[];
   installationStore: InstallationStore;
-  installerOptions: HTTPReceiverInstallerOptions;
-  authorize: Authorize<boolean>;
-  receiver: AwsLambdaReceiver;
 
-  constructor(receiver: AwsLambdaReceiver) {
-    const controller = new InstallationController();
+  constructor() {
     this.signingSecret = process.env.SLACK_SIGNING_SECRET || "";
     this.clientId = process.env.SLACK_CLIENT_ID || "";
     this.clientSecret = process.env.SLACK_CLIENT_SECRET || "";
     this.stateSecret = process.env.STATE_SECRET || "";
     this.scopes = scopes;
-    this.installationStore = controller;
-    this.installerOptions = {
-      stateVerification: true,
-    };
-    this.authorize = controller.fetchInstallation;
+    this.installationStore = new InstallationController();
+  }
+}
+
+class BaseAppConfig extends BaseConfig implements AppOptions {
+  receiver: AwsLambdaReceiver;
+  processBeforeResponse: boolean;
+  authorize: Authorize<boolean>;
+
+  constructor(receiver: AwsLambdaReceiver) {
+    const store = new InstallationController();
+    super();
     this.receiver = receiver;
+    this.processBeforeResponse = true;
+    this.installationStore = store;
+    this.authorize = store.fetchInstallation;
   }
 }
 
@@ -91,5 +98,21 @@ export class AppFactory {
 
   build(): App<StringIndexed> {
     return new App(this.config);
+  }
+}
+
+class BaseExpressReceiverConfig
+  extends BaseConfig
+  implements ExpressReceiverOptions {}
+
+export class ExpressReceiverFactory {
+  private config: ExpressReceiverOptions;
+
+  constructor() {
+    this.config = new BaseExpressReceiverConfig();
+  }
+
+  build(): ExpressReceiver {
+    return new ExpressReceiver(this.config);
   }
 }

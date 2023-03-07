@@ -1,8 +1,8 @@
 import { AwsCallback } from "@slack/bolt/dist/receivers/AwsLambdaReceiver";
+import serverlessExpress from "@vendia/serverless-express";
 import { APIGatewayEvent, Context, Handler } from "aws-lambda";
 
-import { workspaceInstallHtml } from "./@lib/auth/html";
-import { awsLambdaReceiver } from "./app";
+import { app, expressReceiver } from "./app";
 
 export const slack: Handler = async (
   event: APIGatewayEvent,
@@ -11,26 +11,13 @@ export const slack: Handler = async (
 ) => {
   // immediate response for warm-up plugin
   if (event.resource === "serverless-plugin-warmup") {
-    return "Lambda is warm!";
+    return callback(null, "Lambda is warm!");
   }
 
-  const handler = await awsLambdaReceiver.start();
+  const handler: any = await app.start();
   return handler(event, context, callback);
 };
 
-export const slackInstall: Handler = async (
-  event: APIGatewayEvent,
-  _context: Context,
-  callback: AwsCallback
-) => {
-  if (event.resource === "serverless-plugin-warmup") {
-    return "Lambda is warm!";
-  }
-  callback(null, {
-    headers: {
-      "Content-Type": "text/html; charset=utf-8",
-    },
-    body: workspaceInstallHtml,
-    statusCode: 200,
-  });
-};
+export const slackOauth: Handler = serverlessExpress({
+  app: expressReceiver.app,
+});

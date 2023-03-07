@@ -3,6 +3,7 @@ app: ez-pr-bot
 service: slack-bolt-app
 frameworkVersion: "3"
 useDotenv: true
+
 provider:
   name: aws
   runtime: nodejs14.x
@@ -15,6 +16,16 @@ provider:
     STATE_SECRET: ${env:STATE_SECRET}
     BASE_URL: ${env:BASE_URL}
     DATABASE_URL: ${env:DATABASE_URL}
+
+custom:
+  warmup:
+    officeHoursWarmer:
+      enabled: true
+      events:
+        - schedule: cron(0/5 8-17 ? * MON-FRI *) # Run WarmUp every 5 minutes Mon-Fri between 8:00am and 5:55pm (UTC)
+      concurrency: 10
+      verbose: false
+
 functions:
   slack:
     handler: src/handlers.slack
@@ -22,8 +33,19 @@ functions:
       - http:
           path: slack/events
           method: post
+    warmup:
+      officeHoursWarmer:
+        enabled: true
+
+  slackOauth:
+    handler: src/handlers.slackOauth
+    events:
+      - http:
+          path: slack/oauth_redirect
+          method: get
+
   slackInstall:
-    handler: src/handlers.slackInstall
+    handler: src/handlers.slackOauth
     events:
       - http:
           path: slack/install
