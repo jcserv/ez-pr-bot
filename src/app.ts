@@ -32,3 +32,13 @@ app.event("app_home_opened", async ({ client, event }) => {
 
 registerEZPRListeners(app);
 registerHelpListeners(app);
+
+app
+  .start()
+  .then(() => {
+    logger.info("⚡️ Bolt app is running!");
+  })
+  .catch((error) => {
+    logger.error(error);
+    process.exit(1);
+  });

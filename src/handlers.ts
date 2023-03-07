@@ -2,7 +2,7 @@ import { AwsCallback } from "@slack/bolt/dist/receivers/AwsLambdaReceiver";
 import serverlessExpress from "@vendia/serverless-express";
 import { APIGatewayEvent, Context, Handler } from "aws-lambda";
 
-import { app, expressReceiver } from "./app";
+import { awsLambdaReceiver, expressReceiver } from "./app";
 
 export const slack: Handler = async (
   event: APIGatewayEvent,
@@ -14,7 +14,7 @@ export const slack: Handler = async (
     return callback(null, "Lambda is warm!");
   }
 
-  const handler: any = await app.start();
+  const handler = awsLambdaReceiver.toHandler();
   return handler(event, context, callback);
 };
 

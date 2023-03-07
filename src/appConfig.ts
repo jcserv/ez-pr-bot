@@ -5,13 +5,12 @@ import {
   AwsLambdaReceiver,
   ExpressReceiver,
   ExpressReceiverOptions,
+  FileInstallationStore,
   InstallationStore,
   LogLevel,
 } from "@slack/bolt";
 import { StringIndexed } from "@slack/bolt/dist/types/helpers";
 import dotenv from "dotenv";
-
-import { InstallationController } from "./@lib";
 
 dotenv.config();
 
@@ -31,7 +30,7 @@ export const scopes = [
   "workflow.steps:execute",
 ];
 
-class BaseConfig implements ExpressReceiverOptions {
+class BaseConfig {
   signingSecret: string;
   clientId: string;
   clientSecret: string;
@@ -45,7 +44,7 @@ class BaseConfig implements ExpressReceiverOptions {
     this.clientSecret = process.env.SLACK_CLIENT_SECRET || "";
     this.stateSecret = process.env.STATE_SECRET || "";
     this.scopes = scopes;
-    this.installationStore = new InstallationController();
+    this.installationStore = new FileInstallationStore(); // InstallationController();
   }
 }
 
@@ -55,12 +54,13 @@ class BaseAppConfig extends BaseConfig implements AppOptions {
   authorize: Authorize<boolean>;
 
   constructor(receiver: AwsLambdaReceiver) {
-    const store = new InstallationController();
     super();
     this.receiver = receiver;
     this.processBeforeResponse = true;
-    this.installationStore = store;
-    this.authorize = store.fetchInstallation;
+    this.authorize = async (query) => {
+      console.log(await this.installationStore.fetchInstallation(query));
+      return this.installationStore.fetchInstallation(query);
+    };
   }
 }
 
