@@ -17,7 +17,6 @@ export class PostMessageCommand implements ICommand {
       blocks: this.message.blocks,
       channel: this.message.channel,
       text: this.message.text,
-      as_user: false,
     });
 
     return result;
