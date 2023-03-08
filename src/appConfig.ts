@@ -3,7 +3,6 @@ import {
   AppOptions,
   Authorize,
   AuthorizeResult,
-  AwsLambdaReceiver,
   ExpressReceiver,
   ExpressReceiverOptions,
   FileInstallationStore,
