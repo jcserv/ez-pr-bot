@@ -13,7 +13,6 @@ export class PostMessageCommand implements ICommand {
   }
 
   async handle() {
-    console.log(this.client);
     const result = await this.client.chat.postMessage({
       blocks: this.message.blocks,
       channel: this.message.channel,
