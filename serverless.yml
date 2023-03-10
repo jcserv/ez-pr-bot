@@ -2,15 +2,29 @@ org: jcserv
 app: ez-pr-bot
 service: slack-bolt-app
 frameworkVersion: "3"
+useDotenv: true
+
 provider:
   name: aws
   runtime: nodejs14.x
   stage: production
   environment:
-    SLACK_SIGNING_SECRET: ${env:SLACK_SIGNING_SECRET}
-    SLACK_BOT_TOKEN: ${env:SLACK_BOT_TOKEN}
-    USER_ID: ${env:USER_ID}
     NODE_ENV: ${env:NODE_ENV}
+    SLACK_SIGNING_SECRET: ${env:SLACK_SIGNING_SECRET}
+    SLACK_CLIENT_ID: ${env:SLACK_CLIENT_ID}
+    SLACK_CLIENT_SECRET: ${env:SLACK_CLIENT_SECRET}
+    STATE_SECRET: ${env:STATE_SECRET}
+    BASE_URL: !Sub "https://${ApiGatewayRestApi}.execute-api.${aws:region}.amazonaws.com/${sls:stage}"
+
+# custom:
+#   warmup:
+#     officeHoursWarmer:
+#       enabled: true
+#       events:
+#         - schedule: cron(0/5 8-17 ? * MON-FRI *) # Run WarmUp every 5 minutes Mon-Fri between 8:00am and 5:55pm (UTC)
+#       concurrency: 10
+#       verbose: false
+
 functions:
   slack:
     handler: src/handlers.slack
@@ -18,7 +32,27 @@ functions:
       - http:
           path: slack/events
           method: post
+    # warmup:
+    #   officeHoursWarmer:
+    #     enabled: true
+
+  slackOauth:
+    handler: src/handlers.slackOauth
+    events:
+      - http:
+          path: slack/oauth_redirect
+          method: get
+
+  slackInstall:
+    handler: src/handlers.slackOauth
+    events:
+      - http:
+          path: slack/install
+          method: get
+
 plugins:
+  - serverless-iam-roles-per-function
+  - serverless-offline
   - serverless-plugin-typescript
   - serverless-plugin-warmup
-  - serverless-offline
+  - serverless-puresec-cli

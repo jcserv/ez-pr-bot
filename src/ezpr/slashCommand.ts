@@ -1,9 +1,9 @@
 import { SlashCommand } from "@slack/bolt";
 
+import { toMention } from "../@lib/@types";
 import { HTTPError } from "../@lib/errors";
 import { parseCommandArgs } from "../@lib/parse";
-import { toMention } from "../@lib/types";
-import { EZPRArguments } from "./";
+import { EZPRArguments } from ".";
 
 const MIN_SLASH_EZPR_ARGS = 1;
 const MAX_SLASH_EZPR_ARGS = 5;

@@ -5,7 +5,7 @@ import {
   SELECTED_OPTION,
   SELECTED_USERS,
 } from "../../constants";
-import { StringDictionary } from "../types";
+import { StringDictionary } from "../utils";
 
 const EMPTY_STRING = "";
 const SINGLE_QUOTES = "'";

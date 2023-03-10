@@ -27,6 +27,8 @@ features:
       usage_hint: "[topic]"
       should_escape: false
 oauth_config:
+  redirect_urls:
+    - [URL]
   scopes:
     bot:
       - app_mentions:read
@@ -43,6 +45,10 @@ oauth_config:
       - usergroups:read
       - workflow.steps:execute
 settings:
+  event_subscriptions:
+    request_url: [URL]
+    bot_events:
+      - app_home_opened
   interactivity:
     is_enabled: true
     request_url: [URL]
