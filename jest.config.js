@@ -12,7 +12,6 @@ module.exports = {
     "src/@lib/errors/markdown.ts",
     "src/@lib/metrics",
     "src/@lib/logger.ts",
-    "src/@lib/prisma.ts",
     "src/@lib/index.ts",
     "src/auth/index.ts",
     "src/ezpr/index.ts",
@@ -26,10 +25,10 @@ module.exports = {
   ],
   coverageThreshold: {
     global: {
-      statements: 75.86,
-      branches: 52.34,
-      lines: 75.33,
-      functions: 63.29,
+      statements: 82.93,
+      branches: 68.75,
+      lines: 82.51,
+      functions: 74.62,
     },
   },
 };
