@@ -1,4 +1,3 @@
-export * from "./@domain";
 export * from "./@types";
 export * from "./cmd";
 export * from "./errors";

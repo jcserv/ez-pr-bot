@@ -6,8 +6,6 @@ module.exports = {
   collectCoverage: true,
   collectCoverageFrom: ["src/**/*.ts"],
   coveragePathIgnorePatterns: [
-    "src/@lib/@domain/index.ts",
-    "src/@lib/@domain/installation/index.ts",
     "src/@lib/@types/index.ts",
     "src/@lib/cmd/index.ts",
     "src/@lib/errors/index.ts",

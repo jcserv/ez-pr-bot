@@ -45,7 +45,7 @@ class BaseConfig {
     this.clientSecret = process.env.SLACK_CLIENT_SECRET || "";
     this.stateSecret = process.env.STATE_SECRET || "";
     this.scopes = scopes;
-    this.installationStore = new FileInstallationStore(); // InstallationController();
+    this.installationStore = new FileInstallationStore();
   }
 }
 

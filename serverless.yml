@@ -14,17 +14,16 @@ provider:
     SLACK_CLIENT_ID: ${env:SLACK_CLIENT_ID}
     SLACK_CLIENT_SECRET: ${env:SLACK_CLIENT_SECRET}
     STATE_SECRET: ${env:STATE_SECRET}
-    BASE_URL: ${env:BASE_URL}
-    DATABASE_URL: ${env:DATABASE_URL}
+    BASE_URL: !Sub "https://${ApiGatewayRestApi}.execute-api.${aws:region}.amazonaws.com/${sls:stage}"
 
-custom:
-  warmup:
-    officeHoursWarmer:
-      enabled: true
-      events:
-        - schedule: cron(0/5 8-17 ? * MON-FRI *) # Run WarmUp every 5 minutes Mon-Fri between 8:00am and 5:55pm (UTC)
-      concurrency: 10
-      verbose: false
+# custom:
+#   warmup:
+#     officeHoursWarmer:
+#       enabled: true
+#       events:
+#         - schedule: cron(0/5 8-17 ? * MON-FRI *) # Run WarmUp every 5 minutes Mon-Fri between 8:00am and 5:55pm (UTC)
+#       concurrency: 10
+#       verbose: false
 
 functions:
   slack:
@@ -33,9 +32,9 @@ functions:
       - http:
           path: slack/events
           method: post
-    warmup:
-      officeHoursWarmer:
-        enabled: true
+    # warmup:
+    #   officeHoursWarmer:
+    #     enabled: true
 
   slackOauth:
     handler: src/handlers.slackOauth
@@ -52,6 +51,8 @@ functions:
           method: get
 
 plugins:
+  - serverless-iam-roles-per-function
+  - serverless-offline
   - serverless-plugin-typescript
   - serverless-plugin-warmup
-  - serverless-offline
+  - serverless-puresec-cli

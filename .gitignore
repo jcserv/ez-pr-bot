@@ -105,6 +105,7 @@ dist
 
 # Serverless directories
 .serverless/
+.warmup/
 
 # FuseBox cache
 .fusebox/
