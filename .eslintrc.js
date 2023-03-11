@@ -13,14 +13,7 @@ module.exports = {
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
   ],
-  ignorePatterns: [
-    "bin/**",
-    ".build/**",
-    ".serverless/**",
-    ".warmup/**",
-    "coverage/**",
-    "webpack.config.js",
-  ],
+  ignorePatterns: ["bin/**"],
   parserOptions: {
     ecmaVersion: 12,
   },
