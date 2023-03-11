@@ -51,8 +51,6 @@ functions:
           method: get
 
 plugins:
-  - serverless-iam-roles-per-function
   - serverless-offline
-  - serverless-plugin-typescript
   - serverless-plugin-warmup
-  - serverless-puresec-cli
+  - serverless-webpack
