@@ -52,5 +52,5 @@ functions:
 
 plugins:
   - serverless-offline
+  - serverless-plugin-typescript
   - serverless-plugin-warmup
-  - serverless-webpack
