@@ -1,8 +1,7 @@
 import { AwsCallback } from "@slack/bolt/dist/receivers/AwsLambdaReceiver";
-import serverlessExpress from "@vendia/serverless-express";
 import { APIGatewayEvent, Context, Handler } from "aws-lambda";
 
-import { awsLambdaReceiver, expressReceiver } from "./app";
+import { awsLambdaReceiver } from "./app";
 
 export const slackEventListener: Handler = async (
   event: APIGatewayEvent,
@@ -17,7 +16,3 @@ export const slackEventListener: Handler = async (
   const handler = awsLambdaReceiver.toHandler();
   return handler(event, context, callback);
 };
-
-export const slackOauth: Handler = serverlessExpress({
-  app: expressReceiver.app,
-});
