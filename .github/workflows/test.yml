@@ -10,6 +10,7 @@ jobs:
   yarn-test:
     name: yarn-test
     runs-on: ubuntu-latest
+    working-directory: services/slack/functions/eventListener
     steps:
       - name: Set up Node 14.x
         uses: actions/setup-node@v1
