@@ -6,8 +6,26 @@ on:
       - main
 
 jobs:
-  deploy:
-    name: deploy
+  files-changed:
+    name: files-changed
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            slackEventListener:
+              - 'services/slack/functions/eventListener/**'
+            slackOAuth:
+              - 'services/slack/functions/oauth/**'
+
+
+  deploySlackEventListener:
+    if: needs.files-changed.outputs.slackEventListener == 'true'
+    needs: files-changed
+    name: deploySlackEventListener
+    working-directory: services/slack/functions/eventListener
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -31,5 +49,35 @@ jobs:
           SLACK_CLIENT_ID: ${{ secrets.SLACK_CLIENT_ID }}
           SLACK_CLIENT_SECRET: ${{ secrets.SLACK_CLIENT_SECRET }}
           STATE_SECRET: ${{ secrets.STATE_SECRET }}
-          BASE_URL: ${{ secrets.BASE_URL }}
+          NODE_ENV: ${{ secrets.NODE_ENV }}
+
+
+  deploySlackOAuth:
+    if: needs.files-changed.outputs.slackOAuth == 'true'
+    needs: files-changed
+    name: deployslackOAuth
+    working-directory: services/slack/functions/oauth
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: yarn install --frozen-lockfile
+      - name: serverless deploy
+        uses: serverless/github-action@v3.1
+        with:
+          args: deploy --stage production
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY }}
+          SLACK_SIGNING_SECRET: ${{ secrets.SLACK_SIGNING_SECRET }}
+          SLACK_CLIENT_ID: ${{ secrets.SLACK_CLIENT_ID }}
+          SLACK_CLIENT_SECRET: ${{ secrets.SLACK_CLIENT_SECRET }}
+          STATE_SECRET: ${{ secrets.STATE_SECRET }}
           NODE_ENV: ${{ secrets.NODE_ENV }}

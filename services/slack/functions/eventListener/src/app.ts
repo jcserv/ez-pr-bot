@@ -2,14 +2,13 @@ import { AwsLambdaReceiver } from "@slack/bolt";
 import dotenv from "dotenv";
 
 import { errorOccurred, logger } from "./@lib";
-import { AppFactory, ExpressReceiverFactory } from "./appConfig";
+import { AppFactory } from "./appConfig";
 import { INPUT } from "./constants";
 import { registerEZPRListeners } from "./ezpr";
 import { PublishHomeOverview, registerHelpListeners } from "./help";
 
 dotenv.config();
 
-export const expressReceiver = new ExpressReceiverFactory().build();
 export const awsLambdaReceiver = new AwsLambdaReceiver({
   signingSecret: process.env.SLACK_SIGNING_SECRET || "",
 });

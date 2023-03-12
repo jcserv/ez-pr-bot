@@ -1,0 +1,40 @@
+org: jcserv
+app: ez-pr-bot
+service: slack
+frameworkVersion: "3"
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  stage: production
+  environment:
+    SLACK_SIGNING_SECRET: ${env:SLACK_SIGNING_SECRET}
+    SLACK_CLIENT_ID: ${env:SLACK_CLIENT_ID}
+    SLACK_CLIENT_SECRET: ${env:SLACK_CLIENT_SECRET}
+    STATE_SECRET: ${env:STATE_SECRET}
+
+custom:
+  webpack:
+    includeModules:
+      forceInclude:
+        - "@vendia/serverless-express"
+
+functions:
+  slackOauth:
+    handler: src/handler.slackOauth
+    events:
+      - http:
+          path: slack/oauth_redirect
+          method: get
+
+  slackInstall:
+    handler: src/handler.slackOauth
+    events:
+      - http:
+          path: slack/install
+          method: get
+
+plugins:
+  - serverless-webpack
+  - serverless-offline

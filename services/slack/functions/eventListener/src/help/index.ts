@@ -1,4 +1,4 @@
-export * from "./";
+export * from ".";
 export * from "./args";
 export * from "./blocks";
 export * from "./cmd";
