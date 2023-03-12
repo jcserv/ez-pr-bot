@@ -31,8 +31,8 @@ custom:
 
 
 functions:
-  slack:
-    handler: src/handlers.slack
+  slackEventListener:
+    handler: src/handlers.slackEventListener
     events:
       - http:
           path: slack/events

@@ -4,7 +4,7 @@ import { APIGatewayEvent, Context, Handler } from "aws-lambda";
 
 import { awsLambdaReceiver, expressReceiver } from "./app";
 
-export const slack: Handler = async (
+export const slackEventListener: Handler = async (
   event: APIGatewayEvent,
   context: Context,
   callback: AwsCallback

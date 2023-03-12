@@ -1,4 +1,4 @@
-import { EZPRArguments } from "./";
+import { EZPRArguments } from ".";
 
 const ezprMarkdown = (args: EZPRArguments) => `
 ${args.reviewers?.length === 0 ? "" : args.reviewers?.join(" ")}

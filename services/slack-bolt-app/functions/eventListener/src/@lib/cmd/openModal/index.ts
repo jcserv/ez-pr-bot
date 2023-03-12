@@ -1,7 +1,7 @@
 import { View } from "@slack/bolt";
 import { WebClient } from "@slack/web-api";
 
-import { ICommand } from "../../cmd";
+import { ICommand } from "..";
 
 export class OpenModalCommand implements ICommand {
   client: WebClient;
