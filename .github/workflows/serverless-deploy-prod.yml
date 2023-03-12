@@ -27,7 +27,8 @@ jobs:
     name: deploySlackEventListener
     runs-on: ubuntu-latest
     defaults:
-      - working-directory: services/slack/functions/eventListener
+      run:
+        working-directory: services/slack/functions/eventListener
     strategy:
       matrix:
         node-version: [16.x]
@@ -59,7 +60,8 @@ jobs:
     name: deployslackOAuth
     runs-on: ubuntu-latest
     defaults:
-      - working-directory: services/slack/functions/oauth
+      run:
+        working-directory: services/slack/functions/oauth
     strategy:
       matrix:
         node-version: [16.x]
