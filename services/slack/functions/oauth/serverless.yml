@@ -1,6 +1,6 @@
 org: jcserv
 app: ez-pr-bot
-service: slack
+service: slackOauth
 frameworkVersion: "3"
 useDotenv: true
 
