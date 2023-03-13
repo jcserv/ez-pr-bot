@@ -1,0 +1,11 @@
+{
+  "name": "slackAppConfig",
+  "version": "1.0.0",
+  "main": "src/index.ts",
+  "author": "Jarrod Servilla",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "@slack/bolt": "^3.12.2",
+    "dotenv": "^16.0.3"
+  }
+}
