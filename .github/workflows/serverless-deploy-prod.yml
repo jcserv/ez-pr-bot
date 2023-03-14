@@ -25,10 +25,8 @@ jobs:
     if: needs.files-changed.outputs.slackEventListener == 'true'
     needs: files-changed
     name: deploySlackEventListener
+    working-directory: services/slack/functions/eventListener
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: services/slack/functions/eventListener
     strategy:
       matrix:
         node-version: [16.x]
@@ -58,10 +56,8 @@ jobs:
     if: needs.files-changed.outputs.slackOAuth == 'true'
     needs: files-changed
     name: deployslackOAuth
+    working-directory: services/slack/functions/oauth
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: services/slack/functions/oauth
     strategy:
       matrix:
         node-version: [16.x]
