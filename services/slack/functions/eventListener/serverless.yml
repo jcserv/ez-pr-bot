@@ -17,9 +17,6 @@ provider:
     BASE_URL: !Sub "https://${ApiGatewayRestApi}.execute-api.${aws:region}.amazonaws.com/${sls:stage}"
 
 custom:
-  webpack:
-    includeModules: true
-
   warmup:
     officeHoursWarmer:
       enabled: true
