@@ -1,7 +1,7 @@
 import { WebClient } from "@slack/web-api";
 
 import { SlackMessage } from "../../@types";
-import { ICommand } from "..";
+import { ICommand } from "../../cmd";
 
 export class PostMessageCommand implements ICommand {
   client: WebClient;

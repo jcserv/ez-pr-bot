@@ -1,6 +1,6 @@
 org: jcserv
 app: ez-pr-bot
-service: slack
+service: slack-bolt-app
 frameworkVersion: "3"
 useDotenv: true
 
@@ -17,6 +17,10 @@ provider:
     BASE_URL: !Sub "https://${ApiGatewayRestApi}.execute-api.${aws:region}.amazonaws.com/${sls:stage}"
 
 custom:
+  webpack:
+    includeModules:
+      forceInclude:
+        - "@vendia/serverless-express"
   warmup:
     officeHoursWarmer:
       enabled: true
@@ -27,8 +31,8 @@ custom:
 
 
 functions:
-  slackEventListener:
-    handler: src/handler.slackEventListener
+  slack:
+    handler: src/handlers.slack
     events:
       - http:
           path: slack/events
@@ -36,7 +40,26 @@ functions:
     warmup:
       officeHoursWarmer:
         enabled: false
-        
+
+  slackOauth:
+    handler: src/handlers.slackOauth
+    events:
+      - http:
+          path: slack/oauth_redirect
+          method: get
+    warmup:
+      officeHoursWarmer:
+        enabled: false
+
+  slackInstall:
+    handler: src/handlers.slackOauth
+    events:
+      - http:
+          path: slack/install
+          method: get
+    warmup:
+      officeHoursWarmer:
+        enabled: false
 
 plugins:
   - serverless-webpack

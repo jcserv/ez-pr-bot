@@ -10,7 +10,6 @@ jobs:
   yarn-lint:
     name: yarn-lint
     runs-on: ubuntu-latest
-    working-directory: services/slack/functions/eventListener
     steps:
       - name: Set up Node 14.x
         uses: actions/setup-node@v1
