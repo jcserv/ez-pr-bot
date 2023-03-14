@@ -8,7 +8,7 @@ on:
 
 defaults:
   run:
-    working-directory: services/slack/functions/eventListener
+    working-directory: services/slack
 
 jobs:
   yarn-lint:

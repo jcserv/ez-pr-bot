@@ -1,0 +1,73 @@
+org: jcserv
+app: ez-pr-bot
+service: slack
+frameworkVersion: "3"
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  stage: production
+  environment:
+    NODE_ENV: ${env:NODE_ENV}
+    SLACK_SIGNING_SECRET: ${env:SLACK_SIGNING_SECRET}
+    SLACK_CLIENT_ID: ${env:SLACK_CLIENT_ID}
+    SLACK_CLIENT_SECRET: ${env:SLACK_CLIENT_SECRET}
+    STATE_SECRET: ${env:STATE_SECRET}
+    BASE_URL: !Sub "https://${ApiGatewayRestApi}.execute-api.${aws:region}.amazonaws.com/${sls:stage}"
+
+package:
+  individually: true
+
+custom:
+  webpack:
+    includeModules:
+      forceExclude:
+        - aws-sdk
+    excludeFiles: "**/*.test.ts"
+
+  warmup:
+    officeHoursWarmer:
+      enabled: true
+      events:
+        - schedule: cron(0/5 8-17 ? * MON-FRI *) # Run WarmUp every 5 minutes Mon-Fri between 8:00am and 5:55pm (UTC)
+      concurrency: 10
+      verbose: false
+
+
+functions:
+  events:
+    handler: functions/eventListener/handler.events
+    events:
+      - http:
+          path: slack/events
+          method: post
+    warmup:
+      officeHoursWarmer:
+        enabled: false
+
+  oauth:
+    handler: functions/oauth/handler.oauth
+    events:
+      - http:
+          path: slack/oauth_redirect
+          method: get
+    warmup:
+      officeHoursWarmer:
+        enabled: false
+
+  install:
+    handler: functions/oauth/handler.oauth
+    events:
+      - http:
+          path: slack/install
+          method: get
+    warmup:
+      officeHoursWarmer:
+        enabled: false
+
+
+plugins:
+  - serverless-webpack
+  - serverless-offline
+  - serverless-plugin-warmup
