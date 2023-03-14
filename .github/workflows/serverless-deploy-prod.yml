@@ -6,9 +6,25 @@ on:
       - main
 
 jobs:
-  deploy:
-    name: deploy
+  files-changed:
+    name: files-changed
     runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            slack:
+              - 'services/slack/**'
+
+  deploy:
+    if: needs.files-changed.outputs.slack == 'true'
+    name: deploySlackService
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: services/slack
     strategy:
       matrix:
         node-version: [16.x]
