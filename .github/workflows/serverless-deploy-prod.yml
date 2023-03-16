@@ -20,6 +20,7 @@ jobs:
 
   deploy:
     if: needs.files-changed.outputs.slack == 'true'
+    needs: files-changed
     name: deploySlackService
     runs-on: ubuntu-latest
     defaults:
