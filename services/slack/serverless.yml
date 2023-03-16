@@ -15,6 +15,7 @@ provider:
     SLACK_CLIENT_SECRET: ${env:SLACK_CLIENT_SECRET}
     STATE_SECRET: ${env:STATE_SECRET}
     AUTH_TABLE: ${env:AUTH_TABLE}
+    REGION: ${aws:region}
     BASE_URL: !Sub "https://${ApiGatewayRestApi}.execute-api.${aws:region}.amazonaws.com/${sls:stage}"
 
 package:
