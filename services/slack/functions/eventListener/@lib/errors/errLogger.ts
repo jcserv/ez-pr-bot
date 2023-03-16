@@ -1,7 +1,7 @@
 import { WebClient } from "@slack/web-api";
 import dotenv from "dotenv";
 
-import { isHTTPError, Logger } from "../../../../common";
+import { isHTTPError, log } from "../../../../common";
 import { isValidationError, toValidationError } from ".";
 
 dotenv.config();
@@ -27,6 +27,6 @@ export async function errorOccurred(
       user,
     });
   } catch (error) {
-    Logger.error(error);
+    log.error(error);
   }
 }

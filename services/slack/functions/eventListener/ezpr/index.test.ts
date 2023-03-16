@@ -63,7 +63,7 @@ describe("OpenEZPRModal", () => {
     mockClientResponse(mockResponse);
     const client = new WebClient({});
     const result = await OpenEZPRModal(client, "trigger-id");
-    expect(result.ok).toBeTruthy();
+    expect(result?.ok).toBeTruthy();
   });
 });
 

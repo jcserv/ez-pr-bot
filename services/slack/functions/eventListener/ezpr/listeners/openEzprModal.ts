@@ -1,7 +1,7 @@
 import { App, BlockAction } from "@slack/bolt";
 import { StringIndexed } from "@slack/bolt/dist/types/helpers";
 
-import { Logger } from "../../../../common";
+import { log } from "../../../../common";
 import { errorOccurred, PublishInteractionCountMetric } from "../../@lib";
 import { ACTION, EZPR, OPEN_EZPR_MODAL, SHORTCUT } from "../../constants";
 import { OpenEZPRModal } from "../cmd";
@@ -18,7 +18,7 @@ export function registerActionListener(app: App<StringIndexed>) {
       if (user !== undefined && channel !== undefined) {
         errorOccurred(client, user.id, channel.id, error);
       }
-      Logger.error(error);
+      log.error(error);
     }
   });
 }
@@ -34,7 +34,7 @@ export function registerShortcutListener(app: App<StringIndexed>) {
       if (user !== undefined) {
         errorOccurred(client, user.id, "", error);
       }
-      Logger.error(error);
+      log.error(error);
     }
   });
 }

@@ -1,7 +1,7 @@
 import { AwsLambdaReceiver } from "@slack/bolt";
 import dotenv from "dotenv";
 
-import { Logger } from "../../common";
+import { log } from "../../common";
 import { errorOccurred } from "./@lib";
 import { AppFactory } from "./appConfig";
 import { INPUT } from "./constants";
@@ -26,7 +26,7 @@ app.event("app_home_opened", async ({ client, event }) => {
     PublishHomeOverview(client, event.user);
   } catch (error) {
     errorOccurred(client, event.user, event.channel, error);
-    Logger.error(error);
+    log.error(error);
   }
 });
 
@@ -36,9 +36,9 @@ registerHelpListeners(app);
 app
   .start()
   .then(() => {
-    Logger.info("⚡️ Bolt app is running!");
+    log.info("⚡️ Bolt app is running!");
   })
   .catch((error) => {
-    Logger.error(error);
+    log.error(error);
     process.exit(1);
   });

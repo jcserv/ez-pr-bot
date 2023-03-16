@@ -1,7 +1,7 @@
 import { App, BlockAction } from "@slack/bolt";
 import { StringIndexed } from "@slack/bolt/dist/types/helpers";
 
-import { Logger } from "../../../../common";
+import { log } from "../../../../common";
 import { errorOccurred, PublishInteractionCountMetric } from "../../@lib";
 import { ACTION, HELP, OPEN_HELP_USAGE_MODAL } from "../../constants";
 import { OpenHelpUsageModal } from "../cmd";
@@ -20,7 +20,7 @@ export function registerActionListener(app: App<StringIndexed>) {
         if (user !== undefined && channel !== undefined) {
           errorOccurred(client, user.id, channel.id, error);
         }
-        Logger.error(error);
+        log.error(error);
       }
     }
   );

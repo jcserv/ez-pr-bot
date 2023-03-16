@@ -1,7 +1,7 @@
 import { App, SlackViewAction } from "@slack/bolt";
 import { StringIndexed } from "@slack/bolt/dist/types/helpers";
 
-import { Logger } from "../../../../common";
+import { log } from "../../../../common";
 import { errorOccurred, PublishUsageMetrics } from "../../@lib";
 import { EZPR, EZPR_MODAL_SUBMISSION, VIEW } from "../../constants";
 import { EZPRCommand } from "../cmd";
@@ -20,7 +20,7 @@ export function registerViewListener(app: App<StringIndexed>) {
       if (user !== undefined) {
         errorOccurred(client, user.id, "", error);
       }
-      Logger.error(error);
+      log.error(error);
     }
   });
 }

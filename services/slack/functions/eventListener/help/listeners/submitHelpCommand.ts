@@ -1,7 +1,7 @@
 import { App } from "@slack/bolt";
 import { StringIndexed } from "@slack/bolt/dist/types/helpers";
 
-import { Logger } from "../../../../common";
+import { log } from "../../../../common";
 import { errorOccurred, PublishUsageMetrics } from "../../@lib";
 import { COMMAND, HELP, SLASH_HELP } from "../../constants";
 import { HelpCommand } from "../cmd";
@@ -17,7 +17,7 @@ export function registerCommandListener(app: App<StringIndexed>) {
     } catch (error) {
       const { user_id, channel_id } = payload;
       errorOccurred(client, user_id, channel_id, error);
-      Logger.error(error);
+      log.error(error);
     }
   });
 }

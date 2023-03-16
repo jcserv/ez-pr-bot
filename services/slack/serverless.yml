@@ -14,6 +14,7 @@ provider:
     SLACK_CLIENT_ID: ${env:SLACK_CLIENT_ID}
     SLACK_CLIENT_SECRET: ${env:SLACK_CLIENT_SECRET}
     STATE_SECRET: ${env:STATE_SECRET}
+    AUTH_TABLE: ${env:AUTH_TABLE}
     BASE_URL: !Sub "https://${ApiGatewayRestApi}.execute-api.${aws:region}.amazonaws.com/${sls:stage}"
 
 package:
@@ -33,7 +34,6 @@ custom:
         - schedule: cron(0/5 8-17 ? * MON-FRI *) # Run WarmUp every 5 minutes Mon-Fri between 8:00am and 5:55pm (UTC)
       concurrency: 10
       verbose: false
-
 
 functions:
   events:
@@ -65,7 +65,6 @@ functions:
     warmup:
       officeHoursWarmer:
         enabled: false
-
 
 plugins:
   - serverless-webpack

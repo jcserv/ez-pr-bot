@@ -9,7 +9,7 @@ import {
 import { StringIndexed } from "@slack/bolt/dist/types/helpers";
 import dotenv from "dotenv";
 
-import { BaseConfig } from "../../common";
+import { BaseConfig, log } from "../../common";
 
 dotenv.config();
 
@@ -26,7 +26,6 @@ class BaseAppConfig extends BaseConfig implements AppOptions {
       const installation = await this.installationStore.fetchInstallation(
         query
       );
-
       const result: AuthorizeResult = {
         botToken: installation.bot?.token,
         botId: installation.bot?.id,
@@ -35,7 +34,6 @@ class BaseAppConfig extends BaseConfig implements AppOptions {
         teamId: installation.team?.id,
         enterpriseId: installation.enterprise?.id,
       };
-
       return result;
     };
   }

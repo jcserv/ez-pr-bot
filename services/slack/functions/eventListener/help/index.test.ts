@@ -82,7 +82,7 @@ describe("OpenHelpUsageModal", () => {
     mockClientResponse(mockResponse);
     const client = new WebClient({});
     const result = await OpenHelpUsageModal(client, "trigger-id");
-    expect(result.ok).toBeTruthy();
+    expect(result?.ok).toBeTruthy();
   });
 });
 

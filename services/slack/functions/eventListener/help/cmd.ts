@@ -1,7 +1,7 @@
 import { AckFn, HomeView, RespondArguments, View } from "@slack/bolt";
 import { WebClient } from "@slack/web-api";
 
-import { Logger } from "../../../common";
+import { log } from "../../../common";
 import { ICommand, OpenModalCommand } from "../@lib";
 import { HelpArguments, helpUsage } from ".";
 import helpOverview from "./overview.json";
@@ -46,5 +46,5 @@ export function OpenHelpUsageModal(client: WebClient, trigger_id: string) {
 export function PublishHomeOverview(client: WebClient, user_id: string) {
   client.views
     .publish({ user_id, view: helpOverview as HomeView })
-    .catch((error) => Logger.error(error));
+    .catch((error) => log.error(error));
 }
