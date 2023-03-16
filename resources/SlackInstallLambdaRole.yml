@@ -1,0 +1,8 @@
+installCloudwatchLogsPolicy:
+  - Effect: "Allow"
+    Action:
+      - "logs:CreateLogStream"
+      - "logs:CreateLogGroup"
+      - "logs:PutLogEvents"
+      - "logs:TagResource"
+    Resource: !Sub "arn:aws:logs:${aws:region}:${env:AWS_ACCOUNT_ID}:log-group:/aws/lambda/slack-${sls:stage}-install"

@@ -48,5 +48,4 @@ jobs:
           SLACK_CLIENT_ID: ${{ secrets.SLACK_CLIENT_ID }}
           SLACK_CLIENT_SECRET: ${{ secrets.SLACK_CLIENT_SECRET }}
           STATE_SECRET: ${{ secrets.STATE_SECRET }}
-          BASE_URL: ${{ secrets.BASE_URL }}
           NODE_ENV: ${{ secrets.NODE_ENV }}

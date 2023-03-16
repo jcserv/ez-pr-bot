@@ -1,0 +1,18 @@
+eventListenerCloudwatchLogsPolicy:
+  - Effect: "Allow"
+    Action:
+      - "logs:CreateLogStream"
+      - "logs:CreateLogGroup"
+      - "logs:PutLogEvents"
+      - "logs:TagResource"
+    Resource: !Sub "arn:aws:logs:${aws:region}:${env:AWS_ACCOUNT_ID}:log-group:/aws/lambda/slack-${sls:stage}-events"
+eventListenerCloudwatchMetricsPolicy:
+  - Effect: "Allow"
+    Action:
+      - "cloudwatch:GetMetricData"
+      - "cloudwatch:PutMetricData"
+      - "cloudwatch:ListMetricData"
+    Resource: "*"
+    Condition:
+      Bool:
+        "aws:SecureTransport": true
