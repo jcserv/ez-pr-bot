@@ -32,6 +32,6 @@ describe("OpenModalCommand", () => {
     };
     const cmd = new OpenModalCommand(client, "trigger-id", mockModal as View);
     const result = await cmd.handle();
-    expect(result.ok).toBeTruthy();
+    expect(result?.ok).toBeTruthy();
   });
 });

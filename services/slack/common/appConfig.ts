@@ -1,5 +1,7 @@
-import { FileInstallationStore, InstallationStore } from "@slack/bolt";
+import { InstallationStore } from "@slack/bolt";
 import dotenv from "dotenv";
+
+import { InstallationController } from "./auth";
 
 dotenv.config();
 
@@ -33,6 +35,6 @@ export class BaseConfig {
     this.clientSecret = process.env.SLACK_CLIENT_SECRET || "";
     this.stateSecret = process.env.STATE_SECRET || "";
     this.scopes = scopes;
-    this.installationStore = new FileInstallationStore();
+    this.installationStore = new InstallationController();
   }
 }

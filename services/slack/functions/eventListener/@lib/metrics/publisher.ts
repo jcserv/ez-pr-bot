@@ -6,7 +6,7 @@ import {
 } from "@aws-sdk/client-cloudwatch";
 import dotenv from "dotenv";
 
-import { Logger } from "../../../../common";
+import { log } from "../../../../common";
 
 dotenv.config();
 
@@ -58,7 +58,7 @@ export abstract class MetricPublisher {
 
       await this.client.send(command);
     } catch (err) {
-      Logger.error("Failed to publish metric", err);
+      log.error("Failed to publish metric", err);
     }
   }
 }

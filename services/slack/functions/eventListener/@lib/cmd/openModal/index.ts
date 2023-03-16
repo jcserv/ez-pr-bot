@@ -1,6 +1,7 @@
 import { View } from "@slack/bolt";
 import { WebClient } from "@slack/web-api";
 
+import { log } from "../../../../../common";
 import { ICommand } from "..";
 
 export class OpenModalCommand implements ICommand {
@@ -15,10 +16,14 @@ export class OpenModalCommand implements ICommand {
   }
 
   async handle() {
-    const result = await this.client.views.open({
-      trigger_id: this.trigger_id,
-      view: this.view,
-    });
-    return result;
+    try {
+      const result = await this.client.views.open({
+        trigger_id: this.trigger_id,
+        view: this.view,
+      });
+      return result;
+    } catch (err) {
+      log.error(err);
+    }
   }
 }
