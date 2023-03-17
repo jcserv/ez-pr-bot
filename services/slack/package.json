@@ -5,6 +5,7 @@
   "repository": "git@github.com:jcserv/ez-pr-bot.git",
   "author": "Jarrod Servilla",
   "license": "GPL-3.0",
+  "homepage": "https://ezprbot.com//",
   "scripts": {
     "deploy": "serverless deploy",
     "dev": "serverless offline --noPrependStageInUrl",
