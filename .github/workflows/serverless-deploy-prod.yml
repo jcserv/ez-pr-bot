@@ -20,6 +20,7 @@ jobs:
 
   deploy:
     if: needs.files-changed.outputs.slack == 'true'
+    needs: files-changed
     name: deploySlackService
     runs-on: ubuntu-latest
     defaults:
@@ -41,11 +42,11 @@ jobs:
           args: deploy --stage production
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY }}
           SLACK_SIGNING_SECRET: ${{ secrets.SLACK_SIGNING_SECRET }}
           SLACK_CLIENT_ID: ${{ secrets.SLACK_CLIENT_ID }}
           SLACK_CLIENT_SECRET: ${{ secrets.SLACK_CLIENT_SECRET }}
           STATE_SECRET: ${{ secrets.STATE_SECRET }}
-          BASE_URL: ${{ secrets.BASE_URL }}
           NODE_ENV: ${{ secrets.NODE_ENV }}

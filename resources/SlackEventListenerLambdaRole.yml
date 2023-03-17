@@ -1,0 +1,10 @@
+eventListenerCloudwatchMetricsPolicy:
+  Effect: "Allow"
+  Action:
+    - "cloudwatch:GetMetricData"
+    - "cloudwatch:PutMetricData"
+    - "cloudwatch:ListMetricData"
+  Resource: "*"
+  Condition:
+    Bool:
+      "aws:SecureTransport": true

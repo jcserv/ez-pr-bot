@@ -17,6 +17,7 @@ declare type InstallationItem = {
   id: string;
   type: InstallationTypes;
   data: string;
+  updated_at: string;
 };
 
 export interface InstallationRepo {
@@ -25,7 +26,7 @@ export interface InstallationRepo {
   delete(id: string): Promise<void>;
 }
 
-const TableName = process.env.AUTH_TABLE || "ez-pr-bot-users";
+const TableName = process.env.DYNAMO_TABLE || "ez-pr-bot-users";
 
 export default class DynamoInstallationRepo implements InstallationRepo {
   async get(
@@ -58,6 +59,7 @@ export default class DynamoInstallationRepo implements InstallationRepo {
       id,
       type: InstallationTypes.SLACK,
       data: JSON.stringify(installation),
+      updated_at: new Date().toISOString(),
     };
 
     try {

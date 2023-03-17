@@ -14,9 +14,13 @@ provider:
     SLACK_CLIENT_ID: ${env:SLACK_CLIENT_ID}
     SLACK_CLIENT_SECRET: ${env:SLACK_CLIENT_SECRET}
     STATE_SECRET: ${env:STATE_SECRET}
-    AUTH_TABLE: ${env:AUTH_TABLE}
+    AWS_ACCOUNT_ID: ${env:AWS_ACCOUNT_ID}
+    DYNAMO_TABLE: ${env:DYNAMO_TABLE}
     REGION: ${aws:region}
-    BASE_URL: !Sub "https://${ApiGatewayRestApi}.execute-api.${aws:region}.amazonaws.com/${sls:stage}"
+  iam:
+    role:
+      statements:
+        - ${file(../../resources/BaseLambdaRole.yml):dynamoRWAccessPolicy}
 
 package:
   individually: true
@@ -43,6 +47,9 @@ functions:
       - http:
           path: slack/events
           method: post
+    iamRoleStatementsInherit: true
+    iamRoleStatements:
+      - ${file(../../resources/SlackEventListenerLambdaRole.yml):eventListenerCloudwatchMetricsPolicy}
     warmup:
       officeHoursWarmer:
         enabled: false
@@ -53,6 +60,7 @@ functions:
       - http:
           path: slack/oauth_redirect
           method: get
+    iamRoleStatementsInherit: true
     warmup:
       officeHoursWarmer:
         enabled: false
@@ -63,6 +71,7 @@ functions:
       - http:
           path: slack/install
           method: get
+    iamRoleStatementsInherit: true
     warmup:
       officeHoursWarmer:
         enabled: false
@@ -71,3 +80,4 @@ plugins:
   - serverless-webpack
   - serverless-offline
   - serverless-plugin-warmup
+  - serverless-iam-roles-per-function

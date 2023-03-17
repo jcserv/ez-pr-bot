@@ -1,0 +1,16 @@
+# Allow Lambda functions R/W access to Dynamo table
+dynamoRWAccessPolicy:
+  Effect: "Allow"
+  Action:
+    - "dynamodb:BatchGetItem"
+    - "dynamodb:BatchWriteItem"
+    - "dynamodb:ConditionCheckItem"
+    - "dynamodb:PutItem"
+    - "dynamodb:DescribeTable"
+    - "dynamodb:DeleteItem"
+    - "dynamodb:GetItem"
+    - "dynamodb:Scan"
+    - "dynamodb:Query"
+    - "dynamodb:UpdateItem"
+    - "dynamodb:UpdateTable"
+  Resource: !Sub "arn:aws:dynamodb:${aws:region}:${env:AWS_ACCOUNT_ID}:table/${env:DYNAMO_TABLE}"
