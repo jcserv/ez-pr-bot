@@ -1,15 +1,12 @@
-// You can import your modules
-// import index from '../src/index'
-
+import fs from "fs";
 import nock from "nock";
-// Requiring our app implementation
-import myProbotApp from "../app";
+import path from "path";
 import { Probot, ProbotOctokit } from "probot";
-// Requiring our fixtures
+
+import myProbotApp from "../app";
 import payload from "./fixtures/issues.opened.json";
+
 const issueCreatedBody = { body: "Thanks for opening this issue!" };
-const fs = require("fs");
-const path = require("path");
 
 const privateKey = fs.readFileSync(
   path.join(__dirname, "fixtures/mock-cert.pem"),

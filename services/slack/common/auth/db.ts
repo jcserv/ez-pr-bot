@@ -50,6 +50,7 @@ export default class DynamoInstallationRepo implements InstallationRepo {
     } finally {
       destroyDDBClient();
     }
+    return undefined;
   }
 
   async save(id: string, installation: Installation): Promise<void> {

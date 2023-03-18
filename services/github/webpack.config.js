@@ -18,6 +18,10 @@ module.exports = {
   },
   externals: [
     "aws-sdk",
+    "express",
+    "handlebars",
+    "probot",
+    "@probot/adapter-aws-lambda-serverless",
     nodeExternals({
       modulesFromFile: {
         includeInBundle: ["dependencies"],

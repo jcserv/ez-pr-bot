@@ -17,7 +17,11 @@ module.exports = {
     filename: "[name].js",
   },
   externals: [
+    "aws-crt",
     "aws-sdk",
+    "bufferutil",
+    "express",
+    "utf-8-validate",
     nodeExternals({
       modulesFromFile: {
         includeInBundle: ["dependencies"],

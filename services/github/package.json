@@ -12,7 +12,7 @@
     "github",
     "probot-app"
   ],
-  "scripts": {    
+  "scripts": {
     "deploy": "serverless deploy",
     "dev": "serverless offline --noPrependStageInUrl",
     "serve": "ngrok http 3000",
@@ -21,7 +21,7 @@
     "prettier": "npx prettier --write .",
     "lint": "eslint . --ext .ts --fix",
     "build": "tsc",
-    "devRun": "probot run ./bin/index.js"
+    "devRun": "probot run ./bin/app.js"
   },
   "dependencies": {
     "@aws-sdk/client-cloudwatch": "^3.293.0",
