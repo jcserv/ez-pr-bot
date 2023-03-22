@@ -28,6 +28,7 @@ export class BaseConfig {
   stateSecret: string;
   scopes: string[];
   installationStore: InstallationStore;
+  directInstall: boolean;
 
   constructor() {
     this.signingSecret = process.env.SLACK_SIGNING_SECRET || "";
@@ -36,5 +37,6 @@ export class BaseConfig {
     this.stateSecret = process.env.STATE_SECRET || "";
     this.scopes = scopes;
     this.installationStore = new InstallationController();
+    this.directInstall = true;
   }
 }
