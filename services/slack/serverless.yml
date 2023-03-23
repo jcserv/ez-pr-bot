@@ -30,7 +30,7 @@ functions:
     handler: functions/eventListener/handler.events
     events:
       - http:
-          path: slack/events
+          path: events
           method: post
     iamRoleStatementsInherit: true
     iamRoleStatements:
@@ -43,7 +43,7 @@ functions:
     handler: functions/oauth/handler.oauth
     events:
       - http:
-          path: slack/oauth_redirect
+          path: oauth_redirect
           method: get
     iamRoleStatementsInherit: true
     warmup:
@@ -54,7 +54,7 @@ functions:
     handler: functions/oauth/handler.oauth
     events:
       - http:
-          path: slack/install
+          path: install
           method: get
     iamRoleStatementsInherit: true
     warmup:
@@ -78,7 +78,7 @@ custom:
 
   customDomain:
     domainName: api.ezprbot.com
-    basePath: ""
+    basePath: "slack"
     stage: ${self:provider.stage}
     createRoute53Record: true
 

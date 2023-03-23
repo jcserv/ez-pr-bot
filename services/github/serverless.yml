@@ -11,9 +11,8 @@ provider:
   environment:
     NODE_ENV: ${env:NODE_ENV}
     APP_ID: ${env:APP_ID}
+    PRIVATE_KEY: ${env:PRIVATE_KEY}
     WEBHOOK_SECRET: ${env:WEBHOOK_SECRET}
-    LOG_LEVEL: ${env:LOG_LEVEL}
-    WEBHOOK_PROXY_URL: ${env:WEBHOOK_PROXY_URL}
     AWS_ACCOUNT_ID: ${env:AWS_ACCOUNT_ID}
     DYNAMO_TABLE: ${env:DYNAMO_TABLE}
     REGION: ${aws:region}
@@ -24,6 +23,20 @@ provider:
 
 package:
   individually: true
+
+functions:
+  events:
+    handler: functions/eventListener/handler.events
+    events:
+      - http:
+          path: events
+          method: post
+    iamRoleStatementsInherit: true
+    iamRoleStatements:
+      - ${file(../../resources/SlackEventListenerLambdaRole.yml):eventListenerCloudwatchMetricsPolicy}
+    warmup:
+      officeHoursWarmer:
+        enabled: false
 
 custom:
   webpack:
@@ -40,44 +53,15 @@ custom:
       concurrency: 10
       verbose: false
 
-functions:
-  events:
-    handler: functions/eventListener/handler.events
-    events:
-      - http:
-          path: github/events
-          method: post
-    iamRoleStatementsInherit: true
-    iamRoleStatements:
-      - ${file(../../resources/SlackEventListenerLambdaRole.yml):eventListenerCloudwatchMetricsPolicy}
-    warmup:
-      officeHoursWarmer:
-        enabled: false
-
-  # oauth:
-  #   handler: functions/oauth/handler.oauth
-  #   events:
-  #     - http:
-  #         path: github/oauth_redirect
-  #         method: get
-  #   iamRoleStatementsInherit: true
-  #   warmup:
-  #     officeHoursWarmer:
-  #       enabled: false
-
-  # install:
-  #   handler: functions/oauth/handler.oauth
-  #   events:
-  #     - http:
-  #         path: github/install
-  #         method: get
-  #   iamRoleStatementsInherit: true
-  #   warmup:
-  #     officeHoursWarmer:
-  #       enabled: false
+  customDomain:
+    domainName: api.ezprbot.com
+    basePath: "github"
+    stage: ${self:provider.stage}
+    createRoute53Record: true
 
 plugins:
   - serverless-webpack
   - serverless-offline
   - serverless-plugin-warmup
   - serverless-iam-roles-per-function
+  - serverless-domain-manager
