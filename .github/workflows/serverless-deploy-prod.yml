@@ -9,6 +9,8 @@ jobs:
   files-changed:
     name: files-changed
     runs-on: ubuntu-latest
+    outputs:
+      slack: ${{ steps.changes.outputs.slack }}
     steps:
       - uses: actions/checkout@v3
       - uses: dorny/paths-filter@v2
