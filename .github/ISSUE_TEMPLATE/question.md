@@ -7,6 +7,4 @@ labels: question
 
 ### Description
 
-<!--
-What's up?
--->
+<!-- What's up? -->

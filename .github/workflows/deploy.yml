@@ -1,4 +1,4 @@
-name: Serverless Deploy - Production
+name: deploy
 
 on:
   push:
