@@ -9,7 +9,7 @@ import {
 import { StringIndexed } from "@slack/bolt/dist/types/helpers";
 import dotenv from "dotenv";
 
-import { BaseConfig, log } from "../../common";
+import { BaseConfig } from "../../common";
 
 dotenv.config();
 

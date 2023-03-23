@@ -17,11 +17,11 @@ module.exports = {
     filename: "[name].js",
   },
   externals: [
-    "aws-crt",
     "aws-sdk",
-    "bufferutil",
     "express",
-    "utf-8-validate",
+    "handlebars",
+    "probot",
+    "@probot/adapter-aws-lambda-serverless",
     nodeExternals({
       modulesFromFile: {
         includeInBundle: ["dependencies"],

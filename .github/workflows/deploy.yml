@@ -1,4 +1,4 @@
-name: Serverless Deploy - Production
+name: deploy
 
 on:
   push:
@@ -10,6 +10,7 @@ jobs:
     name: files-changed
     runs-on: ubuntu-latest
     outputs:
+      github: ${{ steps.changes.outputs.github }}
       slack: ${{ steps.changes.outputs.slack }}
     steps:
       - uses: actions/checkout@v3
@@ -17,10 +18,44 @@ jobs:
         id: changes
         with:
           filters: |
+            github:
+              - 'services/github/**'
             slack:
               - 'services/slack/**'
 
-  deploy:
+  deploy-github:
+    if: needs.files-changed.outputs.github == 'true'
+    needs: files-changed
+    name: deployGithubService
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: services/github
+    strategy:
+      matrix:
+        node-version: [16.x]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: yarn install --frozen-lockfile
+      - name: serverless deploy
+        uses: serverless/github-action@v3.1
+        with:
+          args: deploy --stage production
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY }}
+          APP_ID: ${{ secrets.APP_ID }}
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+          WEBHOOK_SECRET: ${{ secrets.WEBHOOK_SECRET }}
+          NODE_ENV: ${{ secrets.NODE_ENV }}
+
+  deploy-slack:
     if: needs.files-changed.outputs.slack == 'true'
     needs: files-changed
     name: deploySlackService

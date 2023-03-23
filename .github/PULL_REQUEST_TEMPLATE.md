@@ -4,11 +4,9 @@
 
 Fixes: #
 
-- [ ] How has the code been tested?
-  - [ ] Smoke tests (Please provide recordings/screenshots)
-  - [ ] Unit tests
-- [ ] Has the code been formatted? Make sure you run `npx prettier --write .`
-- [ ] Have dependencies/packages been added?
+### Changes
+
+Explain the changes made at a higher level
 
 ### Acceptance Criteria
 
@@ -16,6 +14,10 @@ Fixes: #
 - [ ] Task 2
 - [ ] Task 3
 
-### Changes
+### Testing
 
-Explain the changes made at a higher level
+- [ ] How has the code been tested?
+  - [ ] Smoke tests (Please provide recordings/screenshots)
+  - [ ] Unit tests
+- [ ] Has the code been formatted? Make sure you run `npx prettier --write .`
+- [ ] Have dependencies/packages been added?

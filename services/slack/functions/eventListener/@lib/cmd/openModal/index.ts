@@ -24,6 +24,7 @@ export class OpenModalCommand implements ICommand {
       return result;
     } catch (err) {
       log.error(err);
+      return undefined;
     }
   }
 }

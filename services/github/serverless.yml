@@ -1,6 +1,6 @@
 org: jcserv
 app: ez-pr-bot
-service: slack
+service: github
 frameworkVersion: "3"
 useDotenv: true
 
@@ -10,10 +10,9 @@ provider:
   stage: production
   environment:
     NODE_ENV: ${env:NODE_ENV}
-    SLACK_SIGNING_SECRET: ${env:SLACK_SIGNING_SECRET}
-    SLACK_CLIENT_ID: ${env:SLACK_CLIENT_ID}
-    SLACK_CLIENT_SECRET: ${env:SLACK_CLIENT_SECRET}
-    STATE_SECRET: ${env:STATE_SECRET}
+    APP_ID: ${env:APP_ID}
+    PRIVATE_KEY: ${env:PRIVATE_KEY}
+    WEBHOOK_SECRET: ${env:WEBHOOK_SECRET}
     AWS_ACCOUNT_ID: ${env:AWS_ACCOUNT_ID}
     DYNAMO_TABLE: ${env:DYNAMO_TABLE}
     REGION: ${aws:region}
@@ -39,28 +38,6 @@ functions:
       officeHoursWarmer:
         enabled: false
 
-  oauth:
-    handler: functions/oauth/handler.oauth
-    events:
-      - http:
-          path: oauth_redirect
-          method: get
-    iamRoleStatementsInherit: true
-    warmup:
-      officeHoursWarmer:
-        enabled: false
-
-  install:
-    handler: functions/oauth/handler.oauth
-    events:
-      - http:
-          path: install
-          method: get
-    iamRoleStatementsInherit: true
-    warmup:
-      officeHoursWarmer:
-        enabled: false
-
 custom:
   webpack:
     includeModules:
@@ -78,7 +55,7 @@ custom:
 
   customDomain:
     domainName: api.ezprbot.com
-    basePath: "slack"
+    basePath: "github"
     stage: ${self:provider.stage}
     createRoute53Record: true
 

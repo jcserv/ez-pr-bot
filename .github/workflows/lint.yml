@@ -11,9 +11,32 @@ defaults:
     working-directory: services/slack
 
 jobs:
-  yarn-lint:
-    name: yarn-lint
+  github-lint:
+    name: github-lint
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: services/github
+    steps:
+      - name: Set up Node 14.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+
+      - uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Run linter
+        run: yarn run lint
+
+  slack-lint:
+    name: slack-lint
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: services/github
     steps:
       - name: Set up Node 14.x
         uses: actions/setup-node@v1

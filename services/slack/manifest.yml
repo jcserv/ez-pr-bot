@@ -17,18 +17,18 @@ features:
       description: Submit a pull request for review
   slash_commands:
     - command: /ezpr
-      url: [URL]
+      url: https://api.ezprbot.com/slack/events
       description: Submit a pull request for review
       usage_hint: "[link]"
       should_escape: false
     - command: /ezpr-help
-      url: [URL]
+      url: https://api.ezprbot.com/slack/events
       description: Provides information about EZ PR Bot, the commands available, and their usage.
       usage_hint: "[topic]"
       should_escape: false
 oauth_config:
   redirect_urls:
-    - [URL]
+    - https://api.ezprbot.com/slack/oauth_redirect
   scopes:
     bot:
       - app_mentions:read
@@ -46,12 +46,12 @@ oauth_config:
       - workflow.steps:execute
 settings:
   event_subscriptions:
-    request_url: [URL]
+    request_url: https://api.ezprbot.com/slack/events
     bot_events:
       - app_home_opened
   interactivity:
     is_enabled: true
-    request_url: [URL]
+    request_url: https://api.ezprbot.com/slack/events
   org_deploy_enabled: false
   socket_mode_enabled: false
   token_rotation_enabled: false

@@ -6,14 +6,33 @@ on:
       - main
   pull_request:
 
-defaults:
-  run:
-    working-directory: services/slack
-
 jobs:
-  yarn-test:
-    name: yarn-test
+  github-test:
+    name: github-test
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: services/github
+    steps:
+      - name: Set up Node 14.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+
+      - uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Run tests
+        run: yarn run test
+
+  slack-test:
+    name: slack-test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: services/slack
     steps:
       - name: Set up Node 14.x
         uses: actions/setup-node@v1
