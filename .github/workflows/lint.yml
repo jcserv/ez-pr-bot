@@ -6,10 +6,6 @@ on:
       - main
   pull_request:
 
-defaults:
-  run:
-    working-directory: services/slack
-
 jobs:
   github-lint:
     name: github-lint
@@ -36,7 +32,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: services/github
+        working-directory: services/slack
     steps:
       - name: Set up Node 14.x
         uses: actions/setup-node@v1

@@ -26,7 +26,7 @@ jobs:
   deploy-github:
     if: needs.files-changed.outputs.github == 'true'
     needs: files-changed
-    name: deployGithubService
+    name: deploy-github
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -44,7 +44,8 @@ jobs:
       - name: serverless deploy
         uses: serverless/github-action@v3.1
         with:
-          args: deploy --stage production
+          args: -c "cd ./services/github && serverless deploy --stage production"
+          entrypoint: /bin/sh
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
@@ -58,7 +59,7 @@ jobs:
   deploy-slack:
     if: needs.files-changed.outputs.slack == 'true'
     needs: files-changed
-    name: deploySlackService
+    name: deploy-slack
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -76,7 +77,8 @@ jobs:
       - name: serverless deploy
         uses: serverless/github-action@v3.1
         with:
-          args: deploy --stage production
+          args: -c "cd ./services/slack && serverless deploy --stage production"
+          entrypoint: /bin/sh
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
