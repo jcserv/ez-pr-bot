@@ -1,6 +1,5 @@
 import { ExpressReceiver, ExpressReceiverOptions } from "@slack/bolt";
-
-import { BaseConfig } from "../../common";
+import { BaseConfig } from "ez-pr-lib";
 
 class BaseExpressReceiverConfig
   extends BaseConfig

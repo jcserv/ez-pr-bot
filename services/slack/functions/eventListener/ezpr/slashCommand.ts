@@ -1,6 +1,6 @@
 import { SlashCommand } from "@slack/bolt";
+import { HTTPError } from "ez-pr-lib";
 
-import { HTTPError } from "../../../common";
 import { parseCommandArgs, toMention } from "../@lib";
 import { EZPRArguments } from ".";
 

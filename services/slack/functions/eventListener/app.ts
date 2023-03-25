@@ -1,7 +1,7 @@
 import { AwsLambdaReceiver } from "@slack/bolt";
 import dotenv from "dotenv";
+import { log } from "ez-pr-lib";
 
-import { log } from "../../common";
 import { errorOccurred } from "./@lib";
 import { AppFactory } from "./appConfig";
 import { INPUT } from "./constants";

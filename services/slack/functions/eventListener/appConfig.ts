@@ -8,8 +8,7 @@ import {
 } from "@slack/bolt";
 import { StringIndexed } from "@slack/bolt/dist/types/helpers";
 import dotenv from "dotenv";
-
-import { BaseConfig } from "../../common";
+import { BaseConfig } from "ez-pr-lib";
 
 dotenv.config();
 

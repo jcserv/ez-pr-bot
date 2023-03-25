@@ -1,7 +1,7 @@
 import { WebClient } from "@slack/web-api";
 import dotenv from "dotenv";
+import { isHTTPError, log } from "ez-pr-lib";
 
-import { isHTTPError, log } from "../../../../common";
 import { isValidationError, toValidationError } from ".";
 
 dotenv.config();

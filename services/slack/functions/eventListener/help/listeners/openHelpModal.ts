@@ -1,7 +1,7 @@
 import { App, BlockAction } from "@slack/bolt";
 import { StringIndexed } from "@slack/bolt/dist/types/helpers";
+import { log } from "ez-pr-lib";
 
-import { log } from "../../../../common";
 import { errorOccurred, PublishInteractionCountMetric } from "../../@lib";
 import { ACTION, HELP, OPEN_HELP_USAGE_MODAL } from "../../constants";
 import { OpenHelpUsageModal } from "../cmd";
