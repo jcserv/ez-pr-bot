@@ -30,11 +30,14 @@
     "@probot/adapter-aws-lambda-serverless": "^3.0.2",
     "@types/pino-std-serializers": "^4.0.0",
     "dotenv": "^16.0.3",
+    "octokit": "^2.0.14",
     "probot": "^12.2.4",
     "serverless": "^3.28.1",
     "typescript": "^5.0.2"
   },
   "devDependencies": {
+    "@aws-sdk/smithy-client": "^3.296.0",
+    "@aws-sdk/types": "^3.296.0",
     "@babel/core": "^7.20.7",
     "@babel/preset-env": "^7.20.2",
     "@babel/preset-typescript": "^7.18.6",
