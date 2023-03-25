@@ -1,7 +1,4 @@
-import {
-  /* APIGatewayEvent, Callback, Context, */
-  Handler,
-} from "aws-lambda";
+import { Handler } from "aws-lambda";
 import crypto from "crypto";
 import dotenv from "dotenv";
 import { App } from "octokit";
@@ -30,9 +27,6 @@ export const getPrs: Handler = async () => {
       }
     );
 
-    // eslint-disable-next-line no-console
-    console.log(installAuth);
-
     const installationOctokit = await app.getInstallationOctokit(
       installAuth.data.id
     );
@@ -44,12 +38,18 @@ export const getPrs: Handler = async () => {
         repo: "ez-pr-bot",
       }
     );
-    // eslint-disable-next-line no-console
-    console.log(res);
-    return res;
+
+    const response = {
+      statusCode: 200,
+      body: JSON.stringify(res.data),
+    };
+
+    return response;
   } catch (err) {
     // eslint-disable-next-line no-console
     console.log(err);
-    return {};
+    return {
+      statusCode: 500,
+    };
   }
 };
