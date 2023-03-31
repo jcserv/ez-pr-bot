@@ -21,6 +21,7 @@ module.exports = {
     "aws-sdk",
     "bufferutil",
     "express",
+    "ez-pr-lib",
     "utf-8-validate",
     nodeExternals({
       modulesFromFile: {

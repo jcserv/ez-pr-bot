@@ -19,6 +19,7 @@ module.exports = {
   externals: [
     "aws-sdk",
     "express",
+    "ez-pr-lib",
     "handlebars",
     "octokit",
     "probot",

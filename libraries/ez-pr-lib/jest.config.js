@@ -1,8 +1,7 @@
-module.exports = {
+export default {
   preset: "ts-jest",
   testEnvironment: "node",
   testRegex: ".*\\.(test|spec)?\\.(ts|tsx)$",
-  transformIgnorePatterns: ["node_modules/(?!ez-pr-lib)/"],
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
   collectCoverage: true,
   coverageThreshold: {
