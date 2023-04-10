@@ -1,0 +1,37 @@
+{
+  "name": "ez-pr-lib",
+  "version": "1.1.0",
+  "main": "lib/es5/index.js",
+  "module": "lib/es6/index.js",
+  "author": "Jarrod Servilla",
+  "license": "GPL-3.0",
+  "sideEffects": false,
+  "private": false,
+  "files": [
+    "lib",
+    "package.json"
+  ],
+  "scripts": {
+    "compile": "rm -rf dist/lib && tsc && tsc --build tsconfig.es5.json",
+    "test": "jest",
+    "coverage": "jest --coverage",
+    "prettier": "npx prettier --write .",
+    "lint": "eslint . --ext .ts --fix"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.299.0",
+    "@aws-sdk/lib-dynamodb": "^3.299.0",
+    "@aws-sdk/smithy-client": "^3.299.0",
+    "@aws-sdk/types": "^3.299.0",
+    "@slack/bolt": "^3.12.2",
+    "typescript": "^5.0.2",
+    "winston": "^3.8.2"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.0",
+    "@types/node": "^18.15.11",
+    "jest": "^29.5.0",
+    "ts-jest": "^29.0.5",
+    "ts-node": "^10.9.1"
+  }
+}
