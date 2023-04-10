@@ -9,7 +9,14 @@ export class ExpressReceiverFactory {
   private config: ExpressReceiverOptions;
 
   constructor() {
-    this.config = new BaseExpressReceiverConfig();
+    this.config = new BaseExpressReceiverConfig(
+      process.env.SIGNING_SECRET || "",
+      process.env.SLACK_CLIENT_ID || "",
+      process.env.SLACK_CLIENT_SECRET || "",
+      process.env.STATE_SECRET || "",
+      process.env.DYNAMO_TABLE || "",
+      process.env.REGION || ""
+    );
   }
 
   build(): ExpressReceiver {

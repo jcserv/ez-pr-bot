@@ -1,11 +1,8 @@
 import { DeleteCommand, GetCommand, PutCommand } from "@aws-sdk/lib-dynamodb";
 import { Installation } from "@slack/bolt";
-import dotenv from "dotenv";
 
-import { ddbDocClient, destroyDDBClient } from "../dynamoClient";
+import { DynamoClient } from "../dynamoClient";
 import { log } from "../logger";
-
-dotenv.config();
 
 enum InstallationTypes {
   SLACK = "SLACK",
@@ -26,19 +23,25 @@ export interface InstallationRepo {
   delete(id: string): Promise<void>;
 }
 
-const TableName = process.env.DYNAMO_TABLE || "ez-pr-bot-users";
-
 export default class DynamoInstallationRepo implements InstallationRepo {
+  private tableName: string;
+  private dynamoClient: DynamoClient;
+
+  constructor(tableName: string, region: string) {
+    this.tableName = tableName;
+    this.dynamoClient = new DynamoClient(region);
+  }
+
   async get(
     id: string
   ): Promise<Installation<"v1" | "v2", boolean> | undefined> {
     const cmd = new GetCommand({
-      TableName,
+      TableName: this.tableName,
       Key: { PK: id, SK: InstallationTypes.SLACK },
     });
 
     try {
-      const output = await ddbDocClient.send(cmd);
+      const output = await this.dynamoClient.get().send(cmd);
       const item = output.Item as InstallationItem;
       const result = JSON.parse(item.data);
       const slackInstallation: Installation = {
@@ -48,7 +51,7 @@ export default class DynamoInstallationRepo implements InstallationRepo {
     } catch (err) {
       log.error(err);
     } finally {
-      destroyDDBClient();
+      this.dynamoClient.destroy();
     }
     return undefined;
   }
@@ -64,24 +67,24 @@ export default class DynamoInstallationRepo implements InstallationRepo {
     };
 
     try {
-      await ddbDocClient.send(
+      await this.dynamoClient.get().send(
         new PutCommand({
-          TableName,
+          TableName: this.tableName,
           Item,
         })
       );
     } catch (err) {
       log.error(err);
     } finally {
-      destroyDDBClient();
+      this.dynamoClient.destroy();
     }
   }
 
   async delete(id: string): Promise<void> {
     try {
-      await ddbDocClient.send(
+      await this.dynamoClient.get().send(
         new DeleteCommand({
-          TableName,
+          TableName: this.tableName,
           Key: {
             PK: id,
             SK: InstallationTypes.SLACK,
@@ -91,7 +94,7 @@ export default class DynamoInstallationRepo implements InstallationRepo {
     } catch (err) {
       log.error(err);
     } finally {
-      destroyDDBClient();
+      this.dynamoClient.destroy();
     }
   }
 }

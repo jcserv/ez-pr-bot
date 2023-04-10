@@ -12,8 +12,8 @@ export interface InstallationService {
 export class InstallationServiceImpl implements InstallationService {
   private repo: InstallationRepo;
 
-  constructor() {
-    this.repo = new InstallationRepo();
+  constructor(installationRepo: InstallationRepo) {
+    this.repo = installationRepo;
   }
 
   async get(id: string): Promise<Installation> {

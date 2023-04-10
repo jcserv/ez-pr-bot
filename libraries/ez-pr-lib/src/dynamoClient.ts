@@ -1,16 +1,21 @@
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
-import dotenv from "dotenv";
 
-dotenv.config();
+export class DynamoClient {
+  private ddbClient: DynamoDBClient;
+  private docClient: DynamoDBDocumentClient;
 
-const REGION = process.env.REGION;
+  constructor(region: string) {
+    this.ddbClient = new DynamoDBClient({ region });
+    this.docClient = DynamoDBDocumentClient.from(this.ddbClient);
+  }
 
-const ddbClient = new DynamoDBClient({ region: REGION });
+  get() {
+    return this.docClient;
+  }
 
-export function destroyDDBClient() {
-  ddbDocClient.destroy();
-  ddbClient.destroy();
+  destroy() {
+    this.docClient.destroy();
+    this.ddbClient.destroy();
+  }
 }
-
-export const ddbDocClient = DynamoDBDocumentClient.from(ddbClient);

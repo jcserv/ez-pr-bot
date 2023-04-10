@@ -6266,17 +6266,16 @@ external-editor@^3.0.3:
     iconv-lite "^0.4.24"
     tmp "^0.0.33"
 
-ez-pr-lib@^1.0.6:
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/ez-pr-lib/-/ez-pr-lib-1.0.6.tgz#c28565dbdac8df9a36efbb79e34b27380794551b"
-  integrity sha512-mD37u8xI5rOU5gadeMjExLHkQPmOxdKA46kt36DdtRxFCSbtAE9imh1yEJ/Hob7QLnXoIFZ4jPLiF3aaROcuEg==
+ez-pr-lib@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/ez-pr-lib/-/ez-pr-lib-1.1.0.tgz#4160d53c1b645c673fbbf5738e9ec6e6fba88287"
+  integrity sha512-fWTUlKwMa9SK8YcL4PxFkmuNsRqM7htO5LqAMzf3wHYBp6nD6HggvbeIDARnLBQk5difXaF9NLW+4g3AskMXqw==
   dependencies:
     "@aws-sdk/client-dynamodb" "^3.299.0"
     "@aws-sdk/lib-dynamodb" "^3.299.0"
     "@aws-sdk/smithy-client" "^3.299.0"
     "@aws-sdk/types" "^3.299.0"
     "@slack/bolt" "^3.12.2"
-    dotenv "^16.0.3"
     typescript "^5.0.2"
     winston "^3.8.2"
 
