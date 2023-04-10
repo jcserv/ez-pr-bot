@@ -1,6 +1,7 @@
 import { Handler } from "aws-lambda";
 import crypto from "crypto";
 import dotenv from "dotenv";
+import { log } from "ez-pr-lib";
 import { App } from "octokit";
 
 dotenv.config();
@@ -31,13 +32,9 @@ export const getPrs: Handler = async () => {
       installAuth.data.id
     );
 
-    const res = await installationOctokit.request(
-      "GET /repos/{owner}/{repo}/pulls",
-      {
-        owner: "jcserv",
-        repo: "ez-pr-bot",
-      }
-    );
+    const res = await installationOctokit.request("GET /search/issues", {
+      q: "is:pr author:jcserv archived:false",
+    });
 
     const response = {
       statusCode: 200,
@@ -46,8 +43,7 @@ export const getPrs: Handler = async () => {
 
     return response;
   } catch (err) {
-    // eslint-disable-next-line no-console
-    console.log(err);
+    log.error(err);
     return {
       statusCode: 500,
     };
