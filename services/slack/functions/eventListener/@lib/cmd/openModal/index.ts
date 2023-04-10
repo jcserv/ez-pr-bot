@@ -1,7 +1,7 @@
 import { View } from "@slack/bolt";
 import { WebClient } from "@slack/web-api";
+import { log } from "ez-pr-lib";
 
-import { log } from "../../../../../common";
 import { ICommand } from "..";
 
 export class OpenModalCommand implements ICommand {

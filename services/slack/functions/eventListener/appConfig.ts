@@ -8,8 +8,7 @@ import {
 } from "@slack/bolt";
 import { StringIndexed } from "@slack/bolt/dist/types/helpers";
 import dotenv from "dotenv";
-
-import { BaseConfig } from "../../common";
+import { BaseConfig } from "ez-pr-lib";
 
 dotenv.config();
 
@@ -19,7 +18,14 @@ class BaseAppConfig extends BaseConfig implements AppOptions {
   authorize: Authorize<boolean>;
 
   constructor(receiver: Receiver) {
-    super();
+    super(
+      process.env.SIGNING_SECRET || "",
+      process.env.SLACK_CLIENT_ID || "",
+      process.env.SLACK_CLIENT_SECRET || "",
+      process.env.STATE_SECRET || "",
+      process.env.DYNAMO_TABLE || "",
+      process.env.REGION || ""
+    );
     this.receiver = receiver;
     this.processBeforeResponse = true;
     this.authorize = async (query): Promise<AuthorizeResult> => {

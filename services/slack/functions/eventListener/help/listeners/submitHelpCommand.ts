@@ -1,7 +1,7 @@
 import { App } from "@slack/bolt";
 import { StringIndexed } from "@slack/bolt/dist/types/helpers";
+import { log } from "ez-pr-lib";
 
-import { log } from "../../../../common";
 import { errorOccurred, PublishUsageMetrics } from "../../@lib";
 import { COMMAND, HELP, SLASH_HELP } from "../../constants";
 import { HelpCommand } from "../cmd";

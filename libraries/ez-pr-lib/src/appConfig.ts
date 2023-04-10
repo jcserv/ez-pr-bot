@@ -1,9 +1,8 @@
 import { InstallationStore } from "@slack/bolt";
-import dotenv from "dotenv";
 
 import { InstallationController } from "./auth";
-
-dotenv.config();
+import DynamoInstallationRepo from "./auth/db";
+import { InstallationServiceImpl } from "./auth/service";
 
 export const scopes = [
   "app_mentions:read",
@@ -30,13 +29,16 @@ export class BaseConfig {
   installationStore: InstallationStore;
   directInstall: boolean;
 
-  constructor() {
-    this.signingSecret = process.env.SLACK_SIGNING_SECRET || "";
-    this.clientId = process.env.SLACK_CLIENT_ID || "";
-    this.clientSecret = process.env.SLACK_CLIENT_SECRET || "";
-    this.stateSecret = process.env.STATE_SECRET || "";
+  constructor(signingSecret: string, slackClientID: string, slackClientSecret: string, stateSecret: string, tableName: string, region: string) {
+    this.signingSecret = signingSecret;
+    this.clientId = slackClientID;
+    this.clientSecret = slackClientSecret;
+    this.stateSecret = stateSecret;
     this.scopes = scopes;
-    this.installationStore = new InstallationController();
+
+    const installationRepo = new DynamoInstallationRepo(tableName, region);
+    const installationService = new InstallationServiceImpl(installationRepo);
+    this.installationStore = new InstallationController(installationService);
     this.directInstall = true;
   }
 }

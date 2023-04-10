@@ -38,6 +38,19 @@ functions:
       officeHoursWarmer:
         enabled: false
 
+  getPrs:
+    handler: functions/prs/handler.getPrs
+    events:
+      - http:
+          path: prs
+          method: get
+    iamRoleStatementsInherit: true
+    iamRoleStatements:
+      - ${file(../../resources/SlackEventListenerLambdaRole.yml):eventListenerCloudwatchMetricsPolicy}
+    warmup:
+      officeHoursWarmer:
+        enabled: false
+
 custom:
   webpack:
     includeModules:

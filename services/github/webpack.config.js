@@ -19,7 +19,9 @@ module.exports = {
   externals: [
     "aws-sdk",
     "express",
+    "ez-pr-lib",
     "handlebars",
+    "octokit",
     "probot",
     "@probot/adapter-aws-lambda-serverless",
     nodeExternals({

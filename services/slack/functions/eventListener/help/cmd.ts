@@ -1,7 +1,7 @@
 import { AckFn, HomeView, RespondArguments, View } from "@slack/bolt";
 import { WebClient } from "@slack/web-api";
+import { log } from "ez-pr-lib";
 
-import { log } from "../../../common";
 import { ICommand, OpenModalCommand } from "../@lib";
 import { HelpArguments, helpUsage } from ".";
 import helpOverview from "./overview.json";

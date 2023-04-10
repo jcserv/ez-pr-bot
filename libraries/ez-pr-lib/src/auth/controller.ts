@@ -5,13 +5,13 @@ import {
 } from "@slack/bolt";
 
 import { log } from "../logger";
-import { InstallationService, InstallationServiceImpl } from "./service";
+import { InstallationService } from "./service";
 
 export class InstallationController implements InstallationStore {
   private installationService: InstallationService;
 
-  constructor() {
-    this.installationService = new InstallationServiceImpl();
+  constructor(installationService: InstallationService) {
+    this.installationService = installationService;
   }
 
   async fetchInstallation(

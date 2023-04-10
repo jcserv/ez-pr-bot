@@ -1,7 +1,7 @@
 import { App, SlackViewAction } from "@slack/bolt";
 import { StringIndexed } from "@slack/bolt/dist/types/helpers";
+import { log } from "ez-pr-lib";
 
-import { log } from "../../../../common";
 import { errorOccurred, PublishUsageMetrics } from "../../@lib";
 import { EZPR, EZPR_MODAL_SUBMISSION, VIEW } from "../../constants";
 import { EZPRCommand } from "../cmd";

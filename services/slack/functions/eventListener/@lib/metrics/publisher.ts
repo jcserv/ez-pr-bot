@@ -5,8 +5,7 @@ import {
   PutMetricDataCommand,
 } from "@aws-sdk/client-cloudwatch";
 import dotenv from "dotenv";
-
-import { log } from "../../../../common";
+import { log } from "ez-pr-lib";
 
 dotenv.config();
 
