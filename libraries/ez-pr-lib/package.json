@@ -1,6 +1,6 @@
 {
   "name": "ez-pr-lib",
-  "version": "1.0.5",
+  "version": "1.0.7",
   "main": "src/index.ts",
   "author": "Jarrod Servilla",
   "type": "module",

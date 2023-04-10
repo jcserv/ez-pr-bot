@@ -30,7 +30,7 @@
     "@probot/adapter-aws-lambda-serverless": "^3.0.2",
     "@types/pino-std-serializers": "^4.0.0",
     "dotenv": "^16.0.3",
-    "ez-pr-lib": "^1.0.5",
+    "ez-pr-lib": "^1.0.6",
     "octokit": "^2.0.14",
     "probot": "^12.2.4",
     "serverless": "^3.28.1",

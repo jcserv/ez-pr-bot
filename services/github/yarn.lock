@@ -6266,10 +6266,10 @@ external-editor@^3.0.3:
     iconv-lite "^0.4.24"
     tmp "^0.0.33"
 
-ez-pr-lib@^1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/ez-pr-lib/-/ez-pr-lib-1.0.5.tgz#bec493f8820a35a10f7d2197518fecc6f9bd12c9"
-  integrity sha512-PU1nFhR5M7PSrI1Rhhh7Lr1T7amGtmuVrLgO6NMbJRM+N+3r6lvRJA2RF/CWcQBsfjDild5g3kSgb9feCcCLXQ==
+ez-pr-lib@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/ez-pr-lib/-/ez-pr-lib-1.0.6.tgz#c28565dbdac8df9a36efbb79e34b27380794551b"
+  integrity sha512-mD37u8xI5rOU5gadeMjExLHkQPmOxdKA46kt36DdtRxFCSbtAE9imh1yEJ/Hob7QLnXoIFZ4jPLiF3aaROcuEg==
   dependencies:
     "@aws-sdk/client-dynamodb" "^3.299.0"
     "@aws-sdk/lib-dynamodb" "^3.299.0"
